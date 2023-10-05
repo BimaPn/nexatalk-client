@@ -16,7 +16,7 @@ const page = () => {
           />
         </div>
       </div>
-      <div className="w-[60%] flexCenter flex-col px-8 gap-7">
+      <div className="w-[60%] flexCenter flex-col px-8 gap-7 bg-white">
         <RegisterForm />
         <div className="w-1/3 border-t relative flexCenter">
           <span className="absolute text-netral text-sm bg-white px-3 py-1">or</span>

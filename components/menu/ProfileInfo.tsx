@@ -1,3 +1,4 @@
+"use client"
 import { IoMdClose } from "react-icons/io"
 import RoundedImage from '@/components/ui/RoundedImage'
 import { IoIosArrowForward } from "react-icons/io"
@@ -6,13 +7,16 @@ import Link from 'next/link'
 import { PiMicrophoneFill } from "react-icons/pi"
 import { IoExit } from "react-icons/io5"
 import { FiUserPlus } from "react-icons/fi"
+import { profileDetailContext } from "../providers/ProfileDetailProvider"
+import { useContext } from "react"
 
-const ProfileInfo = ({onClose}:{onClose:(close:boolean)=>void}) => {
+const ProfileInfo = () => {
+  const { isOpen,setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
   const onCloseClick = (e:React.MouseEvent) => {
-    onClose(false);
+    setIsOpen(false);
   }
-  return (
-    <section className="h-full overflow-auto px-4">
+  return isOpen && (
+    <section className="w-full lg:w-[512px] h-full overflow-auto px-4">
     <div className="w-full flex items-center justify-between py-4 ">
       <span>Group info</span>
       <button onClick={onCloseClick}>
@@ -58,7 +62,7 @@ const ProfileInfo = ({onClose}:{onClose:(close:boolean)=>void}) => {
       </div>
       <div className="flex flex-col gap-5">
         {bio.map((item,index) => (
-          <div className="flex gap-3">
+          <div key={index} className="flex gap-3">
             <RoundedImage src={item.image} alt="person" />
             <div className="flex flex-col">
               <span>{item.name}</span>

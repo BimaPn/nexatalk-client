@@ -6,10 +6,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <section className='flex h-screen'>
-      <MainLayout>
-        {children}
-      </MainLayout>
-    </section>
+  <MainLayout>
+    {children}
+  </MainLayout>
   )
 }

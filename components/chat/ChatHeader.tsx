@@ -3,11 +3,14 @@ import RoundedImage from "../ui/RoundedImage"
 import { HiOutlineDotsHorizontal } from "react-icons/hi"
 import { BsTelephone } from "react-icons/bs"
 import { HiOutlineVideoCamera } from "react-icons/hi2"
+import { profileDetailContext } from "../providers/ProfileDetailProvider"
+import { useContext } from "react"
 
-const ChatHeader = ({onOpenProfile}:{onOpenProfile:(isOpen:boolean)=>void}) => {
+const ChatHeader = () => {
+  const { setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
   const openProfileInfo = (e:React.MouseEvent) => {
     e.preventDefault();
-    onOpenProfile(true);
+    setIsOpen(true);
   }
   return (
     <div className="w-full bg-white py-3">

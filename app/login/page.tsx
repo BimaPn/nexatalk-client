@@ -7,7 +7,7 @@ const page = () => {
   return (
     <section className="w-full h-screen flex">
       <div className="w-[40%] bg-semiLight flexCenter">
-        <div className="relative w-[70%] aspect-square ">
+        <div className="relative w-[70%] aspect-square border">
           < Image 
           src={`/images/login.svg`} 
           alt={`Login`}
@@ -16,7 +16,7 @@ const page = () => {
           />
         </div>
       </div>
-      <div className="w-[60%] flexCenter flex-col px-8 gap-7">
+      <div className="w-[60%] flexCenter flex-col px-8 gap-7 bg-white">
         <LoginForm />
         <div className="w-1/3 border-t relative flexCenter">
           <span className="absolute text-netral text-sm bg-white px-3 py-1">or</span>

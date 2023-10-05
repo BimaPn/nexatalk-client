@@ -1,3 +1,4 @@
+"use client"
 import { IoSend } from "react-icons/io5"
 import { PiImageSquareFill } from "react-icons/pi"
 import { GrEmoji} from "react-icons/gr"
@@ -5,16 +6,13 @@ import { ImAttachment } from "react-icons/im"
 import { useState } from "react"
 import TextArea from "../ui/TextArea"
 
-const ChatInput = ({setMessage}:{setMessage:(message:GroupMessage)=>void}) => {
+const ChatInput = ({setMessage}:{setMessage:(message:UserMessage)=>void}) => {
   const [messageInput,setMessageInput] = useState<string>("");
   const onSubmit = (e:React.FormEvent) => {
     e.preventDefault();
     if(messageInput.length === 0) return;
-    const newMessage:GroupMessage = {
-      id: "hahahah",
-      image: "/images/people/dodikurniawan.jpg",
+    const newMessage:UserMessage = {
       message: messageInput,
-      name : "Dodi Kurniawan",
       time : "13.00 PM",
       isCurrentUser : true,
     }

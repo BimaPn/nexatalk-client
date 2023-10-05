@@ -3,48 +3,58 @@ import {messages as fakeMessages} from "@/data/dummies/chatting"
 import GroupMessage from "../ui/message/GroupMessage"
 import Message from "../ui/message/Message"
 import UserMessage from "../ui/message/UserMessage"
+import { Socket } from "socket.io-client"
+import socketInit from "@/app/api/socket/socket"
 import ChatInput from "./ChatInput"
 import { useState,useRef, useEffect } from "react"
 
-const ChatBody = () => { 
+let socket:Socket;
+
+const ChatBody = ({accessToken,userId}:{accessToken:string,userId:string}) => { 
   const chatBody = useRef<HTMLDivElement | null>(null);
-  const [messages,setMessages] = useState<GroupMessage[]>(fakeMessages)
+  const [messages,setMessages] = useState<UserMessage[]>([])
+  useEffect(() => {
+    socket = socketInit("/chat",accessToken);
+    socket.on("message",({message,to}:{message:string,to:string}) => {
+      if(to === userId) {
+      const userMessage:UserMessage = {
+       message:message,
+       isCurrentUser:false,
+       time:"13.00 PM"
+      } 
+      setMessages(prev => [...prev,userMessage]);
+      }
+    });
+    
+    return () => {
+      socket.disconnect();
+    }
+  },[]);
+
   useEffect(() => {
     chatBody!.current!.scrollTop = chatBody!.current!.scrollHeight;
   },[messages]);
+  const sendMessage = (msg:UserMessage) => {
+    socket.emit("message",{message:msg.message,to:userId});
+    setMessages(prev => [...prev,msg]);
+  }
   return (
-    <div ref={chatBody} className="w-full h-full bg-light rounded-t-xl overflow-auto relative">
-    <ul className="w-full flex flex-col gap-5 px-5 py-4">
+    <div ref={chatBody} className="w-full h-full bg-light flex flex-col rounded-t-xl overflow-auto relative">
+    <ul className="w-full h-full flex flex-col gap-5 px-5 py-4">
     <div className="w-full flexCenter">
       <span className="bg-white text-sm px-4 py-1 rounded-full">Today</span>
     </div>
-    {fakeMessages.map(message => (
-      <li className={`w-full flex ${message.isCurrentUser ? "justify-end":"justify-start"}`}>
-        <GroupMessage 
-        key={message.id} 
-        id={message.id} 
-        isCurrentUser={message.isCurrentUser} 
-        time={message.time} 
-        message={message.message} 
-        name={message.name} 
-        image={message.image}/>
-      </li>
-    ))}
-    {messages.map((message,index) => (
-      <li className={`w-full flex ${message.isCurrentUser ? "justify-end":"justify-start"}`}>
-        <GroupMessage 
-        key={index} 
-        id={message.id} 
-        isCurrentUser={message.isCurrentUser} 
-        time={message.time} 
-        message={message.message} 
-        name={message.name} 
-        image={message.image}/>
-      </li>
+    {messages.map((msg,index) => (
+    <li key={index} className={`w-full flex ${msg.isCurrentUser ? "justify-end":"justify-start"}`}>
+      < UserMessage
+      message={msg.message}
+      time={msg.time}
+      isCurrentUser={msg.isCurrentUser}/>
+    </li>
     ))}
     </ul>
-      <div className="sticky bottom-0 left-0 right-0">
-        <ChatInput setMessage={(msg) => setMessages(prev => [...prev,msg])} />
+      <div className="w-full sticky bottom-0 left-0 right-0">
+        <ChatInput setMessage={sendMessage} />
       </div>
     </div>
   )

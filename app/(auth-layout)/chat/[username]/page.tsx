@@ -1,23 +1,17 @@
-"use client"
 import ChatHeader from '@/components/chat/ChatHeader'
 import ChatBody from '@/components/chat/ChatBody'
 import ChatInput from '@/components/chat/ChatInput'
-import {useState} from "react"
 import ProfileInfo from '@/components/menu/ProfileInfo'
+import ChatSection from '@/components/chat/ChatSection'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { getServerSession } from 'next-auth'
 
-const page = () => {
-  const [isOpenProfile,setIsOpenProfile] = useState<boolean>(false);
+const page = async ({params}:{params : {username:string}}) => {
+  const session = await getServerSession(authOptions);
   return (
-  <div className="w-full bg-white h-screen flex">
-    <section className={`w-full h-full flex flex-col relative ${isOpenProfile && "hidden lg:block"}`}>
-      <ChatHeader onOpenProfile={(isOpen) => setIsOpenProfile(isOpen)} />
-      <ChatBody />
-    </section>
-    {isOpenProfile && (
-      <div className={`w-full lg:w-[512px]`}>
-        <ProfileInfo onClose={(close) => setIsOpenProfile(close)}/>
-      </div>
-    )}
+  <div className="w-full bg-white h-screen flex">const
+    <ChatSection accessToken={session?.user.accessToken as string} userId={params.username} />
+    <ProfileInfo />
   </div>
   )
 }

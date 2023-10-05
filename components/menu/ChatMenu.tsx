@@ -1,30 +1,43 @@
 "use client"
 import MenuLayout from '@/layouts/MenuLayout'
 import { usePathname } from "next/navigation"
-import React from 'react'
+import socketInit from '@/app/api/socket/socket'
+import { Socket } from 'socket.io-client'
 import Search from '../ui/Search'
 import people from '@/data/dummies/peoplechat'
 import ChatItem from "../ui/ChatItem"
-const ChatMenu = ({className}:{className ?: string}) => {
+import { useState,useEffect } from 'react'
+import Link from 'next/link'
+
+let socket:Socket;
+
+const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: string}) => {
   const pathname = usePathname();
+  const [rooms,setRooms] = useState([]);
+  useEffect(() => {
+    socket = socketInit("/room",accessToken);
+    socket.on("rooms",(users) => setRooms(users));
+
+    return () => {
+      socket.disconnect();
+    }
+  },[]);
+
   return (  
     <MenuLayout className={`w-full sm:w-fit ${pathname !== "/chat" && "hidden sm:block"}`}>
         < Search />
         <ul className="flex flex-col gap-1 mt-4">
         {people.map((person,index) => (
-          <ChatItem key={index} name={person.name} imageSrc={person.image} time={person.time} messege={person.messege} />
+          <Link href={"/chat/1212"} key={index} >
+
+          <ChatItem name={person.name} imageSrc={person.image} time={person.time} messege={person.messege} />
+          </Link>
+
         ))}
-        {people.map((person,index) => (
-          <ChatItem key={index} name={person.name} imageSrc={person.image} time={person.time} messege={person.messege} />
-        ))}
-        {people.map((person,index) => (
-          <ChatItem key={index} name={person.name} imageSrc={person.image} time={person.time} messege={person.messege} />
-        ))}
-        {people.map((person,index) => (
-          <ChatItem key={index} name={person.name} imageSrc={person.image} time={person.time} messege={person.messege} />
-        ))}
-        {people.map((person,index) => (
-          <ChatItem key={index} name={person.name} imageSrc={person.image} time={person.time} messege={person.messege} />
+        {rooms.map((person:any,index) => (
+          <Link key={index} href={`/chat/${person._id}`}>
+            <ChatItem name={person.name} imageSrc={"/images/people/1.jpg"} time={"haha"} messege={"baby"} />
+          </Link>
         ))}
         </ul>
     </MenuLayout>

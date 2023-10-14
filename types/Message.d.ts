@@ -5,11 +5,11 @@ interface Message {
 }
 
 interface UserMessage extends Message {
+  id ?: string,
   time : string;
 }
 
 interface GroupMessage extends Message,UserMessage {
-  id : string;
   image : string;
   name : string;
 }

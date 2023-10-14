@@ -5,6 +5,7 @@ import { GrEmoji} from "react-icons/gr"
 import { ImAttachment } from "react-icons/im"
 import { useState } from "react"
 import TextArea from "../ui/TextArea"
+import { getCurrentTime } from "@/utils/converter"
 
 const ChatInput = ({setMessage}:{setMessage:(message:UserMessage)=>void}) => {
   const [messageInput,setMessageInput] = useState<string>("");
@@ -13,7 +14,7 @@ const ChatInput = ({setMessage}:{setMessage:(message:UserMessage)=>void}) => {
     if(messageInput.length === 0) return;
     const newMessage:UserMessage = {
       message: messageInput,
-      time : "13.00 PM",
+      time : getCurrentTime(),
       isCurrentUser : true,
     }
     setMessage(newMessage);

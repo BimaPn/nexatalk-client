@@ -7,25 +7,26 @@ import { Socket } from "socket.io-client"
 import socketInit from "@/app/api/socket/socket"
 import ChatInput from "./ChatInput"
 import { useState,useRef, useEffect } from "react"
+import ApiClient from "@/app/api/axios/ApiClient"
+import { getCurrentTime } from "@/utils/converter"
 
 let socket:Socket;
 
-const ChatBody = ({accessToken,userId}:{accessToken:string,userId:string}) => { 
+const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,userId:string,defaultMessages?:UserMessage[]}) => { 
   const chatBody = useRef<HTMLDivElement | null>(null);
-  const [messages,setMessages] = useState<UserMessage[]>([])
+  const [messages,setMessages] = useState(defaultMessages);
   useEffect(() => {
     socket = socketInit("/chat",accessToken);
-    socket.on("message",({message,to}:{message:string,to:string}) => {
-      if(to === userId) {
-      const userMessage:UserMessage = {
-       message:message,
-       isCurrentUser:false,
-       time:"13.00 PM"
-      } 
-      setMessages(prev => [...prev,userMessage]);
+    socket.on("message",({message,from}:{message:string,from:string}) => {
+      if(from === userId) {
+        const userMessage:UserMessage = {
+         message:message,
+         isCurrentUser:false,
+         time:getCurrentTime()
+        } 
+        setMessages(prev => [...prev,userMessage]);
       }
     });
-    
     return () => {
       socket.disconnect();
     }

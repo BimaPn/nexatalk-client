@@ -1,6 +1,7 @@
 interface ChatItem {
-  imageSrc:string,
+  id?:string,
+  image:string,
   name:string,
-  messege:string,
+  message:string,
   time:string
 }  

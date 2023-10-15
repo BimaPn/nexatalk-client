@@ -9,34 +9,28 @@ import ChatItem from "../ui/ChatItem"
 import { useState,useEffect } from 'react'
 import Link from 'next/link'
 
-let socket:Socket;
+// let socket:Socket;
 
-const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: string}) => {
+const ChatMenu = ({accessToken,className,defaultChatList=[]}:{accessToken:string,className ?: string,defaultChatList:ChatItem[]}) => {
   const pathname = usePathname();
-  const [rooms,setRooms] = useState([]);
+  const [chats,setChats] = useState<ChatItem[]>(defaultChatList);
   useEffect(() => {
-    socket = socketInit("/room",accessToken);
-    socket.on("rooms",(users) => setRooms(users));
-
-    return () => {
-      socket.disconnect();
-    }
+    // socket = socketInit("/room",accessToken);
+    // socket.on("rooms",(users) => setRooms(users));
+    //
+    // return () => {
+    //   socket.disconnect();
+    // }
+    console.log(defaultChatList);
   },[]);
 
   return (  
     <MenuLayout className={`w-full sm:w-fit ${pathname !== "/chat" && "hidden sm:block"}`}>
         < Search />
         <ul className="flex flex-col gap-1 mt-4">
-        {people.map((person,index) => (
-          <Link href={"/chat/1212"} key={index} >
-
-          <ChatItem name={person.name} imageSrc={person.image} time={person.time} messege={person.messege} />
-          </Link>
-
-        ))}
-        {rooms.map((person:any,index) => (
-          <Link key={index} href={`/chat/${person._id}`}>
-            <ChatItem name={person.name} imageSrc={"/images/people/1.jpg"} time={"haha"} messege={"baby"} />
+        {chats.map((chat:ChatItem) => (
+          <Link key={chat.id} href={`/chat/${chat.id}`}>
+            <ChatItem name={chat.name} image={chat.image} time={chat.time} message={chat.message} />
           </Link>
         ))}
         </ul>

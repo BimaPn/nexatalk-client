@@ -21,7 +21,6 @@ const ChatMenu = ({accessToken,className,defaultChatList=[]}:{accessToken:string
     // return () => {
     //   socket.disconnect();
     // }
-    console.log(defaultChatList);
   },[]);
 
   return (  

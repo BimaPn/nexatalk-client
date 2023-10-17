@@ -54,7 +54,7 @@ const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,us
     </li>
     ))}
     </ul>
-    <div className="w-full absolute border border-red-400 bottom-0 flexCenter">
+    <div className="w-full absolute bottom-0 flexCenter">
       <div className="fixed w-full ss:w-[90%] sm:w-[55%] lg:w-[65%] xxl:w-[70%] bottom-0">
         <ChatInput setMessage={sendMessage} />
       </div>

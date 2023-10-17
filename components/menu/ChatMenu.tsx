@@ -6,23 +6,13 @@ import { Socket } from 'socket.io-client'
 import Search from '../ui/Search'
 import people from '@/data/dummies/peoplechat'
 import ChatItem from "../ui/ChatItem"
-import { useState,useEffect } from 'react'
+import { useState,useEffect, useContext } from 'react'
 import Link from 'next/link'
+import { chatListContext } from '../providers/ChatListProvider'
 
-// let socket:Socket;
-
-const ChatMenu = ({accessToken,className,defaultChatList=[]}:{accessToken:string,className ?: string,defaultChatList:ChatItem[]}) => {
+const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: string}) => {
   const pathname = usePathname();
-  const [chats,setChats] = useState<ChatItem[]>(defaultChatList);
-  useEffect(() => {
-    // socket = socketInit("/room",accessToken);
-    // socket.on("rooms",(users) => setRooms(users));
-    //
-    // return () => {
-    //   socket.disconnect();
-    // }
-  },[]);
-
+  const { chats } = useContext(chatListContext) as ChatList;
   return (  
     <MenuLayout className={`w-full sm:w-fit ${pathname !== "/chat" && "hidden sm:block"}`}>
         < Search />

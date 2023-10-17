@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
 import ApiServer from '@/app/api/axios/ApiServer'
+import ChatListProvider from '@/components/providers/ChatListProvider'
 
 export const metadata: Metadata = {
   title: 'Chat',
@@ -15,11 +16,13 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const session = await getServerSession(authOptions);
-  const messages = await ApiServer(session?.user.accessToken as string).post(`chat/list`);
+  const chatList = await ApiServer(session?.user.accessToken as string).post(`chat/list`);
   return (
     <section className='flex h-screen'>
-      <ChatMenu accessToken={session?.user.accessToken as string} defaultChatList={messages.data.users} />
-      {children}
+      <ChatListProvider defaultChatList={chatList.data.users}>
+        <ChatMenu accessToken={session?.user.accessToken as string} />
+        {children}
+      </ChatListProvider>
     </section>
   )
 }

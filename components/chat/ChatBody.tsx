@@ -19,15 +19,18 @@ const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,us
   const { chats,setChats } = useContext(chatListContext) as ChatList
   useEffect(() => {
     socket = socketInit("/chat",accessToken);
-    socket.on("message",({message,from}:{message:string,from:string}) => {
-      if(from === userId) {
+    socket.on("message",({message,from}:{message:string,from:ChatItem}) => {
+      if(from.id === userId) {
         const userMessage:UserMessage = {
          message:message,
          isCurrentUser:false,
-         time:getCurrentTime()
+         time:from.time
         } 
         setMessages(prev => [...prev,userMessage]);
       }
+
+      // Add to list
+      addChatToList(from);
     });
     return () => {
       socket.disconnect();
@@ -39,7 +42,7 @@ const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,us
   },[messages]);
 
   const sendMessage = (msg:UserMessage) => {
-    socket.emit("message",{message:msg.message,to:userId});
+    socket.emit("message",{message:msg,to:userId});
     setMessages(prev => [...prev,msg]);
 
     // Add to chat list
@@ -51,15 +54,19 @@ const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,us
       message:msg.message,
     }    
       
+    addChatToList(newChat); 
+  }
+  const addChatToList = (newChat:ChatItem) => {
     setChats((prev:ChatItem[]) => {
-      const newChats = chats.filter(item => {
-        return item.id !== userId;
-      });
+    const newChats = chats.filter(item => {
+      return item.id !== userId;
+    });
       
-      if(newChats.length <= 0) return [newChat];
+    if(newChats.length <= 0) return [newChat];
       return [newChat,...newChats]
     });
   }
+
   return (
     <div ref={chatBody} className="w-full h-full bg-light flex flex-col rounded-t-xl overflow-auto relative">
     <ul className="w-full h-full flex flex-col gap-5 px-5 py-4">

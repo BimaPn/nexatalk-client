@@ -1,25 +1,16 @@
 "use client"
-import {messages as fakeMessages} from "@/data/dummies/chatting"
-import GroupMessage from "../ui/message/GroupMessage"
-import Message from "../ui/message/Message"
 import UserMessage from "../ui/message/UserMessage"
-import { Socket } from "socket.io-client"
-import socketInit from "@/app/api/socket/socket"
 import ChatInput from "./ChatInput"
 import { useState,useRef, useEffect, useContext } from "react"
-import ApiClient from "@/app/api/axios/ApiClient"
-import { getCurrentTime } from "@/utils/converter"
 import { chatListContext } from "../providers/ChatListProvider"
-
-let socket:Socket;
+import { chatSocket } from "../menu/ChatMenu"
 
 const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,userId:string,defaultMessages?:UserMessage[]}) => { 
   const chatBody = useRef<HTMLDivElement | null>(null);
   const [messages,setMessages] = useState(defaultMessages);
-  const { chats,setChats } = useContext(chatListContext) as ChatList
+  const { chats,addChatToList } = useContext(chatListContext) as ChatList
   useEffect(() => {
-    socket = socketInit("/chat",accessToken);
-    socket.on("message",({message,from}:{message:string,from:ChatItem}) => {
+    chatSocket.on("message",({message,from}:{message:string,from:ChatItem}) => {
       if(from.id === userId) {
         const userMessage:UserMessage = {
          message:message,
@@ -28,12 +19,9 @@ const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,us
         } 
         setMessages(prev => [...prev,userMessage]);
       }
-
-      // Add to list
-      addChatToList(from);
     });
     return () => {
-      socket.disconnect();
+      chatSocket.disconnect();
     }
   },[]);
 
@@ -42,7 +30,7 @@ const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,us
   },[messages]);
 
   const sendMessage = (msg:UserMessage) => {
-    socket.emit("message",{message:msg,to:userId});
+    chatSocket.emit("message",{message:msg,to:userId});
     setMessages(prev => [...prev,msg]);
 
     // Add to chat list
@@ -55,16 +43,6 @@ const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,us
     }    
       
     addChatToList(newChat); 
-  }
-  const addChatToList = (newChat:ChatItem) => {
-    setChats((prev:ChatItem[]) => {
-    const newChats = chats.filter(item => {
-      return item.id !== userId;
-    });
-      
-    if(newChats.length <= 0) return [newChat];
-      return [newChat,...newChats]
-    });
   }
 
   return (

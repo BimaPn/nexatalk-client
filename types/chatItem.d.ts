@@ -3,5 +3,6 @@ interface ChatItem {
   image:string,
   name:string,
   message:string,
-  time:string
+  time:string,
+  unread?:number
 }  

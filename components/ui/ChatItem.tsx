@@ -1,6 +1,6 @@
 import RoundedImage from "./RoundedImage"
 
-const ChatItem = ({image,name,message,time,unread = 2}:ChatItem) => {
+const ChatItem = ({image,name,message,time,unread}:ChatItem) => {
   return (
     <div className="w-full flex items-center justify-between gap-2 py-2 px-3 rounded-xl hover:bg-light">
       <RoundedImage src={image} className="!min-w-[49px]" alt={name} />

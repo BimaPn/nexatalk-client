@@ -4,5 +4,5 @@ interface ChatItem {
   name:string,
   message:string,
   time:string,
-  unread?:number
+  unread?:number | string
 }  

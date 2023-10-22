@@ -18,6 +18,7 @@ const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: strin
   useEffect(() => {
     chatSocket = socketInit("/chat",accessToken);
     chatSocket.on("message",({message,from}:{message:string,from:ChatItem}) => {
+      console.log(from);
       addChatToList(from);
     });
     return () => {
@@ -30,7 +31,7 @@ const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: strin
         <ul className="flex flex-col gap-1 mt-4">
         {chats.map((chat:ChatItem) => (
           <Link key={chat.id} href={`/chat/${chat.id}`}>
-            <ChatItem name={chat.name} image={chat.image} time={chat.time} message={chat.message} />
+            <ChatItem name={chat.name} image={chat.image} time={chat.time} message={chat.message} unread={chat.unread} />
           </Link>
         ))}
         </ul>

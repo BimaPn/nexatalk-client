@@ -8,18 +8,21 @@ import { chatSocket } from "../menu/ChatMenu"
 const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,userId:string,defaultMessages?:UserMessage[]}) => { 
   const chatBody = useRef<HTMLDivElement | null>(null);
   const [messages,setMessages] = useState(defaultMessages);
-  const { chats,addChatToList } = useContext(chatListContext) as ChatList
+  const { chats,addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
   useEffect(() => {
     chatSocket.on("message",({message,from}:{message:string,from:ChatItem}) => {
-      if(from.id === userId) {
-        const userMessage:UserMessage = {
-         message:message,
-         isCurrentUser:false,
-         time:from.time
-        } 
-        setMessages(prev => [...prev,userMessage]);
-      }
+      if(from.id !== userId) return;
+      const userMessage:UserMessage = {
+       message:message,
+       isCurrentUser:false,
+       time:from.time
+      } 
+      setMessages(prev => [...prev,userMessage]);
     });
+
+    // Clear unread messages from this room
+    chatSocket.emit("messagesRead",userId);
+    clearUnreadCount(userId);
     return () => {
       chatSocket.disconnect();
     }

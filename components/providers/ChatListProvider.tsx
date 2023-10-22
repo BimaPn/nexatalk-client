@@ -16,8 +16,17 @@ const ChatListProvider = ({children,defaultChatList = []}:{children:React.ReactN
       return [chat,...newChats]
     });
   } 
+  
+  const clearUnreadCount = (targetId:string) => {
+    setChats((prev:ChatItem[]) => {
+      return prev.map((item) => {
+        if(item.id === targetId) item.unread = undefined;
+        return item;
+      });
+    });
+  }
   return (
-  <chatListContext.Provider value={{chats,setChats,addChatToList}}>
+  <chatListContext.Provider value={{chats,addChatToList,clearUnreadCount}}>
   {children}
   </chatListContext.Provider>
   )

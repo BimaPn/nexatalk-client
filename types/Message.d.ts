@@ -6,7 +6,7 @@ interface Message {
 
 interface UserMessage extends Message {
   id ?: string,
-  time : string;
+  createdAt : string;
 }
 
 interface GroupMessage extends Message,UserMessage {

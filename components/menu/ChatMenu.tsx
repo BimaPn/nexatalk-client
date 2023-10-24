@@ -31,7 +31,7 @@ const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: strin
         <ul className="flex flex-col gap-1 mt-4">
         {chats.map((chat:ChatItem) => (
           <Link key={chat.id} href={`/chat/${chat.id}`}>
-            <ChatItem name={chat.name} image={chat.image} time={chat.time} message={chat.message} unread={chat.unread} />
+            <ChatItem name={chat.name} avatar={chat.avatar} createdAt={chat.createdAt} message={chat.message} unread={chat.unread} />
           </Link>
         ))}
         </ul>

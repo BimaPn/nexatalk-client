@@ -1,8 +1,8 @@
 interface ChatItem {
   id?:string,
-  image:string,
+  avatar:string,
   name:string,
   message:string,
-  time:string,
+  createdAt:string,
   unread?:number | string
 }  

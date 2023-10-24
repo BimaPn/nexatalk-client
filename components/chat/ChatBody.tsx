@@ -15,7 +15,7 @@ const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,us
       const userMessage:UserMessage = {
        message:message,
        isCurrentUser:false,
-       time:from.time
+       createdAt:from.createdAt
       } 
       setMessages(prev => [...prev,userMessage]);
     });
@@ -39,9 +39,9 @@ const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,us
     // Add to chat list
     let newChat:ChatItem = {
       id:userId,
-      image:"/images/people/1.jpg",
-      name:"dadang",
-      time:msg.time,
+      avatar:"/images/people/1.jpg",
+      name:"dodi",
+      createdAt:msg.createdAt,
       message:msg.message,
     }    
       
@@ -58,7 +58,7 @@ const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,us
     <li key={index} className={`w-full flex ${msg.isCurrentUser ? "justify-end":"justify-start"}`}>
       < UserMessage
       message={msg.message}
-      time={msg.time}
+      createdAt={msg.createdAt}
       isCurrentUser={msg.isCurrentUser}/>
     </li>
     ))}

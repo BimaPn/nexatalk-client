@@ -5,13 +5,13 @@ import { useState,useRef, useEffect, useContext } from "react"
 import { chatListContext } from "../providers/ChatListProvider"
 import { chatSocket } from "../menu/ChatMenu"
 
-const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,userId:string,defaultMessages?:UserMessage[]}) => { 
+const ChatBody = ({accessToken,userTarget,defaultMessages=[]}:{accessToken:string,userTarget:UserTarget,defaultMessages?:UserMessage[]}) => { 
   const chatBody = useRef<HTMLDivElement | null>(null);
   const [messages,setMessages] = useState(defaultMessages);
   const { chats,addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
   useEffect(() => {
     chatSocket.on("message",({message,from}:{message:string,from:ChatItem}) => {
-      if(from.id !== userId) return;
+      if(from.id !== userTarget.id) return;
       const userMessage:UserMessage = {
        message:message,
        isCurrentUser:false,
@@ -21,8 +21,8 @@ const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,us
     });
 
     // Clear unread messages from this room
-    chatSocket.emit("messagesRead",userId);
-    clearUnreadCount(userId);
+    chatSocket.emit("messagesRead",userTarget.id);
+    clearUnreadCount(userTarget.id);
     return () => {
       chatSocket.disconnect();
     }
@@ -33,14 +33,14 @@ const ChatBody = ({accessToken,userId,defaultMessages=[]}:{accessToken:string,us
   },[messages]);
 
   const sendMessage = (msg:UserMessage) => {
-    chatSocket.emit("message",{message:msg,to:userId});
+    chatSocket.emit("message",{message:msg,to:userTarget.id});
     setMessages(prev => [...prev,msg]);
 
     // Add to chat list
     let newChat:ChatItem = {
-      id:userId,
-      avatar:"/images/people/1.jpg",
-      name:"dodi",
+      id:userTarget.id,
+      avatar:userTarget.avatar,
+      name:userTarget.name,
       createdAt:msg.createdAt,
       message:msg.message,
     }    

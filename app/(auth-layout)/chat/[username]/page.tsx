@@ -9,10 +9,10 @@ import ApiServer from '@/app/api/axios/ApiServer'
 
 const page = async ({params}:{params : {username:string}}) => {
   const session = await getServerSession(authOptions);
-  const messages = await ApiServer(session?.user.accessToken as string).post(`users/${params.username}/messages`);
+  const userMessages = await ApiServer(session?.user.accessToken as string).post(`users/${params.username}/messages`);
   return (
   <div className="w-full bg-white h-screen flex">
-    <ChatSection accessToken={session?.user.accessToken as string} userId={params.username} defaultMessages={messages.data.messages} />
+    <ChatSection accessToken={session?.user.accessToken as string} userTarget={userMessages.data.user} defaultMessages={userMessages.data.messages} />
     <ProfileInfo />
   </div>
   )

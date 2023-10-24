@@ -7,5 +7,5 @@ interface UserTarget {
   id:string,
   name:string,
   avatar:string,
-  bio:string
+  bio?:string
 }

@@ -13,7 +13,7 @@ const page = async ({params}:{params : {username:string}}) => {
   return (
   <div className="w-full bg-white h-screen flex">
     <ChatSection accessToken={session?.user.accessToken as string} userTarget={userMessages.data.user} defaultMessages={userMessages.data.messages} />
-    <ProfileInfo />
+    <ProfileInfo userTarget={userMessages.data.user} />
   </div>
   )
 }

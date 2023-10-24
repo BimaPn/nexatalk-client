@@ -10,7 +10,7 @@ import { FiUserPlus } from "react-icons/fi"
 import { profileDetailContext } from "../providers/ProfileDetailProvider"
 import { useContext } from "react"
 
-const ProfileInfo = () => {
+const ProfileInfo = ({userTarget}:{userTarget:UserTarget}) => {
   const { isOpen,setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
   const onCloseClick = (e:React.MouseEvent) => {
     setIsOpen(false);
@@ -18,16 +18,18 @@ const ProfileInfo = () => {
   return isOpen && (
     <section className="w-full lg:w-[512px] h-full overflow-auto px-4">
     <div className="w-full flex items-center justify-between py-4 ">
-      <span>Group info</span>
+      <span>User info</span>
       <button onClick={onCloseClick}>
         <IoMdClose className="text-[23px]"/>
       </button>
     </div>
     <div className="flexCenter flex-col gap-3 my-1 mb-4">
-      <RoundedImage src="/images/group/group.jpg" className="!w-[40%]" alt="person" />
-      <span className="text-xl text-black`">Weekend Wanderers</span>
+      <RoundedImage src={userTarget.avatar} className="!w-[40%]" alt={userTarget.name} />
+      <span className="text-xl text-black`">{userTarget.name}</span>
       <div className='text-center text-semiDark text-sm'>
-        <p>Hangout group for stupid people</p>
+        {userTarget.bio && (
+          <p>{userTarget.bio}</p>
+        )}
       </div>
       <div className="flexCenter gap-3 mt-1">
         <div className="w-16 flexCenter flex-col aspect-square bg-light rounded-xl gap-[6px]">

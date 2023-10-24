@@ -6,7 +6,7 @@ import { HiOutlineVideoCamera } from "react-icons/hi2"
 import { profileDetailContext } from "../providers/ProfileDetailProvider"
 import { useContext } from "react"
 
-const ChatHeader = () => {
+const ChatHeader = ({avatar,name}:{avatar:string,name:string}) => {
   const { setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
   const openProfileInfo = (e:React.MouseEvent) => {
     e.preventDefault();
@@ -17,12 +17,12 @@ const ChatHeader = () => {
       <div className="flex items-center justify-between px-5 border-l border-r">
         <div className="flex items-center gap-3">
           <div onClick={openProfileInfo}>
-            <RoundedImage src="/images/group/group.jpg" alt="group" /> 
+            <RoundedImage src={avatar} alt={name} /> 
           </div>
           <div className="flex flex-col leading-5">
-            <span className="text-black">Weekend Wanderers</span>
+            <span className="text-black">{name}</span>
             {/*<span className="w-full text-[13px] text-primary">Typing....</span>*/}
-            <span className="text-[13px] text-netral">14 Members</span>
+            <span className="text-[13px] text-netral">Online</span>
           </div>
         </div>
         <div className="flex items-center gap-6 text-netral">

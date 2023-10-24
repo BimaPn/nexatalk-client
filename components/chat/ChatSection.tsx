@@ -8,7 +8,7 @@ const ChatSection = ({accessToken,userTarget,defaultMessages}:{accessToken:strin
   const { isOpen } = useContext(profileDetailContext) as ProfileDetail;
   return (
     <section className={`w-full h-full flex flex-col relative ${isOpen && "hidden lg:block"}`}>
-      <ChatHeader  />
+      <ChatHeader avatar={userTarget.avatar} name={userTarget.name}/>
       <ChatBody userTarget={userTarget} accessToken={accessToken} defaultMessages={defaultMessages} />
     </section>
   )

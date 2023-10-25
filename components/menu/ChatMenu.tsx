@@ -14,12 +14,14 @@ export let chatSocket:Socket;
 
 const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: string}) => {
   const pathname = usePathname();
-  const { chats,addChatToList } = useContext(chatListContext) as ChatList;
+  const { chats,addChatToList,setOnlineUser } = useContext(chatListContext) as ChatList;
   useEffect(() => {
     chatSocket = socketInit("/chat",accessToken);
     chatSocket.on("message",({message,from}:{message:string,from:ChatItem}) => {
-      console.log(from);
       addChatToList(from);
+    });
+    chatSocket.on("onlineUser",(userId,isOnline) => {
+      setOnlineUser(userId,isOnline);
     });
     return () => {
       chatSocket.disconnect();
@@ -31,7 +33,7 @@ const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: strin
         <ul className="flex flex-col gap-1 mt-4">
         {chats.map((chat:ChatItem) => (
           <Link key={chat.id} href={`/chat/${chat.id}`}>
-            <ChatItem name={chat.name} avatar={chat.avatar} createdAt={chat.createdAt} message={chat.message} unread={chat.unread} />
+            <ChatItem name={chat.name} avatar={chat.avatar} createdAt={chat.createdAt} message={chat.message} unread={chat.unread} isOnline={chat.isOnline} />
           </Link>
         ))}
         </ul>

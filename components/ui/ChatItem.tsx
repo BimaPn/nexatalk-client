@@ -1,9 +1,15 @@
 import RoundedImage from "./RoundedImage"
 
-const ChatItem = ({avatar,name,message,createdAt,unread}:ChatItem) => {
+const ChatItem = ({avatar,name,message,createdAt,unread,isOnline}:ChatItem) => {
   return (
     <div className="w-full flex items-center justify-between gap-2 py-2 px-3 rounded-xl hover:bg-light">
+      <div className="relative">
       <RoundedImage src={avatar} className="!min-w-[49px]" alt={name} />
+      {isOnline && (
+        <span className="absolute bottom-[2%] right-[2%] w-[13px] aspect-square bg-yellow-400 rounded-full border border-white"></span>
+      )}
+      </div>
+
       <div className="w-full flex flex-col items-center gap-[1px]">
         <div className="w-full flex items-center justify-between">
           <span className="text-black">{name}</span>
@@ -14,7 +20,6 @@ const ChatItem = ({avatar,name,message,createdAt,unread}:ChatItem) => {
           {unread && (
             <div className={`px-[6px] py-[2px] font-medium bg-primary text-white rounded-full text-xs`}>{unread}</div>
           )}
-
         </div>
       </div>
       

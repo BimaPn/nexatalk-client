@@ -4,11 +4,11 @@ import { useContext } from "react"
 import ChatHeader from "./ChatHeader"
 import ChatBody from "./ChatBody"
 
-const ChatSection = ({accessToken,userTarget,defaultMessages}:{accessToken:string,userTarget:UserTarget,defaultMessages?:UserMessage[]}) => {
+const ChatSection = ({accessToken,userTarget,defaultMessages,isOnline}:{accessToken:string,userTarget:UserTarget,defaultMessages?:UserMessage[],isOnline:boolean}) => {
   const { isOpen } = useContext(profileDetailContext) as ProfileDetail;
   return (
     <section className={`w-full h-full flex flex-col relative ${isOpen && "hidden lg:block"}`}>
-      <ChatHeader avatar={userTarget.avatar} name={userTarget.name}/>
+      <ChatHeader userId={userTarget.id} avatar={userTarget.avatar} name={userTarget.name} isOnline={isOnline}/>
       <ChatBody userTarget={userTarget} accessToken={accessToken} defaultMessages={defaultMessages} />
     </section>
   )

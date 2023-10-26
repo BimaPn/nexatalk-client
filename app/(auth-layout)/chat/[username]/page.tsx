@@ -12,7 +12,7 @@ const page = async ({params}:{params : {username:string}}) => {
   const userMessages = await ApiServer(session?.user.accessToken as string).post(`users/${params.username}/messages`);
   return (
   <div className="w-full bg-white h-screen flex">
-    <ChatSection accessToken={session?.user.accessToken as string} userTarget={userMessages.data.user} defaultMessages={userMessages.data.messages} />
+    <ChatSection isOnline={userMessages.data.isOnline} accessToken={session?.user.accessToken as string} userTarget={userMessages.data.user} defaultMessages={userMessages.data.messages} />
     <ProfileInfo userTarget={userMessages.data.user} />
   </div>
   )

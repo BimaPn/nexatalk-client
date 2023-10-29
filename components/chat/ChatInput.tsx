@@ -23,7 +23,7 @@ const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage)=>voi
   }
   return (
     <div className={`w-full flexCenter px-4 pb-5 pt-3 ${className}`}>
-      <form onSubmit={handleSubmit} className="w-[95%] flex items-center bg-white rounded-xl gap-3 px-4 py-[3px] shadow">
+      <form onSubmit={handleSubmit} className="w-[95%] flex items-center bg-white rounded-2xl gap-3 px-4 py-[3px] shadow">
         <div className="w-full max-h-[64px] overflow-auto py-[10px]">
           <TextArea 
           value={messageInput}

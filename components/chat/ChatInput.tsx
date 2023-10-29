@@ -15,7 +15,7 @@ const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage)=>voi
     if(messageInput.length === 0) return;
     const newMessage:UserMessage = {
       message: messageInput,
-      time : getCurrentTime(),
+      createdAt : getCurrentTime(),
       isCurrentUser : true,
     }
     setMessage(newMessage);

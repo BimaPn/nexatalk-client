@@ -36,6 +36,10 @@ export const Trigger = ({children}:{children:React.ReactNode}) => {
 
   const onInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    const images = e.target.files;
+    if(!images) return;
+    const newImages = Array.from(images) as File[];
+    onChange([...value,...newImages]);
   }
   return (
     <button type="button" onClick={() => inputRef.current!.click()}>
@@ -51,10 +55,10 @@ export const Trigger = ({children}:{children:React.ReactNode}) => {
   )
 }
 
-export const Previews = ({children,className}:{children:React.ReactNode,className?:string}) => {
+export const Previews = ({className}:{className?:string}) => {
   const {imagePreviews,removeImage} = useContext(imageInputContext) as ImageInputContext;
   return imagePreviews && (
-    <div>
+    <div className={`flex items-center ${className}`}>
       {imagePreviews.map((image,index) => (
         <ImagePreview
           key={index} 

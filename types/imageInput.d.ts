@@ -1,6 +1,6 @@
 interface ImageInputBased {
   value:File[],
-  onChange : Dispatch<SetStateAction<File[]>>,
+  onChange : (images:File[]) => void,
 }
 
 interface ImageInputContext extends ImageInputBased {

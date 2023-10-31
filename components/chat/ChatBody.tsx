@@ -4,12 +4,13 @@ import ChatInput from "./ChatInput"
 import { useState,useRef, useEffect, useContext } from "react"
 import { chatListContext } from "../providers/ChatListProvider"
 import { chatSocket } from "../menu/ChatMenu"
+import ImagesMessage from "../ui/message/ImagesMessage"
 
 const ChatBody = ({accessToken,userTarget,defaultMessages=[]}:{accessToken:string,userTarget:UserTarget,defaultMessages?:UserMessage[]}) => { 
   const chatBody = useRef<HTMLDivElement | null>(null);
   const [messages,setMessages] = useState(defaultMessages);
   const { chats,addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
-  useEffect(() => {
+  useEffect(() => {     
     chatSocket.on("message",({message,from}:{message:string,from:ChatItem}) => {
       if(from.id !== userTarget.id) return;
       const userMessage:UserMessage = {
@@ -43,6 +44,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[]}:{accessToken:strin
       name:userTarget.name,
       createdAt:msg.createdAt,
       message:msg.message,
+      isOnline:false,
     }    
       
     addChatToList(newChat); 
@@ -62,6 +64,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[]}:{accessToken:strin
       isCurrentUser={msg.isCurrentUser}/>
     </li>
     ))}
+    <ImagesMessage isCurrentUser />
     </ul>
     <div className="w-full absolute bottom-0 flexCenter">
       <div className="fixed w-full ss:w-[90%] sm:w-[55%] lg:w-[65%] xxl:w-[70%] bottom-0">

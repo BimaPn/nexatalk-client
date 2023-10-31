@@ -58,17 +58,20 @@ export const Trigger = ({children}:{children:React.ReactNode}) => {
 export const Previews = ({className}:{className?:string}) => {
   const {imagePreviews,removeImage} = useContext(imageInputContext) as ImageInputContext;
   return imagePreviews && (
-    <div className={`flex items-center ${className}`}>
+  <div className="min-w-full overflow-x-auto">
+    <div className={`flex items-center gap-3 overflow-x-auto ${className}`}>
       {imagePreviews.map((image,index) => (
         <ImagePreview
           key={index} 
           src={image}
           alt={`image ${index}`}  
           onRemove={() => removeImage(index)} 
-          className="aspect-square rounded-xl w-24"
+          className="aspect-square rounded-xl w-[15%] sm:w-[8%]"
         />
       ))}
     </div>
+
+  </div>
   )
 }
 

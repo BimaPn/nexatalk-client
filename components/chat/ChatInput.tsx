@@ -8,20 +8,32 @@ import TextArea from "../ui/TextArea"
 import { getCurrentTime } from "@/utils/converter"
 import ImageInput,{Trigger,Previews} from "../ui/form/ImageInput"
 
-const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage)=>void,className?:string}) => {
+const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|ImagesMessage)=>void,className?:string}) => {
   const [messageInput,setMessageInput] = useState<string>("");
   const [images,setImages] = useState<File[]>([]);
   const submitButton = useRef<HTMLButtonElement>(null);
   const handleSubmit = (e:React.FormEvent) => {
     e.preventDefault();
-    if(messageInput.length === 0) return;
-    const newMessage:UserMessage = {
-      message: messageInput,
-      createdAt : getCurrentTime(),
-      isCurrentUser : true,
+    const createdAt = getCurrentTime();
+    if(images.length !== 0) {
+      const imagePreviews = images.map((file:File) => URL.createObjectURL(file));
+      const imagesMessage:ImagesMessage = {
+        images:imagePreviews,
+        isCurrentUser:true,
+        createdAt:createdAt
+      }
+     setMessage(imagesMessage); 
+     setImages([]);
     }
-    setMessage(newMessage);
-    setMessageInput("")
+    if(messageInput.length !== 0) {
+      const newMessage:UserMessage = {
+        message: messageInput,
+        createdAt : getCurrentTime(),
+        isCurrentUser : true,
+      }
+      setMessage(newMessage);
+      setMessageInput("")
+    }
   }
   return (
     <div className={`w-full flexCenter px-4 pb-5 pt-3 ${className}`}>

@@ -8,7 +8,7 @@ import ImagesMessage from "../ui/message/ImagesMessage"
 
 const ChatBody = ({accessToken,userTarget,defaultMessages=[]}:{accessToken:string,userTarget:UserTarget,defaultMessages?:UserMessage[]}) => { 
   const chatBody = useRef<HTMLDivElement | null>(null);
-  const [messages,setMessages] = useState(defaultMessages);
+  const [messages,setMessages] = useState<(UserMessage|ImagesMessage)[]>(defaultMessages);
   const { chats,addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
   useEffect(() => {     
     chatSocket.on("message",({message,from}:{message:string,from:ChatItem}) => {
@@ -33,17 +33,20 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[]}:{accessToken:strin
     chatBody!.current!.scrollTop = chatBody!.current!.scrollHeight;
   },[messages]);
 
-  const sendMessage = (msg:UserMessage) => {
-    chatSocket.emit("message",{message:msg,to:userTarget.id});
-    setMessages(prev => [...prev,msg]);
+  const sendMessage = (msg:UserMessage|ImagesMessage) => {
 
-    // Add to chat list
+    setMessages(prev => [...prev,msg]);
+    
+    if("message" in msg) {
+      chatSocket.emit("message",{message:msg,to:userTarget.id});
+    }
+      
     let newChat:ChatItem = {
       id:userTarget.id,
       avatar:userTarget.avatar,
       name:userTarget.name,
       createdAt:msg.createdAt,
-      message:msg.message,
+      message:"message" in msg ? msg.message : "images",
       isOnline:false,
     }    
       
@@ -56,15 +59,16 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[]}:{accessToken:strin
     <div className="w-full flexCenter">
       <span className="bg-white text-sm px-4 py-1 rounded-full">Today</span>
     </div>
-    {messages.map((msg,index) => (
-    <li key={index} className={`w-full flex ${msg.isCurrentUser ? "justify-end":"justify-start"}`}>
-      < UserMessage
-      message={msg.message}
-      createdAt={msg.createdAt}
-      isCurrentUser={msg.isCurrentUser}/>
-    </li>
-    ))}
-    <ImagesMessage isCurrentUser />
+    {messages.map((msg,index) => {
+      return "message" in msg ? (
+          <li key={index} className={`w-full flex ${msg.isCurrentUser ? "justify-end":"justify-start"}`}>
+          < UserMessage
+          message={msg.message}
+          createdAt={msg.createdAt}
+          isCurrentUser={msg.isCurrentUser}/>
+        </li>
+      ) : <ImagesMessage src={msg.images[0]} createdAt={msg.createdAt} isCurrentUser={msg.isCurrentUser} />
+    })}
     </ul>
     <div className="w-full absolute bottom-0 flexCenter">
       <div className="fixed w-full ss:w-[90%] sm:w-[55%] lg:w-[65%] xxl:w-[70%] bottom-0">

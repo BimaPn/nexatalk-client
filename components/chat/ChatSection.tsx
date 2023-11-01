@@ -9,7 +9,7 @@ const ChatSection = ({accessToken,userTarget,defaultMessages,isOnline}:{accessTo
   return (
     <section className={`w-full h-full flex flex-col relative ${isOpen && "hidden lg:block"}`}>
       <ChatHeader userId={userTarget.id} avatar={userTarget.avatar} name={userTarget.name} isOnline={isOnline}/>
-      <ChatBody userTarget={userTarget} accessToken={accessToken} defaultMessages={defaultMessages} />
+      <ChatBody isOnline={isOnline} userTarget={userTarget} accessToken={accessToken} defaultMessages={defaultMessages} />
     </section>
   )
 }

@@ -6,7 +6,7 @@ import { chatListContext } from "../providers/ChatListProvider"
 import { chatSocket } from "../menu/ChatMenu"
 import ImagesMessage from "../ui/message/ImagesMessage"
 
-const ChatBody = ({accessToken,userTarget,defaultMessages=[]}:{accessToken:string,userTarget:UserTarget,defaultMessages?:UserMessage[]}) => { 
+const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessToken:string,userTarget:UserTarget,defaultMessages?:UserMessage[],isOnline:boolean}) => { 
   const chatBody = useRef<HTMLDivElement | null>(null);
   const [messages,setMessages] = useState<(UserMessage|ImagesMessage)[]>(defaultMessages);
   const { chats,addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
@@ -38,7 +38,8 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[]}:{accessToken:strin
     setMessages(prev => [...prev,msg]);
     
     if("message" in msg) {
-      chatSocket.emit("message",{message:msg,to:userTarget.id});
+      // CHANGE IT LATER
+      // chatSocket.emit("message",{message:msg,to:userTarget.id});
     }
       
     let newChat:ChatItem = {
@@ -67,7 +68,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[]}:{accessToken:strin
           createdAt={msg.createdAt}
           isCurrentUser={msg.isCurrentUser}/>
         </li>
-      ) : <ImagesMessage src={msg.images[0]} createdAt={msg.createdAt} isCurrentUser={msg.isCurrentUser} />
+      ) : <ImagesMessage images={msg.images} createdAt={msg.createdAt} isCurrentUser={msg.isCurrentUser} />
     })}
     </ul>
     <div className="w-full absolute bottom-0 flexCenter">

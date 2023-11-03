@@ -11,14 +11,14 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
   const [messages,setMessages] = useState<(UserMessage|ImagesMessage)[]>(defaultMessages);
   const { chats,addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
   useEffect(() => {     
-    chatSocket.on("message",({message,from}:{message:string,from:ChatItem}) => {
+    chatSocket.on("message",({content,from}:{content:{message?:string,images?:string[]},from:ChatItem}) => {
       if(from.id !== userTarget.id) return;
-      const userMessage:UserMessage = {
-       message:message,
+      const userMessage = {
+       ...content,
        isCurrentUser:false,
        createdAt:from.createdAt
       } 
-      setMessages(prev => [...prev,userMessage]);
+      setMessages(prev => [...prev,userMessage as any]);
     });
 
     // Clear unread messages from this room

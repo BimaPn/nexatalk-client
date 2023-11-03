@@ -12,13 +12,13 @@ const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|Image
   const [messageInput,setMessageInput] = useState<string>("");
   const [images,setImages] = useState<File[]>([]);
   const submitButton = useRef<HTMLButtonElement>(null);
+  
   const handleSubmit = (e:React.FormEvent) => {
     e.preventDefault();
     const createdAt = getCurrentTime();
     if(images.length !== 0) {
-      const imagePreviews = images.map((file:File) => URL.createObjectURL(file));
       const imagesMessage:ImagesMessage = {
-        images:imagePreviews,
+        images:images,
         isCurrentUser:true,
         createdAt:createdAt
       }

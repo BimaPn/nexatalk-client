@@ -34,14 +34,15 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
   },[messages]);
 
   const sendMessage = (msg:UserMessage|ImagesMessage) => {
+    chatSocket.emit("message",{message:msg,to:userTarget.id});
+
+    if(!("message" in msg)) {
+      const images = msg.images as File[];
+      msg.images = images.map((file:File) => URL.createObjectURL(file));
+    }
 
     setMessages(prev => [...prev,msg]);
-    
-    if("message" in msg) {
-      // CHANGE IT LATER
-      // chatSocket.emit("message",{message:msg,to:userTarget.id});
-    }
-      
+
     let newChat:ChatItem = {
       id:userTarget.id,
       avatar:userTarget.avatar,
@@ -68,7 +69,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
           createdAt={msg.createdAt}
           isCurrentUser={msg.isCurrentUser}/>
         </li>
-      ) : <ImagesMessage images={msg.images} createdAt={msg.createdAt} isCurrentUser={msg.isCurrentUser} />
+      ) : <ImagesMessage images={msg.images as string[]} createdAt={msg.createdAt} isCurrentUser={msg.isCurrentUser} />
     })}
     </ul>
     <div className="w-full absolute bottom-0 flexCenter">

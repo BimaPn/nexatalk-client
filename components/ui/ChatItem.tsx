@@ -10,9 +10,9 @@ const ChatItem = ({avatar,name,message,createdAt,unread,isOnline}:ChatItem) => {
           <span className="text-[12px] text-semiDark">{createdAt}</span>
         </div>
         <div className="w-full flex items-center justify-between">
-          <span className="w-[85%] text-[15px] text-semiDark line-clamp-1">{message}</span>
+          <span className={`w-[85%] text-[15px] text-semiDark line-clamp-1 ${unread ? "font-bold":"font-normal"}`}>{message}</span>
           {unread && (
-            <div className={`px-[6px] py-[2px] font-medium bg-primary text-white rounded-full text-xs`}>{unread}</div>
+            <div className={`px-1 aspect-square font-medium bg-primary text-white rounded-full text-xs`}></div>
           )}
         </div>
       </div>

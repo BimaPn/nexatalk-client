@@ -1,12 +1,18 @@
+"use client"
 import Link from "next/link"
 import { LuUsers } from "react-icons/lu"
 import { PiChatCircleDots } from "react-icons/pi"
 import { IoSettingsOutline } from "react-icons/io5"
 import RoundedImage from "./RoundedImage"
+import { usePathname } from "next/navigation"
+import { isChatPath } from "@/helpers/string"
 
 const Navigation = () => {
+  const path = usePathname();
   return (
-  <nav className="fixed right-0 left-0 bottom-0 ss:top-0 w-full ss:w-16 bg-white ss:bg-light flex flex-col items-center justify-between py-2 ss:py-4 px-1 z-[999]">
+  <nav 
+  className={`${isChatPath(path) ? "hidden ss:flex" : "flex"}
+  fixed right-0 left-0 bottom-0 ss:top-0 w-full ss:w-16 bg-white ss:bg-light flex flex-col items-center justify-between py-2 ss:py-4 px-1 z-[999]`}>
    <div className="ss:block hidden">
    C
    </div> 
@@ -24,7 +30,9 @@ const Navigation = () => {
 
 const NavItem = ({name,icon,isActive=false}:{icon:React.ReactNode,name:string,isActive?:boolean}) => {
   return (
-  <li className={`${isActive ? "text-primary" : "text-netral"} flexCenter px-2 aspect-square rounded-full`}><Link href={'/chat'}>{icon}</Link></li>
+  <li className={`${isActive ? "text-primary" : "text-netral"} flexCenter px-2 aspect-square rounded-full`}>
+    <Link href={'/chat'}>{icon}</Link>
+  </li>
   )
 }
 

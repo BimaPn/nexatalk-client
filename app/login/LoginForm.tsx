@@ -30,7 +30,7 @@ const LoginForm = () => {
     <form onSubmit={formSubmit} className="w-96 flex flex-col gap-2">
       <h1 className="font-medium text-2xl text-dark text-center mb-5">Welcome back !</h1>
       <InputError message={error} className="mb-2"/>  
-      <div className="relative">  
+      <div className="relative mb-3">  
         <TextInput 
         id="email"
         type="email"

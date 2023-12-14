@@ -2,19 +2,14 @@ import { FcGoogle } from "react-icons/fc"
 import LoginForm from "./LoginForm"
 import Link from "next/link"
 import Image from "next/image"
+import RoundedImage from "@/components/ui/RoundedImage"
+import Login from "@/components/ilustrations/Login"
 
 const page = () => {
   return (
     <section className="w-full h-screen flex">
       <div className="w-[40%] bg-semiLight flexCenter">
-        <div className="relative w-[70%] aspect-square border">
-          < Image 
-          src={`/images/login.svg`} 
-          alt={`Login`}
-          fill
-          style={{objectFit:"cover"}}
-          />
-        </div>
+        <Login />
       </div>
       <div className="w-[60%] flexCenter flex-col px-8 gap-7 bg-white">
         <LoginForm />

@@ -19,9 +19,10 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
        createdAt:from.createdAt
       } 
       setMessages(prev => [...prev,userMessage as any]);
+      chatSocket.emit("messagesRead",userTarget.id);
+      clearUnreadCount(userTarget.id);
     });
 
-    // Clear unread messages from this room
     chatSocket.emit("messagesRead",userTarget.id);
     clearUnreadCount(userTarget.id);
     return () => {

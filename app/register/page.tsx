@@ -2,19 +2,13 @@ import { FcGoogle } from "react-icons/fc"
 import RegisterForm from "./RegisterForm"
 import Link from "next/link"
 import Image from "next/image"
+import Register from "@/components/ilustrations/Register"
 
 const page = () => {
   return (
     <section className="w-full h-screen flex">
       <div className="w-[40%] bg-semiLight flexCenter">
-        <div className="relative w-[70%] aspect-square ">
-          < Image 
-          src={`/images/register.svg`} 
-          alt={`register`}
-          fill
-          style={{objectFit:"cover"}}
-          />
-        </div>
+        <Register />
       </div>
       <div className="w-[60%] flexCenter flex-col px-8 gap-7 bg-white">
         <RegisterForm />

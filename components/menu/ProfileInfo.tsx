@@ -16,7 +16,7 @@ const ProfileInfo = ({userTarget}:{userTarget:UserTarget}) => {
     setIsOpen(false);
   }
   return isOpen && (
-    <section className="w-full lg:w-[512px] h-full overflow-auto px-4">
+    <section className="w-full bg-white rounded-xl shadow lg:w-[512px] h-full overflow-auto custom-scrollbar px-4">
     <div className="w-full flex items-center justify-between py-4 ">
       <span>User info</span>
       <button onClick={onCloseClick}>

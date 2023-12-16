@@ -21,11 +21,15 @@ const ChatHeader = ({userId,avatar,name,isOnline}:{userId:string,avatar:string,n
     });
   },[]);
   return (
-    <div className="w-full bg-white py-3">
-      <div className="flex items-center justify-between px-5 border-l border-r">
+    <div className="w-full py-[11px]">
+      <div className="flex items-center justify-between px-4">
         <div className="flex items-center gap-3">
           <div onClick={openProfileInfo}>
-            <UserAvatar avatar={avatar} alt={name} isOnline={isUserOnline} /> 
+            <UserAvatar
+            avatar={avatar}
+            alt={name}
+            isOnline={isUserOnline}
+            className="!w-10"/> 
           </div>
           <div className="flex flex-col leading-5">
             <span className="text-black">{name}</span>
@@ -35,10 +39,16 @@ const ChatHeader = ({userId,avatar,name,isOnline}:{userId:string,avatar:string,n
             ) : null}
           </div>
         </div>
-        <div className="flex items-center gap-6 text-netral">
-          <BsTelephone className="text-[18px] stroke-[0.3px]" />
-          <HiOutlineVideoCamera className="text-[23px]" />
-          <HiOutlineDotsHorizontal className="text-[24px]" />
+        <div className="flex items-center gap-3 text-netral">
+          <div className="w-9 aspect-square rounded-full flexCenter bg-light text-dark">
+            <BsTelephone className="text-[15px] stroke-[0.3px]" />
+          </div>
+          <div className="w-9 aspect-square rounded-full flexCenter bg-light text-dark">
+            <HiOutlineVideoCamera className="text-[20px]" />
+          </div>
+          <div className="w-9 aspect-square rounded-full flexCenter bg-light text-dark">
+            <HiOutlineDotsHorizontal className="text-[20px]" />
+          </div>
         </div>
       </div>
     </div>

@@ -15,7 +15,7 @@ module.exports = {
           semiDark : '#787878',
           netral : '#8C8C8C',
           semiLight : '#EFF2F5',
-          light : '#F6F8FC',
+          light : '#f9f9f8',
         }
     },
     screens : {

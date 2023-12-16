@@ -7,9 +7,18 @@ import ChatBody from "./ChatBody"
 const ChatSection = ({accessToken,userTarget,defaultMessages,isOnline}:{accessToken:string,userTarget:UserTarget,defaultMessages?:UserMessage[],isOnline:boolean}) => {
   const { isOpen } = useContext(profileDetailContext) as ProfileDetail;
   return (
-    <section className={`w-full h-full flex flex-col relative ${isOpen && "hidden lg:block"}`}>
-      <ChatHeader userId={userTarget.id} avatar={userTarget.avatar} name={userTarget.name} isOnline={isOnline}/>
-      <ChatBody isOnline={isOnline} userTarget={userTarget} accessToken={accessToken} defaultMessages={defaultMessages} />
+    <section className={`w-full h-full flex flex-col bg-white rounded-xl shadow overflow-hidden relative ${isOpen && "hidden lg:block"}`}>
+      <ChatHeader 
+      userId={userTarget.id} 
+      avatar={userTarget.avatar} 
+      name={userTarget.name}
+      isOnline={isOnline}/>
+
+      <ChatBody
+      isOnline={isOnline}
+      userTarget={userTarget}
+      accessToken={accessToken} 
+      defaultMessages={defaultMessages} />
     </section>
   )
 }

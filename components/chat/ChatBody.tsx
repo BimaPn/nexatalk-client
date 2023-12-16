@@ -57,28 +57,28 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
   }
 
   return (
-    <div ref={chatBody} className="w-full h-full bg-light flex flex-col rounded-t-xl overflow-auto relative">
-    <ul className="w-full flex flex-col gap-5 px-5 pt-4">
-      <div className="w-full flexCenter">
-        <span className="bg-white text-sm px-4 py-1 rounded-full">Today</span>
+    <div ref={chatBody} className="max-h-full bg-light flex flex-col rounded-xl m-0 sm:mx-3 sm:mb-3 overflow-auto custom-scrollbar relative">
+      <ul className="w-full flex flex-col gap-5 px-3 pt-4">
+        <div className="w-full flexCenter">
+          <span className="bg-white text-sm px-4 py-1 rounded-full">Today</span>
+        </div>
+        {messages.map((msg,index) => {
+          return "message" in msg ? (
+              <li key={index} className={`w-full flex ${msg.isCurrentUser ? "justify-end":"justify-start"}`}>
+                < UserMessage
+                message={msg.message}
+                createdAt={msg.createdAt}
+                isCurrentUser={msg.isCurrentUser}/>
+            </li>
+          ) : <ImagesMessage
+              images={msg.images as string[]} 
+              createdAt={msg.createdAt} 
+              isCurrentUser={msg.isCurrentUser} />
+        })}
+      </ul>
+      <div className="w-full sticky bottom-0">
+          <ChatInput setMessage={sendMessage} />
       </div>
-      {messages.map((msg,index) => {
-        return "message" in msg ? (
-            <li key={index} className={`w-full flex ${msg.isCurrentUser ? "justify-end":"justify-start"}`}>
-              < UserMessage
-              message={msg.message}
-              createdAt={msg.createdAt}
-              isCurrentUser={msg.isCurrentUser}/>
-          </li>
-        ) : <ImagesMessage
-            images={msg.images as string[]} 
-            createdAt={msg.createdAt} 
-            isCurrentUser={msg.isCurrentUser} />
-      })}
-    </ul>
-    <div className="w-full sticky bottom-0">
-        <ChatInput setMessage={sendMessage} />
-    </div>
     </div>
   )
 }

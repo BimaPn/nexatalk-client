@@ -18,7 +18,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
   const chatList = await ApiServer(session?.user.accessToken as string).post(`chat/list`);
   return (
-    <section className='flex h-screen'>
+    <section className='flex gap-4 h-screen p-0 sm:px-4 sm:py-4'>
       <ChatListProvider defaultChatList={chatList.data.users}>
         <ChatMenu accessToken={session?.user.accessToken as string} />
         {children}

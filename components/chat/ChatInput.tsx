@@ -37,21 +37,21 @@ const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|Image
     }
   }
   return (
-    <div className={`w-full flexCenter px-4 pb-4 bg-light ${className}`}>
+    <div className={`w-full flexCenter px-2 sm:px-3 pb-2 bg-light ${className}`}>
 
       <form className="w-full" onSubmit={handleSubmit} >
         <ImageInput 
         value={images}
         onChange={(results) => setImages(results)}
-        className="flex justify-center items-end gap-3"
+        className="flex justify-center items-end gap-1 sm:gap-3"
         >
-          <div className="w-[46px] aspect-square rounded-full bg-white flexCenter shadow">
-            <MdOutlineKeyboardVoice className="text-2xl text-semiDark" />      
+          <div className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
+            <MdOutlineKeyboardVoice className="text-2xl text-dark" />      
           </div>
 
-          <div className="w-[95%] flex flex-col gap-3">
+          <div className="w-full flex flex-col gap-3">
             <Previews />
-            <div className="flex items-center gap-3 bg-white rounded-full px-4 py-[2px] shadow">
+            <div className="w-full flex items-center gap-3 bg-white rounded-full px-4 py-[2px] shadow">
               <div className="w-full max-h-[64px] overflow-auto py-2">
                 <TextArea 
                 value={messageInput}
@@ -69,11 +69,11 @@ const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|Image
             </div>
           </div>
 
-          <div className="w-[46px] aspect-square rounded-full bg-white flexCenter shadow">
-            <GrEmoji className="text-[22.5px] text-semiDark stroke-[.4px]" />      
+          <div className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
+            <GrEmoji className="text-[22.5px] text-dark stroke-[.4px]" />      
           </div>
-          <Trigger className="w-[46px] aspect-square rounded-full bg-white flexCenter shadow">
-            <ImAttachment className="px-1 aspect-square text-netral text-[27px]" />      
+          <Trigger className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
+            <ImAttachment className="px-1 aspect-square text-dark text-[26px]" />      
           </Trigger>
         </ImageInput>
       </form> 

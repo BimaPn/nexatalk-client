@@ -65,12 +65,15 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
       {messages.map((msg,index) => {
         return "message" in msg ? (
             <li key={index} className={`w-full flex ${msg.isCurrentUser ? "justify-end":"justify-start"}`}>
-            < UserMessage
-            message={msg.message}
-            createdAt={msg.createdAt}
-            isCurrentUser={msg.isCurrentUser}/>
+              < UserMessage
+              message={msg.message}
+              createdAt={msg.createdAt}
+              isCurrentUser={msg.isCurrentUser}/>
           </li>
-        ) : <ImagesMessage images={msg.images as string[]} createdAt={msg.createdAt} isCurrentUser={msg.isCurrentUser} />
+        ) : <ImagesMessage
+            images={msg.images as string[]} 
+            createdAt={msg.createdAt} 
+            isCurrentUser={msg.isCurrentUser} />
       })}
     </ul>
     <div className="w-full absolute bottom-0 flexCenter">

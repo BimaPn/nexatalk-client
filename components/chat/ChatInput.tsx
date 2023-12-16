@@ -7,6 +7,7 @@ import { useRef, useState } from "react"
 import TextArea from "../ui/TextArea"
 import { getCurrentTime } from "@/utils/converter"
 import ImageInput,{Trigger,Previews} from "../ui/form/ImageInput"
+import { MdOutlineKeyboardVoice } from "react-icons/md"
 
 const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|ImagesMessage)=>void,className?:string}) => {
   const [messageInput,setMessageInput] = useState<string>("");
@@ -36,39 +37,44 @@ const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|Image
     }
   }
   return (
-    <div className={`w-full flexCenter px-4 pb-5 pt-3 ${className}`}>
+    <div className={`w-full flexCenter px-4 pb-4 bg-light ${className}`}>
 
       <form className="w-full" onSubmit={handleSubmit} >
         <ImageInput 
         value={images}
         onChange={(results) => setImages(results)}
-        className="w-[95%] flex flex-col bg-white rounded-2xl px-4 py-[3px] shadow">
-
-          <Previews />
-
-          <div className="flex items-center gap-3">
-
-          <div className="w-full max-h-[64px] overflow-auto py-[10px]">
-            <TextArea 
-            value={messageInput}
-            onChange={(e) => setMessageInput(e.target.value)}
-            handleSubmit={() => submitButton.current?.click()}
-            className="text-[15px]"
-            rows={1}
-            placeholder="Type something..." />
+        className="flex justify-center items-end gap-3"
+        >
+          <div className="w-[46px] aspect-square rounded-full bg-white flexCenter shadow">
+            <MdOutlineKeyboardVoice className="text-2xl text-semiDark" />      
           </div>
-          <div>
-            <GrEmoji className="text-[22.5px] text-netral stroke-[.4px]" />      
+
+          <div className="w-[95%] flex flex-col gap-3">
+            <Previews />
+            <div className="flex items-center gap-3 bg-white rounded-full px-4 py-[2px] shadow">
+              <div className="w-full max-h-[64px] overflow-auto py-2">
+                <TextArea 
+                value={messageInput}
+                onChange={(e) => setMessageInput(e.target.value)}
+                handleSubmit={() => submitButton.current?.click()}
+                className="text-[15px]"
+                rows={1}
+                placeholder="Type something..." />
+              </div>
+              {(messageInput.length !== 0 || images.length !== 0) && (
+              <button type="submit" ref={submitButton}>
+                <IoSend className="text-[20px] text-primary"/>
+              </button>
+              )}
+            </div>
           </div>
-          <Trigger>
-            <ImAttachment className="px-1 aspect-square text-netral text-[28.5px] " />      
+
+          <div className="w-[46px] aspect-square rounded-full bg-white flexCenter shadow">
+            <GrEmoji className="text-[22.5px] text-semiDark stroke-[.4px]" />      
+          </div>
+          <Trigger className="w-[46px] aspect-square rounded-full bg-white flexCenter shadow">
+            <ImAttachment className="px-1 aspect-square text-netral text-[27px]" />      
           </Trigger>
-
-          <button type="submit" ref={submitButton}>
-            <IoSend className="text-[21px] text-primary"/>
-          </button>
-          </div>
-
         </ImageInput>
       </form> 
     </div>

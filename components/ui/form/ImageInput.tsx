@@ -30,7 +30,7 @@ const ImageInput = ({children,value,className,onChange}:ImageInput) => {
   )
 }
 
-export const Trigger = ({children}:{children:React.ReactNode}) => {
+export const Trigger = ({children,className}:{children:React.ReactNode,className?:string}) => {
   const { value,onChange } = useContext(imageInputContext) as ImageInputContext;
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -42,7 +42,7 @@ export const Trigger = ({children}:{children:React.ReactNode}) => {
     onChange([...value,...newImages]);
   }
   return (
-    <button type="button" onClick={() => inputRef.current!.click()}>
+    <button className={className} type="button" onClick={() => inputRef.current!.click()}>
       <input 
       type="file"
       className="hidden"
@@ -58,7 +58,7 @@ export const Trigger = ({children}:{children:React.ReactNode}) => {
 export const Previews = ({className}:{className?:string}) => {
   const {imagePreviews,removeImage} = useContext(imageInputContext) as ImageInputContext;
   return imagePreviews && (
-  <div className="min-w-full overflow-x-auto">
+  <div className={`min-w-full overflow-x-auto ${imagePreviews.length !== 0 && "pt-2"}`}>
     <div className={`flex items-center gap-3 overflow-x-auto ${className}`}>
       {imagePreviews.map((image,index) => (
         <ImagePreview

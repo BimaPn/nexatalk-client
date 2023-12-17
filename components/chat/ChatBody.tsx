@@ -55,7 +55,6 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
       
     addChatToList(newChat); 
   }
-
   return (
     <div ref={chatBody} className="max-h-full bg-light flex flex-col overflow-hidden rounded-xl m-0 sm:mx-3">
       <ul className="w-full h-full overflow-y-auto flex flex-col gap-5 px-3 pt-4 custom-scrollbar">
@@ -70,10 +69,13 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
                 createdAt={msg.createdAt}
                 isCurrentUser={msg.isCurrentUser}/>
             </li>
-          ) : <ImagesMessage
+          ) : 
+            <li key={index}>
+              <ImagesMessage
               images={msg.images as string[]} 
               createdAt={msg.createdAt} 
               isCurrentUser={msg.isCurrentUser} />
+            </li>
         })}
       </ul>
       <div className="w-full">

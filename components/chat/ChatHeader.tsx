@@ -39,16 +39,8 @@ const ChatHeader = ({userId,avatar,name,isOnline}:{userId:string,avatar:string,n
             ) : null}
           </div>
         </div>
-        <div className="flex items-center gap-3 text-netral">
-          <div className="w-9 aspect-square rounded-full flexCenter bg-light text-dark">
-            <BsTelephone className="text-[15px] stroke-[0.3px]" />
-          </div>
-          <div className="w-9 aspect-square rounded-full flexCenter bg-light text-dark">
-            <HiOutlineVideoCamera className="text-[20px]" />
-          </div>
-          <div className="w-9 aspect-square rounded-full flexCenter bg-light text-dark">
-            <HiOutlineDotsHorizontal className="text-[20px]" />
-          </div>
+        <div className="w-9 aspect-square rounded-full flexCenter bg-light text-dark">
+          <HiOutlineDotsHorizontal className="text-[20px]" />
         </div>
       </div>
     </div>

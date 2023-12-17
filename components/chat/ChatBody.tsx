@@ -57,8 +57,8 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
   }
 
   return (
-    <div ref={chatBody} className="max-h-full bg-light flex flex-col rounded-xl m-0 sm:mx-3 sm:mb-3 overflow-auto custom-scrollbar relative">
-      <ul className="w-full flex flex-col gap-5 px-3 pt-4">
+    <div ref={chatBody} className="max-h-full bg-light flex flex-col overflow-hidden rounded-xl m-0 sm:mx-3">
+      <ul className="w-full h-full overflow-y-auto flex flex-col gap-5 px-3 pt-4 custom-scrollbar">
         <div className="w-full flexCenter">
           <span className="bg-white text-sm px-4 py-1 rounded-full">Today</span>
         </div>
@@ -76,7 +76,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
               isCurrentUser={msg.isCurrentUser} />
         })}
       </ul>
-      <div className="w-full sticky bottom-0">
+      <div className="w-full">
           <ChatInput setMessage={sendMessage} />
       </div>
     </div>

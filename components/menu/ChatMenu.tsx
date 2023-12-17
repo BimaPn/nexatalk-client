@@ -30,18 +30,16 @@ const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: strin
     }
   },[]);
   return (  
-    <MenuLayout className={`w-full sm:w-fit rounded-xl shadow pb-5 relative ${pathname !== "/chat" && "hidden sm:block"}`}>
-        <MenuNavbar className="sticky top-0 mb-4"/> 
-        <div className="px-2">
-          < Search />
-          <ul className="flex flex-col gap-1 mt-4">
-          {chats.map((chat:ChatItem) => (
-            <Link key={chat.id} href={`/chat/${chat.id}`}>
-              <ChatItem name={chat.name} avatar={chat.avatar} createdAt={chat.createdAt} message={chat.message} unread={chat.unread} isOnline={chat.isOnline} />
-            </Link>
-          ))}
-          </ul>
-        </div>
+    <MenuLayout className={`w-full sm:w-fit rounded-xl shadow pt-3 pb-5 relative px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
+        <MenuNavbar className="sticky top-0 mb-5 mx-1"/> 
+        < Search />
+        <ul className="flex flex-col gap-1 mt-4">
+        {chats.map((chat:ChatItem) => (
+          <Link key={chat.id} href={`/chat/${chat.id}`}>
+            <ChatItem name={chat.name} avatar={chat.avatar} createdAt={chat.createdAt} message={chat.message} unread={chat.unread} isOnline={chat.isOnline} />
+          </Link>
+        ))}
+        </ul>
 
     </MenuLayout>
   )
@@ -49,20 +47,16 @@ const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: strin
 
 const MenuNavbar = ({className}:{className?:string}) => {
   return (
-    <div className={`flexBetween pt-[10px] px-4 pb-[10px] shadow ${className}`}>
+    <div className={`flexBetween py-2 px-2 bg-light rounded-xl ${className}`}>
       <div> 
         <RoundedImage 
         src="/images/people/2.jpg"
         alt="profile picture"
         className="!w-9"/>
       </div>
-      <div className="flexCenter gap-2">
-        <div className="w-9 aspect-square rounded-full flexCenter bg-light">
+      <div className="flexCenter gap-3">
             <PiPlusCircle className="text-[25px] text-dark"/>
-        </div>
-        <div className="w-9 aspect-square rounded-full flexCenter bg-light">
             <TbDotsVertical className="text-[19px] text-dark"/>
-        </div>
       </div>
     </div>
   )

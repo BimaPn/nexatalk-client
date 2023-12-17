@@ -3,7 +3,7 @@ import RoundedImage from "./RoundedImage"
 const ChatItem = ({avatar,name,message,createdAt,unread,isOnline}:ChatItem) => {
   return (
     <div className="w-full flex items-center justify-between gap-2 py-2 px-3 rounded-xl hover:bg-light">
-      <UserAvatar avatar={avatar} alt={name} isOnline={isOnline} className="!min-w-[49px]" />
+      <UserAvatar avatar={avatar} alt={name} isOnline={isOnline} className="!min-w-[46px]" />
       <div className="w-full flex flex-col items-center gap-[1px]">
         <div className="w-full flex items-center justify-between">
           <span className="text-black">{name}</span>

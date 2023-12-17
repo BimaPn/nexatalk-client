@@ -12,8 +12,7 @@ const ImagesMessage = ({images,isCurrentUser,createdAt,className}:{images:string
     layout += "grid grid-rows-2 grid-flow-col gap-[6px]";
    }
    return (
-    <div className={`${layout} rounded-b-[10px] p-2
-    ${isCurrentUser ? "bg-primary text-white rounded-tl-[10px]":"bg-white text-black rounded-tr-[10px]"} ${className}`}>
+    <div className={`${layout} ${className}`}>
       {images.map((image,index) => (
         <button
         className={

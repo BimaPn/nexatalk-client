@@ -9,7 +9,7 @@ const ChatSection = ({accessToken,userTarget,defaultMessages,isOnline}:{accessTo
   return (
     <section className={`w-full h-full flex flex-col bg-white rounded-xl shadow relative sm:pb-3 overflow-hidden ${isOpen && "hidden lg:block"}`}>
       <ChatHeader 
-      userId={userTarget.id} 
+      username={userTarget.username} 
       avatar={userTarget.avatar} 
       name={userTarget.name}
       isOnline={isOnline}/>

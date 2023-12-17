@@ -8,7 +8,7 @@ import { useContext,useEffect,useState } from "react"
 import { UserAvatar } from "../ui/ChatItem"
 import { chatSocket } from "../menu/ChatMenu"
 
-const ChatHeader = ({userId,avatar,name,isOnline}:{userId:string,avatar:string,name:string,isOnline:boolean}) => {
+const ChatHeader = ({username,avatar,name,isOnline}:{username:string,avatar:string,name:string,isOnline:boolean}) => {
   const { setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
   const [isUserOnline,setIsUserOnline] = useState(isOnline);
   const openProfileInfo = (e:React.MouseEvent) => {
@@ -16,8 +16,8 @@ const ChatHeader = ({userId,avatar,name,isOnline}:{userId:string,avatar:string,n
     setIsOpen(true);
   }
   useEffect(() => {
-    chatSocket.on("onlineUser",(targetId,isOnline) => {
-      if(targetId === userId) setIsUserOnline(isOnline);
+    chatSocket.on("onlineUser",(target,isOnline) => {
+      if(target === username) setIsUserOnline(isOnline);
     });
   },[]);
   return (

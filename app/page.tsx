@@ -26,7 +26,7 @@ const { data:session,status } = useSession();
   }
   return (
     <>
-    <h1>Halo ${session?.user.id}</h1>
+    <h1>Halo ${session?.user.username}</h1>
     <form onSubmit={formSubmit}>
     <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="your username" />
     <button type='submit'>Submit</button>

@@ -12,19 +12,19 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
   const { chats,addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
   useEffect(() => {     
     chatSocket.on("message",({content,from}:{content:{message?:string,images?:string[]},from:ChatItem}) => {
-      if(from.id !== userTarget.id) return;
+      if(from.username !== userTarget.username) return;
       const userMessage = {
        ...content,
        isCurrentUser:false,
        createdAt:from.createdAt
       } 
       setMessages(prev => [...prev,userMessage as any]);
-      chatSocket.emit("messagesRead",userTarget.id);
-      clearUnreadCount(userTarget.id);
+      chatSocket.emit("messagesRead",userTarget.username);
+      clearUnreadCount(userTarget.username);
     });
 
-    chatSocket.emit("messagesRead",userTarget.id);
-    clearUnreadCount(userTarget.id);
+    chatSocket.emit("messagesRead",userTarget.username);
+    clearUnreadCount(userTarget.username);
     return () => {
       chatSocket.disconnect();
     }
@@ -35,7 +35,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
   },[messages]);
 
   const sendMessage = (msg:UserMessage|ImagesMessage) => {
-    chatSocket.emit("message",{message:msg,to:userTarget.id});
+    chatSocket.emit("message",{message:msg,to:userTarget.username});
 
     if(!("message" in msg)) {
       const images = msg.images as File[];
@@ -45,7 +45,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
     setMessages(prev => [...prev,msg]);
 
     let newChat:ChatItem = {
-      id:userTarget.id,
+      username:userTarget.username,
       avatar:userTarget.avatar,
       name:userTarget.name,
       createdAt:msg.createdAt,

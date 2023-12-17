@@ -1,5 +1,5 @@
 interface ChatItem {
-  id?:string,
+  username?:string,
   avatar:string,
   name:string,
   message:string,

@@ -4,7 +4,7 @@ interface ProfileDetail {
 }
 
 interface UserTarget {
-  id:string,
+  username:string,
   name:string,
   avatar:string,
   bio?:string

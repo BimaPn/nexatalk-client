@@ -57,7 +57,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
   }
   return (
     <div ref={chatBody} className="max-h-full bg-light flex flex-col overflow-hidden rounded-xl m-0 sm:mx-3">
-      <ul className="w-full h-full overflow-y-auto flex flex-col gap-5 px-3 pt-4 custom-scrollbar">
+      <ul className="w-full h-full overflow-y-auto flex flex-col gap-4 px-3 pt-4 custom-scrollbar">
         <div className="w-full flexCenter">
           <span className="bg-white text-sm px-4 py-1 rounded-full">Today</span>
         </div>

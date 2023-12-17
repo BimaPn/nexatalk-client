@@ -5,17 +5,35 @@ import TextInput from "@/components/ui/form/TextInput"
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { IoClose,IoCheckmarkSharp } from "react-icons/io5"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
+import PrimaryButton from "@/components/ui/form/PrimaryButton"
 
 const RegisterForm = () => {
   const [data,setData] = useState({
     name:"",    
+    username : "",
     email:"",
     password:"",
     password_confirmation:""
   });
   const router = useRouter();
   const [errors,setErrors] = useState<AuthError>({});
+  const [disableSubmit,setDisableSubmit] = useState<boolean>(true);
+  
+  useEffect(() => {
+  const isEnableSubmit = data.name.length >= 4 && data.username.length >= 6 &&
+     data.email.length >= 4 && data.password.length >= 8 &&
+     data.password === data.password_confirmation;
+  
+  if(isEnableSubmit) {
+    setDisableSubmit(false);
+  }else {
+    setDisableSubmit(true);
+  }
+  },[data]);
+
   const formSubmit = (e:React.FormEvent) => {
     e.preventDefault();
     axios.post(`${process.env.NEXT_PUBLIC_DATABASE_URL}/auth/register`,data)
@@ -41,6 +59,10 @@ const RegisterForm = () => {
         <InputLabel forInput="name" value="Name"/>
         <InputError message={errors.name} className="my-1"/>  
       </div>
+
+      <UserNameInput
+      onChange={(val) => setData({...data,username:val})}/>
+
       <div className="relative">
         <TextInput 
         id="email"
@@ -74,8 +96,73 @@ const RegisterForm = () => {
         <InputLabel forInput="password_confirmation" value="Confirm password"/>
         <InputError message={errors.password_confirmation} className="my-1" />  
       </div>
-      <button type="submit" className="w-full px-6 py-[7px] mt-4 rounded-xl bg-primary text-light font-bold mx-auto">Register</button>
+      <PrimaryButton disabled={disableSubmit} type="submit">
+      Register
+      </PrimaryButton>
     </form>
+  )
+}
+
+const UserNameInput = ({onChange}:{onChange:(val:string) => void}) => {
+  const [username,setUsername] = useState<string>("");
+  const [error,setError] = useState<string | null>(null);
+  const [status,setStatus] = useState<number>(-1);
+
+  const onChangeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setUsername(e.target.value.replace(/\s/g, ''));
+  }
+
+  useEffect(() => {
+    if(username.length < 6) {
+      setError("Username must be at least 6 characters.");
+      setStatus(0);
+      return;
+    }
+    setStatus(2);
+    axios.post(`${process.env.NEXT_PUBLIC_DATABASE_URL}/auth/username-check`,{username})
+    .then(() => {
+      setStatus(1);
+      setError(null);
+      onChange(username);
+    })
+    .catch((error) => {
+      setStatus(0);
+      setError(error.response.data.message);
+      onChange("");
+    });
+  },[username]);
+
+  const showStatus = () => {
+    const passed = <IoCheckmarkSharp className="text-[19px] text-green-500" />
+    const failed = <IoClose className="text-[22px] text-red-600" />
+    const loading = <LoadingSpinner />
+
+    if(status === 1) return passed;
+    else if(status === 0) return failed;
+    else if(status === 2) return loading;
+    return;
+  }
+
+  return (
+    <div>
+      <div className="relative">
+        <TextInput 
+        id="username"
+        type="text"
+        value={username}
+        onChange={onChangeInput}
+        required
+        maxLength={24}
+        />
+        <div className="absolute flexCenter right-0 top-0 bottom-0 pr-3">
+          {showStatus()}
+        </div>
+        <InputLabel forInput="username" value="Username"/>
+      </div>
+      <InputError message={error} className="my-1" />  
+    </div>
+
   )
 }
 

@@ -1,5 +1,5 @@
 
-const Register = ({size=506,className}:{size?:number,className?:string}) => (
+const PersonChatting = ({size=506,className}:{size?:number,className?:string}) => (
   <svg width={size} viewBox="0 0 506 508" xmlns="http://www.w3.org/2000/svg" fill="none" className={className}>
     <path
       fill="#EBEBEB"
@@ -283,5 +283,5 @@ const Register = ({size=506,className}:{size?:number,className?:string}) => (
     />
   </svg>
 )
-export default Register 
+export default PersonChatting 
 

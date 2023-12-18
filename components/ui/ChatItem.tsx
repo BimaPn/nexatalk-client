@@ -2,7 +2,7 @@ import RoundedImage from "./RoundedImage"
 
 const ChatItem = ({avatar,name,message,createdAt,unread,isOnline}:ChatItem) => {
   return (
-    <div className="w-full flex items-center justify-between gap-2 py-2 px-3 rounded-xl hover:bg-light">
+    <div className="w-full flex items-center justify-between gap-2 py-2 px-3 rounded-xl hover:bg-light relative z-0">
       <UserAvatar avatar={avatar} alt={name} isOnline={isOnline} className="!min-w-[46px]" />
       <div className="w-full flex flex-col items-center gap-[1px]">
         <div className="w-full flex items-center justify-between">
@@ -23,7 +23,7 @@ const ChatItem = ({avatar,name,message,createdAt,unread,isOnline}:ChatItem) => {
 
 export const UserAvatar = ({avatar,alt,isOnline,className}:{avatar:string,alt:string,isOnline:boolean|number,className?:string}) => {
   return(
-  <div className="relative">
+  <div className="relative z-0">
     <RoundedImage src={avatar} className={className} alt={alt} />
     {isOnline ? (
       <span className="absolute bottom-[2%] right-[2%] w-[13px] aspect-square bg-yellow-400 rounded-full border border-white"></span>

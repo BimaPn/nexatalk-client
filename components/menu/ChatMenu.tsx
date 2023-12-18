@@ -12,6 +12,7 @@ import { PiPlusCircle } from "react-icons/pi"
 import { TbDotsVertical } from "react-icons/tb"
 import { SocketProvider, socketContext } from '../providers/SocketProvider'
 import { MenuProvider, menuContext } from '../providers/MenuProvider'
+import ChatMenuDropdown from '../ui/ChatMenuDropdown'
 
 let chatSocket:Socket;
 
@@ -35,7 +36,7 @@ const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: strin
   },[]);
   return (  
     <MenuLayout className={`pt-3 pb-5 relative px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
-        <MenuNavbar className="sticky top-0 mb-5 mx-1"/> 
+        <MenuNavbar className="sticky top-0 z-[1400] mb-5 mx-1"/> 
         < Search />
         <button onClick={() => changeMenu("settingsMenu")}>go to settings</button>
         <ul className="flex flex-col gap-1 mt-4">
@@ -53,12 +54,7 @@ const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: strin
 const MenuNavbar = ({className}:{className?:string}) => {
   return (
     <div className={`flexBetween py-2 px-2 bg-light rounded-xl ${className}`}>
-      <div> 
-        <RoundedImage 
-        src="/images/people/2.jpg"
-        alt="profile picture"
-        className="!w-9"/>
-      </div>
+      <ChatMenuDropdown /> 
       <div className="flexCenter gap-3">
             <PiPlusCircle className="text-[25px] text-dark"/>
             <TbDotsVertical className="text-[19px] text-dark"/>

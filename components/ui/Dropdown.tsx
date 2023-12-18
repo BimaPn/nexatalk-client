@@ -16,7 +16,7 @@ const Dropdown = ({children}:{children : React.ReactNode}) => {
     }
   return (
     <dropDownContext.Provider value={{ open,setOpen, toggleOpen}}>
-        <div className='relative'>
+        <div>
             {children}
         </div>
     </dropDownContext.Provider>
@@ -27,8 +27,8 @@ const Trigger = ({children}:{children : React.ReactNode}) => {
     const { open,setOpen,toggleOpen } = useContext(dropDownContext) as DropdownProvider
     return (
         <>
-            <div onClick={toggleOpen}>{children}</div>
-            {open && <div className='fixed inset-0 z-[990]' onClick={() => setOpen(false)}></div>}
+            <div className="cursor-pointer" onClick={toggleOpen}>{children}</div>
+            {open && <div className='fixed inset-0' onClick={() => setOpen(false)}></div>}
         </>
     )
 }
@@ -38,7 +38,7 @@ const Content = ({children,className}:{children : React.ReactNode,className ?: s
     return open && (
         <div
         onClick={() => setOpen((prev:boolean) => !prev)}
-        className={`absolute mt-2 top-full z-[994] ${className}`}>
+        className={`absolute mt-2 top-full ${className}`}>
             {children}
         </div>
     )

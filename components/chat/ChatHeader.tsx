@@ -6,9 +6,9 @@ import { HiOutlineVideoCamera } from "react-icons/hi2"
 import { profileDetailContext } from "../providers/ProfileDetailProvider"
 import { useContext,useEffect,useState } from "react"
 import { UserAvatar } from "../ui/ChatItem"
-import { chatSocket } from "../menu/ChatMenu"
+import { Socket } from "socket.io-client"
 
-const ChatHeader = ({username,avatar,name,isOnline}:{username:string,avatar:string,name:string,isOnline:boolean}) => {
+const ChatHeader = ({username,avatar,name,isOnline,socket}:{username:string,avatar:string,name:string,isOnline:boolean,socket:Socket}) => {
   const { setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
   const [isUserOnline,setIsUserOnline] = useState(isOnline);
   const openProfileInfo = (e:React.MouseEvent) => {
@@ -16,7 +16,7 @@ const ChatHeader = ({username,avatar,name,isOnline}:{username:string,avatar:stri
     setIsOpen(true);
   }
   useEffect(() => {
-    chatSocket.on("onlineUser",(target,isOnline) => {
+    socket.on("onlineUser",(target,isOnline) => {
       if(target === username) setIsUserOnline(isOnline);
     });
   },[]);

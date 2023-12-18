@@ -1,7 +1,6 @@
 "use client"
 import MenuLayout from '@/layouts/MenuLayout'
 import { usePathname } from "next/navigation"
-import socketInit from '@/app/api/socket/socket'
 import { Socket } from 'socket.io-client'
 import Search from '../ui/Search'
 import ChatItem from "../ui/ChatItem"
@@ -11,14 +10,19 @@ import { chatListContext } from '../providers/ChatListProvider'
 import RoundedImage from '../ui/RoundedImage'
 import { PiPlusCircle } from "react-icons/pi"
 import { TbDotsVertical } from "react-icons/tb"
+import { SocketProvider, socketContext } from '../providers/SocketProvider'
+import { MenuProvider, menuContext } from '../providers/MenuProvider'
 
-export let chatSocket:Socket;
+let chatSocket:Socket;
 
 const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: string}) => {
+  const { getSocket } = useContext(socketContext) as SocketProvider;
+  const { changeMenu } = useContext(menuContext) as MenuProvider;
   const pathname = usePathname();
   const { chats,addChatToList,setOnlineUser } = useContext(chatListContext) as ChatList;
+
   useEffect(() => {
-    chatSocket = socketInit("/chat",accessToken);
+    chatSocket = getSocket("/chat",accessToken);
     chatSocket.on("message",({message,from}:{message:string,from:ChatItem}) => {
       addChatToList(from);
     });
@@ -30,9 +34,10 @@ const ChatMenu = ({accessToken,className}:{accessToken:string,className ?: strin
     }
   },[]);
   return (  
-    <MenuLayout className={`w-full sm:w-fit rounded-xl shadow pt-3 pb-5 relative px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
+    <MenuLayout className={`pt-3 pb-5 relative px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
         <MenuNavbar className="sticky top-0 mb-5 mx-1"/> 
         < Search />
+        <button onClick={() => changeMenu("settingsMenu")}>go to settings</button>
         <ul className="flex flex-col gap-1 mt-4">
         {chats.map((chat:ChatItem) => (
           <Link key={chat.username} href={`/chat/${chat.username}`}>

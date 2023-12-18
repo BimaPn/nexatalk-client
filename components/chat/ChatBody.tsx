@@ -3,15 +3,25 @@ import UserMessage from "../ui/message/UserMessage"
 import ChatInput from "./ChatInput"
 import { useState,useRef, useEffect, useContext } from "react"
 import { chatListContext } from "../providers/ChatListProvider"
-import { chatSocket } from "../menu/ChatMenu"
 import ImagesMessage from "../ui/message/ImagesMessage"
+import { Socket } from "socket.io-client"
 
-const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessToken:string,userTarget:UserTarget,defaultMessages?:UserMessage[],isOnline:boolean}) => { 
+type ChatBodyT = {
+  accessToken:string,
+  userTarget:UserTarget,
+  defaultMessages?:UserMessage[],
+  isOnline:boolean,
+  socket:Socket
+}
+
+const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:ChatBodyT) => { 
   const chatBody = useRef<HTMLDivElement | null>(null);
   const [messages,setMessages] = useState<(UserMessage|ImagesMessage)[]>(defaultMessages);
   const { chats,addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
-  useEffect(() => {     
-    chatSocket.on("message",({content,from}:{content:{message?:string,images?:string[]},from:ChatItem}) => {
+
+  useEffect(() => {    
+
+    socket.on("message",({content,from}:{content:{message?:string,images?:string[]},from:ChatItem}) => {
       if(from.username !== userTarget.username) return;
       const userMessage = {
        ...content,
@@ -19,14 +29,14 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
        createdAt:from.createdAt
       } 
       setMessages(prev => [...prev,userMessage as any]);
-      chatSocket.emit("messagesRead",userTarget.username);
+      socket.emit("messagesRead",userTarget.username);
       clearUnreadCount(userTarget.username);
     });
 
-    chatSocket.emit("messagesRead",userTarget.username);
+    socket.emit("messagesRead",userTarget.username);
     clearUnreadCount(userTarget.username);
     return () => {
-      chatSocket.disconnect();
+      socket.disconnect();
     }
   },[]);
 
@@ -35,7 +45,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline}:{accessTo
   },[messages]);
 
   const sendMessage = (msg:UserMessage|ImagesMessage) => {
-    chatSocket.emit("message",{message:msg,to:userTarget.username});
+    socket.emit("message",{message:msg,to:userTarget.username});
 
     if(!("message" in msg)) {
       const images = msg.images as File[];

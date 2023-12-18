@@ -1,6 +1,5 @@
 import PersonChatting from '@/components/ilustrations/PersonChatting'
-import ChatMenu from '@/components/menu/ChatMenu'
-import Link from 'next/link'
+
 const page = () => {
   return (
     <section className='w-full overflow-hidden bg-white h-full p-3 sm:block hidden rounded-xl'>

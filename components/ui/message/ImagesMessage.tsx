@@ -15,6 +15,7 @@ const ImagesMessage = ({images,isCurrentUser,createdAt,className}:{images:string
     <div className={`${layout} ${className}`}>
       {images.map((image,index) => (
         <button
+        key={index}
         className={
           `${(images.length === 1) && "w-full aspect-square"}
            ${(images.length === 2) && "row-span-2"}

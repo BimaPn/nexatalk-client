@@ -21,7 +21,6 @@ const LoginForm = () => {
     .then((callback) => {
       if(callback?.error) setError(callback.error);
       if(callback?.ok && !callback.error) {
-        console.log("berhasil")
         router.push("/chat");
       }
     });

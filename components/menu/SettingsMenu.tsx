@@ -11,11 +11,11 @@ import { FaUser } from "react-icons/fa6"
 import { RiUser3Fill } from "react-icons/ri"
 import EditProfileModal from '../ui/EditProfileModal'
 
-const SettingsMenu = ({accessToken,userAuth}:SessionInfo) => {
+const SettingsMenu = ({userAuth}:SessionInfo) => {
   return (
     <MenuLayout className="overflow-hidden">
       <Navigation />
-      <Profile accessToken={accessToken} userAuth={userAuth}/>
+      <Profile userAuth={userAuth}/>
       <Settings className="mt-4" />
     </MenuLayout>
   )
@@ -36,7 +36,7 @@ const Navigation = () => {
   )
 }
 
-const Profile = ({accessToken, userAuth}:SessionInfo) => {
+const Profile = ({userAuth}:SessionInfo) => {
   return (
     <div className="flex items-center gap-4 px-4 py-2">
       <RoundedImage 
@@ -49,7 +49,7 @@ const Profile = ({accessToken, userAuth}:SessionInfo) => {
           <span>{userAuth.name}</span>
           <span className="text-xs text-gray-600">{userAuth.username}</span>
         </div>
-        <EditProfileModal accessToken={accessToken} userAuth={userAuth} />
+        <EditProfileModal userAuth={userAuth} />
       </div>
 
     </div>

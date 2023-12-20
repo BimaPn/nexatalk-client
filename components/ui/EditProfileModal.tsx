@@ -11,14 +11,15 @@ import TextArea from "./form/TextArea"
 import ApiClient from "@/app/api/axios/ApiClient"
 import { useSession } from "next-auth/react"
 import InputError from "./form/InputError"
+import { UserSession, userSessionContext } from "../providers/UserSessionProvider"
 
-const EditProfileModal = ({accessToken, userAuth}:SessionInfo) => {
+const EditProfileModal = ({userAuth}:SessionInfo) => {
   return (
     <Modal>
       <Trigger className="min-w-[36px] aspect-square flexCenter bg-light rounded-lg">
         <BiSolidEdit className="text-xl" />
       </Trigger> 
-      <FormEditProfile accessToken={accessToken} userAuth={userAuth} />
+      <FormEditProfile userAuth={userAuth} />
     </Modal>
   )
 }
@@ -29,8 +30,9 @@ type ProfileEdit = {
   avatar:File | null
 }
 
-const FormEditProfile = ({accessToken, userAuth}:SessionInfo) => {
+const FormEditProfile = ({ userAuth }:SessionInfo) => {
   const { toggleModal } = useContext(modalContext) as ModalProvider;
+  const { user, updateSession } = useContext(userSessionContext) as UserSession;
   const { data:session, update } = useSession();
   const [ formData, setFormData ] = useState<ProfileEdit>({
     name:userAuth.name,
@@ -56,15 +58,19 @@ const FormEditProfile = ({accessToken, userAuth}:SessionInfo) => {
     'Content-Type': 'multipart/form-data'
     }})
     .then((res) => {
-      update({
-      ...session,
-      user:{
-        ...session?.user,
+      const updatedUser = {
         name : res.data.user.name,
         bio : res.data.user.bio,
         avatar : res.data.user.avatar
       }
+      update({
+      ...session,
+      user:{
+        ...session?.user,
+        ...updatedUser
+      }
       });
+      updateSession({...user,...updatedUser});
       toggleModal();
     })
     .catch((err) => {

@@ -8,17 +8,17 @@ import { MenuProvider, menuContext } from '../providers/MenuProvider'
 import Link from 'next/link'
 import LogoutButton from './form/LogoutButton'
 
-const ChatMenuDropdown = () => {
+const ChatMenuDropdown = ({avatar}:{avatar:string}) => {
   const { changeMenu } = useContext(menuContext) as MenuProvider;
   return (
     <Dropdown>
     <Dropdown.Trigger>
         <RoundedImage
-        src="/images/people/2.jpg"
+        src={avatar}
         alt="profile picture"
-        className="!w-9"/>
+        className="!w-[38px]"/>
     </Dropdown.Trigger>
-    <Dropdown.Content className="left-0 w-56">
+    <Dropdown.Content className="right-0 w-56">
      <div className="bg-white flex flex-col shadow rounded-lg py-2 px-2 font-medium text-sm">
 
       <button

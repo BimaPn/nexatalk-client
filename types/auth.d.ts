@@ -14,6 +14,5 @@ interface AuthUser {
 }
 
 interface SessionInfo {
-  accessToken : string,
   userAuth : AuthUser
 }

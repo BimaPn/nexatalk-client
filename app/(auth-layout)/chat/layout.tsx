@@ -6,6 +6,7 @@ import ChatListProvider from '@/components/providers/ChatListProvider'
 import SocketProvider from '@/components/providers/SocketProvider'
 import MainMenu from '@/components/menu/MainMenu'
 import MenuProvider from '@/components/providers/MenuProvider'
+import UserSessionProvider from '@/components/providers/UserSessionProvider'
 
 export const metadata: Metadata = {
   title: 'Chat',
@@ -24,12 +25,13 @@ export default async function RootLayout({
     <section className='flex gap-4 h-screen p-0 overflow-hidden sm:px-4 sm:py-4'>
       <SocketProvider>
         <ChatListProvider defaultChatList={chatList.data.users}>
-          <MenuProvider>
-            <MainMenu
-            accessToken={session?.user.accessToken as string}
-            userAuth={{ name, username, email, bio, avatar }} 
-            />
-          </MenuProvider>
+          <UserSessionProvider defaultSession={{ name, username, email, bio, avatar }}>
+            <MenuProvider>
+              <MainMenu
+              accessToken={session?.user.accessToken as string}
+              />
+            </MenuProvider>
+          </UserSessionProvider>
           {children}
         </ChatListProvider>
       </SocketProvider>

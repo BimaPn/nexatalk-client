@@ -4,7 +4,7 @@ const TextInput = ({className,...props}:InputHTMLAttributes<HTMLInputElement> & 
   return (
     <input
     placeholder=' '
-    className={`w-full block border border-gray-300 dark:border-d_netral rounded-xl py-2 px-4  peer ${className}`} 
+    className={`w-full block border border-gray-300 rounded-lg py-2 px-4 focus:outline-primary peer ${className}`} 
     {...props}/>
   )
 }

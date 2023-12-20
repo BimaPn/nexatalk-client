@@ -2,7 +2,6 @@ import MenuLayout from '@/layouts/MenuLayout'
 import RoundedImage from '../ui/RoundedImage'
 import { useContext } from 'react'
 import { MenuProvider, menuContext } from '../providers/MenuProvider'
-import { BiSolidEdit } from "react-icons/bi"
 import { HiOutlineArrowLeft } from "react-icons/hi"
 import { IoIosLock } from "react-icons/io"
 import { RiPaintFill } from "react-icons/ri"
@@ -10,6 +9,7 @@ import LogoutButton from '../ui/form/LogoutButton'
 import { IoLogOut } from "react-icons/io5"
 import { FaUser } from "react-icons/fa6"
 import { RiUser3Fill } from "react-icons/ri"
+import EditProfileModal from '../ui/EditProfileModal'
 
 const SettingsMenu = () => {
   return (
@@ -49,9 +49,7 @@ const Profile = ({name, username}:{name:string,username:string}) => {
           <span>{name}</span>
           <span className="text-xs text-gray-600">{username}</span>
         </div>
-        <button className="min-w-[36px] aspect-square flexCenter bg-light rounded-lg">
-          <BiSolidEdit className="text-xl" />
-        </button>
+        <EditProfileModal />
       </div>
 
     </div>

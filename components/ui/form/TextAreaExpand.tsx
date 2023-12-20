@@ -1,7 +1,7 @@
 'use client'
 import { useRef,useEffect,TextareaHTMLAttributes } from "react"
 
-const TextArea = ({className,handleSubmit,rows,...props}:TextareaHTMLAttributes<HTMLTextAreaElement> & {className ?:string,handleSubmit?:()=>void}) => {
+const TextAreaExpand = ({className,handleSubmit,rows,...props}:TextareaHTMLAttributes<HTMLTextAreaElement> & {className ?:string,handleSubmit?:()=>void}) => {
   const textarea = useRef<HTMLTextAreaElement>(null)
   useEffect(()=>{
     const autoGrowTextarea = () => {
@@ -33,4 +33,4 @@ const TextArea = ({className,handleSubmit,rows,...props}:TextareaHTMLAttributes<
   )
 }
 
-export default TextArea
+export default TextAreaExpand

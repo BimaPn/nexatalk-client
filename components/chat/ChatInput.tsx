@@ -4,10 +4,10 @@ import { PiImageSquareFill } from "react-icons/pi"
 import { GrEmoji} from "react-icons/gr"
 import { ImAttachment } from "react-icons/im"
 import { useRef, useState } from "react"
-import TextArea from "../ui/TextArea"
 import { getCurrentTime } from "@/utils/converter"
 import ImageInput,{Trigger,Previews} from "../ui/form/ImageInput"
 import { MdOutlineKeyboardVoice } from "react-icons/md"
+import TextAreaExpand from "../ui/form/TextAreaExpand"
 
 const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|ImagesMessage)=>void,className?:string}) => {
   const [messageInput,setMessageInput] = useState<string>("");
@@ -53,7 +53,7 @@ const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|Image
             <Previews />
             <div className="w-full flex items-center gap-3 bg-white rounded-full px-4 py-[2px] shadow">
               <div className="w-full max-h-[64px] overflow-auto py-2">
-                <TextArea 
+                <TextAreaExpand 
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
                 handleSubmit={() => submitButton.current?.click()}

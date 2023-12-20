@@ -4,12 +4,12 @@ import { MenuProvider as MenuProviderType, menuContext } from "../providers/Menu
 import ChatMenu from "./ChatMenu";
 import SettingsMenu from "./SettingsMenu";
 
-const MainMenu = ({accessToken}:{accessToken:string}) => {
+const MainMenu = ({accessToken, userAuth}:{accessToken:string, userAuth:AuthUser}) => {
   const { currentMenu } = useContext(menuContext) as MenuProviderType;
   return (
     <section>
      {currentMenu === "chatMenu" && <ChatMenu accessToken={accessToken} />} 
-     {currentMenu === "settingsMenu" && <SettingsMenu />} 
+     {currentMenu === "settingsMenu" && <SettingsMenu accessToken={accessToken} userAuth={userAuth} />} 
     </section>
   )
 }

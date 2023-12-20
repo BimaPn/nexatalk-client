@@ -9,7 +9,7 @@ import TextInput from "./form/TextInput"
 import InputLabel from "./form/InputLabel"
 import TextArea from "./form/TextArea"
 
-const EditProfileModal = () => {
+const EditProfileModal = ({accessToken, userAuth}:SessionInfo) => {
   return (
     <Modal>
       <Trigger>
@@ -17,7 +17,7 @@ const EditProfileModal = () => {
           <BiSolidEdit className="text-xl" />
         </button>
       </Trigger> 
-      <FormEditProfile />
+      <FormEditProfile accessToken={accessToken} userAuth={userAuth} />
     </Modal>
   )
 }
@@ -28,17 +28,17 @@ type ProfileEdit = {
   avatar:File | null
 }
 
-const FormEditProfile = () => {
+const FormEditProfile = ({accessToken, userAuth}:SessionInfo) => {
   const { toggleModal } = useContext(modalContext) as ModalProvider;
   const [formData, setFormData] = useState<ProfileEdit>({
-    name:"",
-    bio:"",
+    name:userAuth.name,
+    bio:userAuth.bio,
     avatar:null
   });
   const [isFormDirty, setIsFormDirty] = useState<boolean>(false);
 
   useEffect(() => {
-    if(formData.name.length > 0 || formData.avatar !== null || formData.bio.length > 0) {
+    if(formData.name !== userAuth.name || formData.avatar !== null || formData.bio !== userAuth.bio) {
       setIsFormDirty(true);
     } else {
       setIsFormDirty(false);
@@ -54,7 +54,7 @@ const FormEditProfile = () => {
     }
     const shouldLeave = confirm("You have unsaved changes. Are you sure you want to leave the page ?"); 
     if(shouldLeave) {
-      setFormData({name:"",bio:"",avatar:null});
+      setFormData({name:userAuth.name,bio:userAuth.bio,avatar:null});
       toggleModal();
     }
   }
@@ -69,7 +69,7 @@ const FormEditProfile = () => {
         </Header>
         <Body>
           <AvatarInput
-          defaultAvatar="/images/people/1.jpg"
+          defaultAvatar={userAuth.avatar}
           onChange={(file) => setFormData({...formData,avatar:file})}
           className="mt-3 mb-7"
           />
@@ -80,13 +80,14 @@ const FormEditProfile = () => {
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({...formData, name:e.target.value})}
+              required
               />
               <InputLabel forInput="name" value="Name" />
             </div>
             <div className="relative opacity-50">
               <TextInput
               id="username"
-              value={`bimapn12`}
+              value={userAuth.username}
               readOnly
               className="text-gray-500 focus:!outline-0"
               />
@@ -95,7 +96,7 @@ const FormEditProfile = () => {
             <div className="relative opacity-50">
               <TextInput
               id="email"
-              value={`bimapn12@gmail.com`}
+              value={userAuth.email}
               readOnly
               className="text-gray-500 focus:!outline-0"
               />
@@ -105,7 +106,9 @@ const FormEditProfile = () => {
               <TextArea 
               id="bio"
               value={formData.bio}
-              onChange={(e) => setFormData({...formData, bio: e.target.value})}/>
+              onChange={(e) => setFormData({...formData, bio: e.target.value})}
+              required
+              />
               <InputLabel forInput="bio" value="Bio" textarea />
             </div>
           </div>

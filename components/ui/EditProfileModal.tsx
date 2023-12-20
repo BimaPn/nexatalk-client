@@ -8,14 +8,15 @@ import AvatarInput from "./form/AvatarInput"
 import TextInput from "./form/TextInput"
 import InputLabel from "./form/InputLabel"
 import TextArea from "./form/TextArea"
+import ApiClient from "@/app/api/axios/ApiClient"
+import { useSession } from "next-auth/react"
+import InputError from "./form/InputError"
 
 const EditProfileModal = ({accessToken, userAuth}:SessionInfo) => {
   return (
     <Modal>
-      <Trigger>
-        <button className="min-w-[36px] aspect-square flexCenter bg-light rounded-lg">
-          <BiSolidEdit className="text-xl" />
-        </button>
+      <Trigger className="min-w-[36px] aspect-square flexCenter bg-light rounded-lg">
+        <BiSolidEdit className="text-xl" />
       </Trigger> 
       <FormEditProfile accessToken={accessToken} userAuth={userAuth} />
     </Modal>
@@ -30,25 +31,49 @@ type ProfileEdit = {
 
 const FormEditProfile = ({accessToken, userAuth}:SessionInfo) => {
   const { toggleModal } = useContext(modalContext) as ModalProvider;
-  const [formData, setFormData] = useState<ProfileEdit>({
+  const { data:session, update } = useSession();
+  const [ formData, setFormData ] = useState<ProfileEdit>({
     name:userAuth.name,
     bio:userAuth.bio,
     avatar:null
   });
-  const [isFormDirty, setIsFormDirty] = useState<boolean>(false);
+  const [errors,setErrors] = useState<any>({});
+  const [ disabledButton, setDisabledButton ] = useState<boolean>(true);
 
   useEffect(() => {
     if(formData.name !== userAuth.name || formData.avatar !== null || formData.bio !== userAuth.bio) {
-      setIsFormDirty(true);
+      setDisabledButton(false);
     } else {
-      setIsFormDirty(false);
+      setDisabledButton(true);
     }
   },[formData]);
-  const formSubmit = (e:React.FormEvent) => {
-   alert("submit.") 
+
+  const formSubmit = async (e:React.FormEvent) => {
+    e.preventDefault();
+    await ApiClient.put(`users/${userAuth.username}/update`
+    ,formData, {
+    headers: {
+    'Content-Type': 'multipart/form-data'
+    }})
+    .then((res) => {
+      update({
+      ...session,
+      user:{
+        ...session?.user,
+        name : res.data.user.name,
+        bio : res.data.user.bio,
+        avatar : res.data.user.avatar
+      }
+      });
+      toggleModal();
+    })
+    .catch((err) => {
+      setErrors(err.response.data.errors);
+    })
+
   }
   const closeForm = () => {
-    if(!isFormDirty) {
+    if(disabledButton) {
       toggleModal();
       return;
     }
@@ -68,11 +93,14 @@ const FormEditProfile = ({accessToken, userAuth}:SessionInfo) => {
           <ModalHeader onClose={() => closeForm()}/> 
         </Header>
         <Body>
-          <AvatarInput
-          defaultAvatar={userAuth.avatar}
-          onChange={(file) => setFormData({...formData,avatar:file})}
-          className="mt-3 mb-7"
-          />
+          <div className="flex flex-col gap-4 mt-3 mb-7">
+            <AvatarInput
+            defaultAvatar={userAuth.avatar}
+            onChange={(file) => setFormData({...formData,avatar:file})}
+            />
+            <InputError message={errors.message} className="text-center"/>  
+          </div>
+
           <div className="px-5 flex flex-col gap-4">
             <div className="relative">
               <TextInput
@@ -83,6 +111,7 @@ const FormEditProfile = ({accessToken, userAuth}:SessionInfo) => {
               required
               />
               <InputLabel forInput="name" value="Name" />
+              <InputError message={errors.name?.message} className="my-1"/>  
             </div>
             <div className="relative opacity-50">
               <TextInput
@@ -110,11 +139,12 @@ const FormEditProfile = ({accessToken, userAuth}:SessionInfo) => {
               required
               />
               <InputLabel forInput="bio" value="Bio" textarea />
+              <InputError message={errors.bio?.message} className="my-1"/>  
             </div>
           </div>
         </Body>
         <Footer className="px-4 pt-1 pb-4">
-          <PrimaryButton className="!w-fit !rounded-lg !text-sm">
+          <PrimaryButton disabled={disabledButton} type="submit" className="!w-fit !rounded-lg !text-sm">
             Edit 
           </PrimaryButton>
         </Footer>

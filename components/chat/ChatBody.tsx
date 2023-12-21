@@ -17,7 +17,7 @@ type ChatBodyT = {
 const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:ChatBodyT) => { 
   const chatBody = useRef<HTMLDivElement | null>(null);
   const [messages,setMessages] = useState<(UserMessage|ImagesMessage)[]>(defaultMessages);
-  const { chats,addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
+  const { chats, addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
 
   useEffect(() => {    
     const receiveMessage = ({content,from}:{content:{message?:string,images?:string[]},from:ChatItem}) => {
@@ -65,8 +65,21 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
     addChatToList(newChat); 
   }
   return (
-    <div ref={chatBody} className="max-h-full bg-light flex flex-col overflow-hidden rounded-xl m-0 sm:mx-3">
-      <ul className="w-full h-full overflow-y-auto flex flex-col gap-4 px-3 pt-4 custom-scrollbar">
+    <div ref={chatBody} className="h-full bg-light flex flex-col overflow-hidden rounded-xl m-0 sm:mx-3 relative">
+
+
+      <div className="absolute top-0 right-0 left-0 px-4 py-4">
+        <div className="w-full bg-white/50 flexBetween rounded-xl backdrop-blur px-5 py-4">
+          <span>👋 Hi there ! 🌟 Ready to be friend ?</span>
+          <div className="flexCenter gap-[13px]">
+            <button className="px-4 py-[6px] bg-dark text-white text-[15px] font-medium rounded-[10px]">Accept</button>
+            <button className="px-4 py-[6px] bg-netral/20 text-[15px] font-medium rounded-[10px]">Decline</button>
+          </div>
+        </div>
+      </div>
+
+
+      <ul className="w-full h-full overflow-y-auto flex flex-col gap-4 px-3 pt-4 custom-scrollbar scroll-smooth">
         <div className="w-full flexCenter">
           <span className="bg-white text-sm px-4 py-1 rounded-full">Today</span>
         </div>

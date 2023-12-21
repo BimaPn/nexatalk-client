@@ -66,7 +66,7 @@ const ChatMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:s
 const MenuNavbar = ({avatar, className}:{avatar:string, className?:string}) => {
   return (
     <div className={`flexBetween py-2 px-2 ${className}`}>
-      <h1 className="font-bold text-[25px] text-primary">MiChat</h1>
+      <h1 className="font-bold text-[25px] text-dark">MiChat</h1>
       <ChatMenuDropdown avatar={avatar} /> 
     </div>
   )

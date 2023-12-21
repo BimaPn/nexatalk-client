@@ -15,10 +15,7 @@ export const authOptions : NextAuthOptions = {
               axios.defaults.withCredentials = true;
               const res = axios.post(`${process.env.NEXT_PUBLIC_DATABASE_URL}/auth/login`,
               {email : credentials?.email,password : credentials?.password},
-              {withCredentials:true, headers: {
-              'Access-Control-Allow-Origin': 'http://localhost:3000', 
-              'Content-Type': 'application/json'
-              }},)
+              {withCredentials:true},)
               const error = await res.catch((error) => error.response.data.message);
               if(typeof error === "string"){
                 throw new Error(error);

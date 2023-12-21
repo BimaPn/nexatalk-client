@@ -20,8 +20,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
   const { chats,addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
 
   useEffect(() => {    
-
-    socket.on("message",({content,from}:{content:{message?:string,images?:string[]},from:ChatItem}) => {
+    const receiveMessage = ({content,from}:{content:{message?:string,images?:string[]},from:ChatItem}) => {
       if(from.username !== userTarget.username) return;
       const userMessage = {
        ...content,
@@ -31,12 +30,13 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
       setMessages(prev => [...prev,userMessage as any]);
       socket.emit("messagesRead",userTarget.username);
       clearUnreadCount(userTarget.username);
-    });
-
+    }  
+    socket.on("message", receiveMessage);
     socket.emit("messagesRead",userTarget.username);
     clearUnreadCount(userTarget.username);
+
     return () => {
-      socket.disconnect();
+      socket.off("message", receiveMessage);
     }
   },[]);
 
@@ -46,7 +46,6 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
 
   const sendMessage = (msg:UserMessage|ImagesMessage) => {
     socket.emit("message",{message:msg,to:userTarget.username});
-
     if(!("message" in msg)) {
       const images = msg.images as File[];
       msg.images = images.map((file:File) => URL.createObjectURL(file));

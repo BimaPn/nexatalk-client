@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation"
 import { Socket } from 'socket.io-client'
 import Search from '../ui/Search'
 import ChatItem from "../ui/ChatItem"
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useState } from 'react'
 import Link from 'next/link'
 import { chatListContext } from '../providers/ChatListProvider'
 import RoundedImage from '../ui/RoundedImage'
@@ -13,25 +13,41 @@ import { TbDotsVertical } from "react-icons/tb"
 import { SocketProvider, socketContext } from '../providers/SocketProvider'
 import ChatMenuDropdown from '../ui/ChatMenuDropdown'
 
-let chatSocket:Socket;
-
 const ChatMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:string, className ?: string}) => {
-  const { getSocket } = useContext(socketContext) as SocketProvider;
+  const { socket, isConnected, setIsConnected } = useContext(socketContext) as SocketProvider;
   const pathname = usePathname();
   const { chats,addChatToList,setOnlineUser } = useContext(chatListContext) as ChatList;
-
+  
   useEffect(() => {
-    chatSocket = getSocket("/chat",accessToken);
-    chatSocket.on("message",({message,from}:{message:string,from:ChatItem}) => {
-      addChatToList(from);
-    });
-    chatSocket.on("onlineUser",(userId,isOnline) => {
-      setOnlineUser(userId,isOnline);
-    });
+    const onConnect = () => setIsConnected(true);
+    const onDisconnect = () => setIsConnected(false);
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+    
     return () => {
-      chatSocket.disconnect();
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
     }
   },[]);
+
+  useEffect(() => {
+    if(!isConnected) return;
+    const receiveMessage = ({message,from}:{message:string,from:ChatItem}) => {
+      addChatToList(from);
+    };
+    const checkOnline = (username:string, isOnline:boolean) => {
+      setOnlineUser(username, isOnline);
+    };
+
+    socket.on("message", receiveMessage);    
+    socket.on("onlineUser", checkOnline);
+
+    return () => {
+      socket.off("message", receiveMessage);
+      socket.off("onlineUser", checkOnline);
+    }
+  },[isConnected]);
+
   return (  
     <MenuLayout className={`pt-3 pb-5 relative px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
         <MenuNavbar avatar={avatar} className="sticky top-0 z-[1400] mb-3 mx-1"/> 

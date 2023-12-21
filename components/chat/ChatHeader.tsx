@@ -16,9 +16,14 @@ const ChatHeader = ({username,avatar,name,isOnline,socket}:{username:string,avat
     setIsOpen(true);
   }
   useEffect(() => {
-    socket.on("onlineUser",(target,isOnline) => {
+    const checkOnline = (target: string,isOnline: boolean) => {
       if(target === username) setIsUserOnline(isOnline);
-    });
+    } 
+    socket.on("onlineUser", checkOnline);
+
+    return () => {
+      socket.off("onlineUser", checkOnline);
+    }
   },[]);
   return (
     <div className="w-full py-[11px]">

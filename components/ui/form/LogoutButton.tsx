@@ -9,10 +9,7 @@ const LogoutButton = ({className,children,...props}:ButtonHTMLAttributes<HTMLBut
   const logout = (e:React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       axios.defaults.withCredentials = true;
-      axios.post(`${process.env.NEXT_PUBLIC_DATABASE_URL}/auth/logout`,{},{withCredentials:true, headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:3000', 
-        'Content-Type': 'application/json'
-        }})  
+      axios.post(`${process.env.NEXT_PUBLIC_DATABASE_URL}/auth/logout`,{},{withCredentials:true})  
       .then(() => {
           signOut({redirect:false}).then(() => {router.push('/login')})
       })

@@ -1,23 +1,21 @@
 "use client"
-import socketInit from '@/app/api/socket/socket';
-import React, { createContext } from 'react'
+import { socketInit } from '@/app/api/socket/socket';
+import { Dispatch, SetStateAction, createContext, useState } from 'react'
 import { Socket } from 'socket.io-client';
 
 export type SocketProvider = {
-  getSocket : (url:string,accessToken:string) => Socket,
+  socket: Socket,
+  isConnected: boolean,
+  setIsConnected: Dispatch<SetStateAction<boolean>>
 }
 export const socketContext = createContext<SocketProvider | null>(null);
 
-let chatSocket:Socket;
-
-const SocketProvider = ({children}:{children:React.ReactNode}) => {
-
-  const getSocket = (url:string,accessToken:string):Socket => {
-    chatSocket = socketInit(url,accessToken);
-    return chatSocket;
-  }
+const SocketProvider = ({ children, accessToken }:{ children:React.ReactNode, accessToken:string}) => {
+  const socket = socketInit("/chat", accessToken);
+  const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
+  
   return (
-    <socketContext.Provider value={{getSocket}}>
+    <socketContext.Provider value={{ socket, isConnected, setIsConnected }}>
     {children}
     </socketContext.Provider>
   )

@@ -1,0 +1,22 @@
+.skeleton {
+  @apply bg-[rgb(225,225,225)] animate-pulse rounded
+}
+
+.skeleton.size-xs { 
+  @apply h-3
+}
+.skeleton.size-sm { 
+  @apply h-4
+}
+.skeleton.size-md { 
+  @apply h-5
+}
+.skeleton.size-lg { 
+  @apply h-6
+}
+.skeleton.size-fill {
+  @apply w-full h-full
+}
+.skeleton.circle {
+  @apply w-11 aspect-square rounded-full
+}

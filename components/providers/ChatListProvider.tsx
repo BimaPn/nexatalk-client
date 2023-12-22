@@ -3,24 +3,24 @@ import { createContext,useState } from "react"
 
 export const chatListContext = createContext<ChatList | null>(null);
 
-const ChatListProvider = ({children,defaultChatList = []}:{children:React.ReactNode,defaultChatList?:ChatItem[]}) => {
-  const [chats,setChats] = useState<ChatItem[]>(defaultChatList);
+const ChatListProvider = ({children}:{children:React.ReactNode}) => {
+  const [chatlists,setChatlists] = useState<ChatItem[]>([]);
   
   const addChatToList = (chat:ChatItem) => {
     let isOnline:boolean;
-    setChats((prev:ChatItem[]) => {
-      const newChats = chats.filter(item => {
+    setChatlists((prev:ChatItem[]) => {
+      const newChatlists = chatlists.filter(item => {
         if(item.username === chat.username) isOnline = item.isOnline;
         return item.username !== chat.username as string;
       });
       chat.isOnline = isOnline;  
-      if(newChats.length <= 0) return [chat];
-      return [chat,...newChats]
+      if(newChatlists.length <= 0) return [chat];
+      return [chat,...newChatlists]
     });
   } 
   
   const clearUnreadCount = (targetId:string) => {
-    setChats((prev:ChatItem[]) => {
+    setChatlists((prev:ChatItem[]) => {
       return prev.map((item) => {
         if(item.username === targetId) item.unread = undefined;
         return item;
@@ -28,7 +28,7 @@ const ChatListProvider = ({children,defaultChatList = []}:{children:React.ReactN
     });
   }
   const setOnlineUser = (userId:string,isOnline:boolean) => {
-    setChats((prev:ChatItem[]) => {
+    setChatlists((prev:ChatItem[]) => {
       return prev.map((item) => {
         if(item.username === userId) item.isOnline = isOnline;
         return item;
@@ -36,7 +36,7 @@ const ChatListProvider = ({children,defaultChatList = []}:{children:React.ReactN
     });
   }
   return (
-  <chatListContext.Provider value={{chats,addChatToList,clearUnreadCount,setOnlineUser}}>
+  <chatListContext.Provider value={{chatlists,setChatlists,addChatToList,clearUnreadCount,setOnlineUser}}>
   {children}
   </chatListContext.Provider>
   )

@@ -9,7 +9,8 @@ interface ChatItem {
 }
 
 interface ChatList {
-  chats : ChatItem[],
+  chatlists : ChatItem[],
+  setChatlists : Dispatch<SetStateAction<ChatItem[]>>,
   addChatToList : (chat:ChatItem) => void,
   clearUnreadCount : (targetId:string) => void,
   setOnlineUser : (userId:string,isOnline:boolean) => void

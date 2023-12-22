@@ -12,7 +12,6 @@ const MediaInput = ({children, value, className, onChange}:MediaInput) => {
 
   useEffect(() => {
     renderMedia(value);
-    console.log(value)
   },[value]);
 
   const renderMedia = async (mediaFiles: File[]) => {

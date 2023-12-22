@@ -14,9 +14,9 @@ interface GroupMessage extends Message,UserMessage {
   name : string;
 }
 
-interface ImagesMessage {
+interface MediaMessage {
   id ?: string,
-  images : string[]|File[],
+  media : string[]|File[],
   createdAt : string,
   isCurrentUser : boolean
 }

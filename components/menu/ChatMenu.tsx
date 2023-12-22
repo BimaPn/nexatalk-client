@@ -1,17 +1,14 @@
 "use client"
 import MenuLayout from '@/layouts/MenuLayout'
 import { usePathname } from "next/navigation"
-import { Socket } from 'socket.io-client'
 import Search from '../ui/Search'
 import ChatItem from "../ui/ChatItem"
-import { useEffect, useContext, useState } from 'react'
+import { useEffect, useContext } from 'react'
 import Link from 'next/link'
 import { chatListContext } from '../providers/ChatListProvider'
-import RoundedImage from '../ui/RoundedImage'
-import { PiPlusCircle } from "react-icons/pi"
-import { TbDotsVertical } from "react-icons/tb"
 import { SocketProvider, socketContext } from '../providers/SocketProvider'
 import ChatMenuDropdown from '../ui/ChatMenuDropdown'
+import { AiOutlineWechat } from "react-icons/ai"
 
 const ChatMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:string, className ?: string}) => {
   const { socket, isConnected, setIsConnected } = useContext(socketContext) as SocketProvider;
@@ -66,7 +63,11 @@ const ChatMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:s
 const MenuNavbar = ({avatar, className}:{avatar:string, className?:string}) => {
   return (
     <div className={`flexBetween py-2 px-2 ${className}`}>
-      <h1 className="font-bold text-[25px] text-dark">MiChat</h1>
+      <div className="flexCenter gap-[5px] text-dark">
+        <AiOutlineWechat className="text-3xl" />
+        <h1 className="font-bold text-[22px]">MiChat</h1>
+      </div>
+
       <ChatMenuDropdown avatar={avatar} /> 
     </div>
   )

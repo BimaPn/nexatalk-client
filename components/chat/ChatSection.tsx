@@ -22,7 +22,7 @@ const ChatSection = ({accessToken,userTarget,defaultMessages,isOnline}:{accessTo
   },[]);
 
   return isConnected && (
-    <section className={`w-full h-full flex flex-col bg-white rounded-xl shadow relative sm:pb-3 overflow-hidden ${isOpen && "hidden lg:block"}`}>
+    <section className={`w-full h-full flex flex-col bg-white rounded-none sm:rounded-xl shadow relative sm:pb-3 overflow-hidden ${isOpen && "hidden lg:block"}`}>
       <ChatHeader 
       username={userTarget.username} 
       avatar={userTarget.avatar} 

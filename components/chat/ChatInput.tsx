@@ -8,41 +8,51 @@ import { getCurrentTime } from "@/utils/converter"
 import { MdOutlineKeyboardVoice } from "react-icons/md"
 import TextAreaExpand from "../ui/form/TextAreaExpand"
 import MediaInput, { Previews, Trigger } from "../ui/form/MediaInput"
+import ApiClient from "@/app/api/axios/ApiClient"
 
-const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|ImagesMessage)=>void,className?:string}) => {
+const ChatInput = ({username, setMessage, className}:{username:string, setMessage:(message:UserMessage|MediaMessage)=>void,className?:string}) => {
   const [messageInput,setMessageInput] = useState<string>("");
-  const [images,setImages] = useState<File[]>([]);
+  const [media,setMedia] = useState<File[]>([]);
   const submitButton = useRef<HTMLButtonElement>(null);
   
-  const handleSubmit = (e:React.FormEvent) => {
+  const handleSubmit = async (e:React.FormEvent) => {
     e.preventDefault();
-    const createdAt = getCurrentTime();
-    if(images.length !== 0) {
-      const imagesMessage:ImagesMessage = {
-        images:images,
+    await ApiClient.post(`${process.env.NEXT_PUBLIC_DATABASE_URL}/messages/${username}/create`,
+    { files:media, message: messageInput }, {
+    headers: {
+    'Content-Type': 'multipart/form-data'
+    }})
+    .then((res) => {
+      const newMessage = {
         isCurrentUser:true,
-        createdAt:createdAt
+        createdAt: res.data.createdAt
       }
-     setMessage(imagesMessage); 
-     setImages([]);
-    }
-    if(messageInput.length !== 0) {
-      const newMessage:UserMessage = {
-        message: messageInput,
-        createdAt : getCurrentTime(),
-        isCurrentUser : true,
+      if(res.data.media) {
+        setMessage({
+          ...newMessage,
+          media: res.data.media.media
+        });
       }
-      setMessage(newMessage);
-      setMessageInput("")
-    }
+      if(res.data.message) {
+        setMessage({
+          ...newMessage,
+          message: res.data.message.message
+        });
+      }
+      setMedia([]);
+      setMessageInput("");
+    })
+    .catch((err) => {
+      console.log(err.response);
+    })
   }
   return (
     <div className={`w-full flexCenter px-2 sm:px-3 pb-2 bg-light ${className}`}>
 
       <form className="w-full" onSubmit={handleSubmit} >
         <MediaInput
-        value={images}
-        onChange={(results) => setImages(results)}
+        value={media}
+        onChange={(results) => setMedia(results)}
         className="flex justify-center items-end gap-1 sm:gap-3"
         >
           <Trigger className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
@@ -61,7 +71,7 @@ const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|Image
                 rows={1}
                 placeholder="Type something..." />
               </div>
-              {(messageInput.length !== 0 || images.length !== 0) && (
+              {(messageInput.length !== 0 || media.length !== 0) && (
               <button type="submit" ref={submitButton}>
                 <IoSend className="text-[20px] text-primary"/>
               </button>

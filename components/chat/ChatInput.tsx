@@ -5,9 +5,9 @@ import { GrEmoji} from "react-icons/gr"
 import { ImAttachment } from "react-icons/im"
 import { useRef, useState } from "react"
 import { getCurrentTime } from "@/utils/converter"
-import ImageInput,{Trigger,Previews} from "../ui/form/ImageInput"
 import { MdOutlineKeyboardVoice } from "react-icons/md"
 import TextAreaExpand from "../ui/form/TextAreaExpand"
+import MediaInput, { Previews, Trigger } from "../ui/form/MediaInput"
 
 const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|ImagesMessage)=>void,className?:string}) => {
   const [messageInput,setMessageInput] = useState<string>("");
@@ -40,7 +40,7 @@ const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|Image
     <div className={`w-full flexCenter px-2 sm:px-3 pb-2 bg-light ${className}`}>
 
       <form className="w-full" onSubmit={handleSubmit} >
-        <ImageInput 
+        <MediaInput
         value={images}
         onChange={(results) => setImages(results)}
         className="flex justify-center items-end gap-1 sm:gap-3"
@@ -75,7 +75,7 @@ const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|Image
           <div className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
             <MdOutlineKeyboardVoice className="text-2xl text-dark" />      
           </div>
-        </ImageInput>
+        </MediaInput>
       </form> 
     </div>
   )

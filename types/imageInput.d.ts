@@ -5,7 +5,7 @@ interface MediaInputBased {
 
 interface MediaInputContext extends MediaInputBased {
   removeMedia : (index:number) => void, 
-  MediaPreviews ?: string[],
+  mediaPreviews ?: string[],
   setMediaPreviews : Dispatch<SetStateAction<string[]>>
 } 
 

@@ -3,8 +3,8 @@ import UserMessage from "../ui/message/UserMessage"
 import ChatInput from "./ChatInput"
 import { useState,useRef, useEffect, useContext } from "react"
 import { chatListContext } from "../providers/ChatListProvider"
-import ImagesMessage from "../ui/message/ImagesMessage"
 import { Socket } from "socket.io-client"
+import MediaMessage from "../ui/message/MediaMessage"
 
 type ChatBodyT = {
   accessToken:string,
@@ -85,20 +85,27 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
         </div>
         {messages.map((msg,index) => {
           return "message" in msg ? (
-              <li key={index} className={`w-full flex ${msg.isCurrentUser ? "justify-end":"justify-start"}`}>
-                < UserMessage
-                message={msg.message}
-                createdAt={msg.createdAt}
-                isCurrentUser={msg.isCurrentUser}/>
+            <li key={index} className={`w-full flex ${msg.isCurrentUser ? "justify-end":"justify-start"}`}>
+              < UserMessage
+              message={msg.message}
+              createdAt={msg.createdAt}
+              isCurrentUser={msg.isCurrentUser}/>
             </li>
           ) : 
             <li key={index}>
-              <ImagesMessage
-              images={msg.images as string[]} 
+              <MediaMessage
+              media={msg.images as string[]} 
               createdAt={msg.createdAt} 
               isCurrentUser={msg.isCurrentUser} />
             </li>
         })}
+            <li>
+             <MediaMessage
+             media={["http://localhost:3500/videos/example.mp4"]}
+             createdAt="12.00 PM"
+             isCurrentUser
+             />
+            </li>
       </ul>
       <div className="w-full">
           <ChatInput setMessage={sendMessage} />

@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { Dispatch, SetStateAction, createContext, useState } from "react"
 import { IoClose } from "react-icons/io5"
+import ReactPlayer from "react-player/lazy"
 
 export type MediaViewerProvider = {
   media:string | null,
@@ -19,13 +20,20 @@ const MediaView = ({media,onClose}:{media:string|null,onClose:()=>void}) => {
           <IoClose className="text-[26px] text-dark" />
         </button>
       </div>  
+
+      {media.includes(".mp4") ? 
+      (
+         <ReactPlayer url={media} className="max-h-full" controls  />
+      ) : (
       <Image 
       src={media}
-      width={700}
-      height={700} 
+      width={600}
+      height={600} 
       alt="image detail" 
       onClick={(e) => e.stopPropagation()}
       className="block max-h-full"/>
+      )}
+
     </div>
   )
 }  

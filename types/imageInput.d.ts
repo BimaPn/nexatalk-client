@@ -1,15 +1,15 @@
-interface ImageInputBased {
+interface MediaInputBased {
   value:File[],
   onChange : (images:File[]) => void,
 }
 
-interface ImageInputContext extends ImageInputBased {
-  removeImage : (index:number) => void, 
-  imagePreviews ?: string[],
-  setImagePreviews : Dispatch<SetStateAction<string[]>>
+interface MediaInputContext extends MediaInputBased {
+  removeMedia : (index:number) => void, 
+  MediaPreviews ?: string[],
+  setMediaPreviews : Dispatch<SetStateAction<string[]>>
 } 
 
-interface ImageInput extends ImageInputBased {
+interface MediaInput extends MediaInputBased {
   children : React.ReactNode,
   className ?: string
 }

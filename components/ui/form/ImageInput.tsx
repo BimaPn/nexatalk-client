@@ -47,7 +47,7 @@ export const Trigger = ({children,className}:{children:React.ReactNode,className
       type="file"
       className="hidden"
       multiple
-      accept="image/*"
+      accept=".jpg, .jpeg, .png, video/mp4"
       onChange={onInputChange}
       ref={inputRef}/>
       {children}

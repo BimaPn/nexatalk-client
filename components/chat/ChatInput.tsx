@@ -45,9 +45,9 @@ const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|Image
         onChange={(results) => setImages(results)}
         className="flex justify-center items-end gap-1 sm:gap-3"
         >
-          <div className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
-            <MdOutlineKeyboardVoice className="text-2xl text-dark" />      
-          </div>
+          <Trigger className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
+            <ImAttachment className="px-1 aspect-square text-dark text-[26px]" />      
+          </Trigger>
 
           <div className="w-full flex flex-col gap-3">
             <Previews />
@@ -72,9 +72,9 @@ const ChatInput = ({setMessage,className}:{setMessage:(message:UserMessage|Image
           <div className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
             <GrEmoji className="text-[22.5px] text-dark stroke-[.4px]" />      
           </div>
-          <Trigger className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
-            <ImAttachment className="px-1 aspect-square text-dark text-[26px]" />      
-          </Trigger>
+          <div className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
+            <MdOutlineKeyboardVoice className="text-2xl text-dark" />      
+          </div>
         </ImageInput>
       </form> 
     </div>

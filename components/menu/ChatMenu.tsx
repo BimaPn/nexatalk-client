@@ -20,7 +20,7 @@ const ChatMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:s
   const [ isLoading, setIsLoading ] = useState<boolean>(true);
 
   useEffect(() => {
-    ApiClient.post(`chat/list`)
+    ApiClient.get(`chat/list`)
     .then((res) => {
       setChatlists(res.data.users);
       setIsLoading(false);

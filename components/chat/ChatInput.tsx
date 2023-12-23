@@ -10,14 +10,14 @@ import TextAreaExpand from "../ui/form/TextAreaExpand"
 import MediaInput, { Previews, Trigger } from "../ui/form/MediaInput"
 import ApiClient from "@/app/api/axios/ApiClient"
 
-const ChatInput = ({username, setMessage, className}:{username:string, setMessage:(message:UserMessage|MediaMessage)=>void,className?:string}) => {
+const ChatInput = ({targetId, setMessage, className}:{targetId:string, setMessage:(message:UserMessage|MediaMessage)=>void,className?:string}) => {
   const [messageInput,setMessageInput] = useState<string>("");
   const [media,setMedia] = useState<File[]>([]);
   const submitButton = useRef<HTMLButtonElement>(null);
   
   const handleSubmit = async (e:React.FormEvent) => {
     e.preventDefault();
-    await ApiClient.post(`${process.env.NEXT_PUBLIC_DATABASE_URL}/messages/${username}/create`,
+    await ApiClient.post(`messages/${targetId}/create`,
     { files:media, message: messageInput }, {
     headers: {
     'Content-Type': 'multipart/form-data'

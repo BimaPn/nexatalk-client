@@ -8,7 +8,6 @@ export const socketInit = (namespace:string,accessToken:string):Socket => {
     query:{
     accessToken:accessToken
     },
-    forceNew:true
   });
   return socket;
 }

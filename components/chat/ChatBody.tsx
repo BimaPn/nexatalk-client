@@ -5,6 +5,7 @@ import { useState,useRef, useEffect, useContext } from "react"
 import { chatListContext } from "../providers/ChatListProvider"
 import { Socket } from "socket.io-client"
 import MediaMessage from "../ui/message/MediaMessage"
+import { FriendRequest } from "../ui/FriendRequest"
 
 type ChatBodyT = {
   accessToken:string,
@@ -17,7 +18,7 @@ type ChatBodyT = {
 const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:ChatBodyT) => { 
   const messageContainer = useRef<HTMLUListElement | null>(null);
   const [messages,setMessages] = useState<(UserMessage|MediaMessage)[]>(defaultMessages);
-  const { chats, addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
+  const { chatlists, addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
 
   useEffect(() => {    
     const receiveMessage = ({content,from}:{content:{message?:string,images?:string[]},from:ChatItem}) => {
@@ -28,11 +29,11 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
        createdAt:from.createdAt
       } 
       setMessages(prev => [...prev,userMessage as any]);
-      socket.emit("messagesRead",userTarget.username);
+      socket.emit("messagesRead",userTarget.id);
       clearUnreadCount(userTarget.username);
     }  
     socket.on("message", receiveMessage);
-    socket.emit("messagesRead",userTarget.username);
+    socket.emit("messagesRead",userTarget.id);
     clearUnreadCount(userTarget.username);
     return () => {
       socket.off("message", receiveMessage);
@@ -44,7 +45,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
   },[messages]);
 
   const sendMessage = (message:UserMessage|MediaMessage) => {
-    socket.emit("message",{message,to:userTarget.username});
+    socket.emit("message",{message,to:userTarget.id});
     setMessages(prev => [...prev,message]);
 
     let newChat:ChatItem = {
@@ -60,7 +61,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
   }
   return (
     <div className="h-[92%] bg-light flex flex-col overflow-hidden rounded-xl mb-3 sm:mb-0 m-0 sm:mx-3 relative">
-
+      <FriendRequest visible={false} target={userTarget.id as string} />
       <ul ref={messageContainer} className="w-full h-full overflow-y-auto flex flex-col gap-4 px-3 pt-4 custom-scrollbar scroll-smooth">
         <div className="w-full flexCenter">
           <span className="bg-white text-sm px-4 py-1 rounded-full">Today</span>
@@ -83,7 +84,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
         })}
       </ul>
       <div className="w-full">
-          <ChatInput username={userTarget.username} setMessage={sendMessage} />
+          <ChatInput targetId={userTarget.id as string} setMessage={sendMessage} />
       </div>
     </div>
   )
@@ -91,12 +92,4 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
 
 export default ChatBody
 
-      // <div className="absolute top-0 right-0 left-0 px-4 py-4">
-      //   <div className="w-full bg-white/50 flexBetween rounded-xl backdrop-blur px-5 py-4">
-      //     <span>👋 Hi there ! 🌟 Ready to be friend ?</span>
-      //     <div className="flexCenter gap-[13px]">
-      //       <button className="px-4 py-[6px] bg-dark text-white text-[15px] font-medium rounded-[10px]">Accept</button>
-      //       <button className="px-4 py-[6px] bg-netral/20 text-[15px] font-medium rounded-[10px]">Decline</button>
-      //     </div>
-      //   </div>
-      // </div>
+

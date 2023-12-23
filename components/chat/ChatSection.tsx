@@ -13,8 +13,6 @@ const ChatSection = ({accessToken,userTarget,defaultMessages,isOnline}:{accessTo
 
   return (
     <section className={`w-full h-full flex flex-col bg-white rounded-none sm:rounded-xl relative sm:pb-3 overflow-hidden ${isOpen && "hidden lg:block"}`}>
-      {isConnected ? (
-        <>
         <ChatHeader 
         username={userTarget.username} 
         avatar={userTarget.avatar} 
@@ -30,10 +28,6 @@ const ChatSection = ({accessToken,userTarget,defaultMessages,isOnline}:{accessTo
         defaultMessages={defaultMessages}
         socket={socket}
         />
-        </>
-      ) : (
-      <ChatSectionSkeleton />
-      )}
     </section>
   )
 }

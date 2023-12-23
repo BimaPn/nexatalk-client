@@ -18,12 +18,12 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const session = await getServerSession(authOptions);
-  const { name, username, email, bio, avatar } = session?.user as any;
+  const { id, name, username, email, bio, avatar } = session?.user as any;
   return (
     <section className='flex gap-4 h-screen p-0 overflow-hidden sm:px-4 sm:py-4'>
       <SocketProvider accessToken={session?.user.accessToken as string}>
         <ChatListProvider>
-          <UserSessionProvider defaultSession={{ name, username, email, bio, avatar }}>
+          <UserSessionProvider defaultSession={{ id, name, username, email, bio, avatar }}>
             <MenuProvider>
               <MainMenu
               accessToken={session?.user.accessToken as string}

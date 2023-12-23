@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { profileDetailContext } from "../providers/ProfileDetailProvider"
 import { useContext } from "react"
 import { FaUserPlus, FaUserXmark } from "react-icons/fa6"
+import AddFriendButton from "../ui/form/AddFriendButton"
 
 const Navigation = ({ onClose }:{ onClose:()=>void }) => {
   const onClick = (e:React.MouseEvent<HTMLButtonElement>) => {
@@ -38,10 +39,11 @@ const ProfileInfo = ({userTarget}:{userTarget:UserTarget}) => {
       </div>
 
       <div className="flexCenter gap-3 mt-1">
-        <div className="flexCenter bg-light rounded-[10px] gap-[10px] px-5 py-2">
+        <AddFriendButton target={userTarget.id as string} className="flexCenter bg-light rounded-[10px] gap-[10px] px-5 py-2">
           <FaUserPlus className="text-xl"/> 
           <span className="text-xs font-medium">Add</span>
-        </div>
+        </AddFriendButton>
+
         <div className="flexCenter bg-light rounded-[10px] gap-[10px] px-5 py-2">
           <FaUserXmark className="text-xl"/> 
           <span className="text-xs font-medium">Block</span>

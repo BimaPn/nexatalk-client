@@ -52,7 +52,7 @@ const FormEditProfile = ({ userAuth }:SessionInfo) => {
 
   const formSubmit = async (e:React.FormEvent) => {
     e.preventDefault();
-    await ApiClient.put(`users/${userAuth.username}/update`
+    await ApiClient.put(`users/profile/update`
     ,formData, {
     headers: {
     'Content-Type': 'multipart/form-data'

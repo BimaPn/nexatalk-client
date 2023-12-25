@@ -8,7 +8,15 @@ import { useContext,useEffect,useState } from "react"
 import { UserAvatar } from "../ui/ChatItem"
 import { Socket } from "socket.io-client"
 
-const ChatHeader = ({username,avatar,name,isOnline,socket}:{username:string,avatar:string,name:string,isOnline:boolean,socket:Socket}) => {
+type ChatHeaderT = {
+  username:string,
+  avatar:string,
+  name:string,
+  isOnline:boolean,
+  socket:Socket
+}
+
+const ChatHeader = ({username,avatar,name,isOnline,socket}:ChatHeaderT) => {
   const { setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
   const [isUserOnline,setIsUserOnline] = useState(isOnline);
   const openProfileInfo = (e:React.MouseEvent) => {

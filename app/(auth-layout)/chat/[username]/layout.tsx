@@ -3,6 +3,7 @@ import ChatMenu from '@/components/menu/ChatMenu'
 import type { Metadata } from 'next'
 import ProfileDetailProvider from '@/components/providers/ProfileDetailProvider'
 import MediaViewerProvider from '@/components/providers/MediaViewerProvider'
+import FriendStatusProvider from '@/components/providers/FriendStatusProvider'
 
 export const metadata: Metadata = {
   title: 'Detail Chat',
@@ -17,7 +18,9 @@ export default function RootLayout({
   return (
   <ProfileDetailProvider>
     <MediaViewerProvider>
-    {children}
+      <FriendStatusProvider>
+        {children}
+      </FriendStatusProvider>
     </MediaViewerProvider>
   </ProfileDetailProvider>
   )

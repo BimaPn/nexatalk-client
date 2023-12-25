@@ -5,7 +5,7 @@ import { useState,useRef, useEffect, useContext } from "react"
 import { chatListContext } from "../providers/ChatListProvider"
 import { Socket } from "socket.io-client"
 import MediaMessage from "../ui/message/MediaMessage"
-import { FriendRequest } from "../ui/FriendRequest"
+import FriendRequest from "../ui/FriendRequest"
 
 type ChatBodyT = {
   accessToken:string,
@@ -61,7 +61,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
   }
   return (
     <div className="h-[92%] bg-light flex flex-col overflow-hidden rounded-xl mb-3 sm:mb-0 m-0 sm:mx-3 relative">
-      <FriendRequest visible={false} target={userTarget.id as string} />
+      <FriendRequest socket={socket} target={userTarget.id as string} />
       <ul ref={messageContainer} className="w-full h-full overflow-y-auto flex flex-col gap-4 px-3 pt-4 custom-scrollbar scroll-smooth">
         <div className="w-full flexCenter">
           <span className="bg-white text-sm px-4 py-1 rounded-full">Today</span>

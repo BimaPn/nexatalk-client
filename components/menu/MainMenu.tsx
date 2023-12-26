@@ -1,10 +1,11 @@
 "use client"
 import { useContext, useEffect } from "react"
 import { MenuProvider as MenuProviderType, menuContext } from "../providers/MenuProvider"
-import ChatMenu from "./ChatMenu";
+import ChatsMenu from "./ChatsMenu";
 import SettingsMenu from "./SettingsMenu";
 import { UserSession, userSessionContext } from "../providers/UserSessionProvider";
 import { SocketProvider, socketContext } from "../providers/SocketProvider";
+import StoriesMenu from "./StoriesMenu";
 
 const MainMenu = ({accessToken}:{accessToken:string}) => {
   const { socket, isConnected, setIsConnected } = useContext(socketContext) as SocketProvider;
@@ -24,8 +25,9 @@ const MainMenu = ({accessToken}:{accessToken:string}) => {
 
   return (
     <section>
-     {currentMenu === "chatMenu" && <ChatMenu avatar={user.avatar} accessToken={accessToken} />} 
+     {currentMenu === "chatsMenu" && <ChatsMenu avatar={user.avatar} accessToken={accessToken} />} 
      {currentMenu === "settingsMenu" && <SettingsMenu userAuth={user} />} 
+     {currentMenu === "storiesMenu" && <StoriesMenu />} 
     </section>
   )
 }

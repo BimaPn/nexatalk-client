@@ -29,6 +29,14 @@ const ChatMenuDropdown = ({avatar}:{avatar:string}) => {
         </div>
         Settings
       </button>
+      <button
+      onClick={() => changeMenu("storiesMenu")}
+      className="flex items-center gap-3 py-[6px] px-1 hover:bg-light rounded-lg cursor-pointer">
+        <div className="w-8 flexCenter aspect-square rounded-full">
+          <IoSettingsOutline className="text-xl" />
+        </div>
+        Stories
+      </button>
 
       <Link href={`/`} className="flex items-center gap-3 py-[6px] px-1 hover:bg-light rounded-lg cursor-pointer">
         <div className="w-8 flexCenter aspect-square rounded-full">

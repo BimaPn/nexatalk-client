@@ -9,7 +9,7 @@ export type MenuProvider = {
 export const menuContext = createContext<MenuProvider | null>(null);
 
 const MenuProvider = ({children}:{children:React.ReactNode}) => {
-  const [currentMenu, setCurrentMenu] = useState<string>("chatMenu");
+  const [currentMenu, setCurrentMenu] = useState<string>("chatsMenu");
   
   const changeMenu = (menu:string) => {
     setCurrentMenu(menu);

@@ -13,7 +13,7 @@ import { Socket } from 'socket.io-client'
 import ApiClient from '@/app/api/axios/ApiClient'
 import ChatMenuSkeleton from '../skeletons/ChatMenuSkeleton'
 
-const ChatMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:string, className ?: string}) => {
+const ChatsMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:string, className ?: string}) => {
   const { socket, isConnected } = useContext(socketContext) as SocketProvider;
   const pathname = usePathname();
   const { chatlists, setChatlists, addChatToList, setOnlineUser } = useContext(chatListContext) as ChatList;
@@ -87,4 +87,4 @@ const MenuNavbar = ({avatar, className}:{avatar:string, className?:string}) => {
 }
 
 
-export default ChatMenu;  
+export default ChatsMenu;  

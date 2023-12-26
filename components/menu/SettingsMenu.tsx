@@ -1,38 +1,22 @@
-import MenuLayout from '@/layouts/MenuLayout'
+import MenuLayout, {Navigation} from '@/layouts/MenuLayout'
 import RoundedImage from '../ui/RoundedImage'
 import { useContext } from 'react'
 import { MenuProvider, menuContext } from '../providers/MenuProvider'
-import { HiOutlineArrowLeft } from "react-icons/hi"
 import { IoIosLock } from "react-icons/io"
 import { RiPaintFill } from "react-icons/ri"
 import LogoutButton from '../ui/form/LogoutButton'
 import { IoLogOut } from "react-icons/io5"
-import { FaUser } from "react-icons/fa6"
 import { RiUser3Fill } from "react-icons/ri"
 import EditProfileModal from '../ui/EditProfileModal'
 
 const SettingsMenu = ({userAuth}:SessionInfo) => {
+  const { changeMenu } = useContext(menuContext) as MenuProvider;
   return (
     <MenuLayout className="overflow-hidden">
-      <Navigation />
+      <Navigation title="Settings" onClose={() => changeMenu("chatsMenu")} />
       <Profile userAuth={userAuth}/>
       <Settings className="mt-4" />
     </MenuLayout>
-  )
-}
-
-const Navigation = () => {
-  const { changeMenu } = useContext(menuContext) as MenuProvider;
-  return (
-    <div className="grid grid-cols-3 px-2 py-2">
-      <div>
-        <button onClick={() => changeMenu("chatMenu")} className="w-10 aspect-square flexCenter">
-          <HiOutlineArrowLeft className="text-[22px]" />
-        </button> 
-      </div>
-      <span className="w-full block flexCenter font-medium">Settings</span>
-      <div></div>
-    </div>
   )
 }
 

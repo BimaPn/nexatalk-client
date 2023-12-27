@@ -64,7 +64,6 @@ const StoryItem = ({avatar, heading, subHeading, isActive=false}:{avatar: string
       <div className={`w-fit p-[2px] rounded-full border-2 ${isActive ? "border-primary":"border-gray-300"}`}>
         <RoundedImage src={avatar} alt="heading" className="!w-[42px]" />
       </div>
-
       <div className="flex flex-col">
         <span className="text-dark font-medium">{heading}</span>
         <span className="text-sm text-gray-500">{subHeading}</span>

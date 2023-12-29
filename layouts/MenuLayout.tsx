@@ -8,7 +8,7 @@ const MenuLayout = ({children,className}:{children:React.ReactNode,className?:st
   )
 }
 
-export const Navigation = ({title, onClose}:{title: string, onClose:()=>void}) => {
+export const Navigation = ({children, title, onClose}:{children?:React.ReactNode, title: string, onClose:()=>void}) => {
   return (
     <div className="grid grid-cols-3 px-2 py-2">
       <div>
@@ -17,7 +17,7 @@ export const Navigation = ({title, onClose}:{title: string, onClose:()=>void}) =
         </button> 
       </div>
       <span className="w-full block flexCenter font-medium">{title}</span>
-      <div></div>
+      {children}
     </div>
   )
 }

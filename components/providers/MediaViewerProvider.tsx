@@ -1,5 +1,4 @@
 "use client"
-
 import Image from "next/image"
 import { Dispatch, SetStateAction, createContext, useState } from "react"
 import { IoClose } from "react-icons/io5"

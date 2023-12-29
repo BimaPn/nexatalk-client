@@ -4,7 +4,7 @@ import RoundedImage from "../RoundedImage";
 import { FiEdit } from "react-icons/fi"
 
 const AvatarInput = ({defaultAvatar, onChange, className}:{defaultAvatar:string, onChange:(file:File)=>void, className?:string}) => {
-  const fileInput = useRef<HTMLInputElement>(null)
+  const fileInput = useRef<HTMLInputElement>(null);
   const [photoPreview,setPhotoPreview] = useState<string>(defaultAvatar);
   const changePhoto = (e:React.ChangeEvent<HTMLInputElement>) => {
       e.preventDefault()

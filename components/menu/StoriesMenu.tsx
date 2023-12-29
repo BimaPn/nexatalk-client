@@ -1,7 +1,9 @@
 import MenuLayout, { Navigation } from "@/layouts/MenuLayout"
 import { useContext } from "react"
 import { MenuProvider, menuContext } from "../providers/MenuProvider"
-import RoundedImage from "../ui/RoundedImage";
+import RoundedImage from "../ui/RoundedImage"
+import { TbCameraPlus } from "react-icons/tb"
+import AddStory from "../AddStory"
 
 const StoriesMenu = () => {
   const { changeMenu } = useContext(menuContext) as MenuProvider;
@@ -40,7 +42,11 @@ const StoriesMenu = () => {
   ]
   return (
     <MenuLayout>
-      <Navigation title="Stories" onClose={() => changeMenu("chatsMenu")} />
+      <Navigation title="Stories" onClose={() => changeMenu("chatsMenu")}>
+        <div className="flex justify-end">
+          <AddStory /> 
+        </div>
+      </Navigation>
       <div className="px-2 mb-2">
         <StoryItem avatar="/images/people/charliecottrell.jpg" heading="Your story" subHeading="Tap to add"/>
         <div className="mt-1">

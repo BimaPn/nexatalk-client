@@ -9,7 +9,11 @@ interface StoryItem {
   isActive: boolean
 }
 interface StoryViewer {
-  setStoryViewProperties: Dispatch<SetStateAction<StoryViewProperties>>
+  setStoryViewProperties: Dispatch<SetStateAction<StoryViewProperties>>,
+  ispaused: boolean,
+  setIspaused: Dispatch<SetStateAction<boolean>>,
+  duration: number,
+  setDuration: Dispatch<SetStateAction<number>>,
 }
 interface StoryViewProperties {
   name: string,

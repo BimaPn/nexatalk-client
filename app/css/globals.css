@@ -48,9 +48,6 @@
   100% { transform: rotate(360deg); transform: rotate(360deg); }
 }
 
-.story-transition {
-  transition: width;
-}
 .shadow-bottom-top {
   box-shadow:  inset 0 -66px 34px -18px white;
 }

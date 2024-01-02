@@ -1,4 +1,38 @@
 
+export class TimeoutSlider {
+  private callback: () => void;
+  private remaining: number;
+  private startTime: number | null = null;
+  private timerId: NodeJS.Timeout | null = null;
+
+  constructor(callback: () => void, duration: number) {
+    this.callback = callback;
+    this.remaining = duration;
+  }
+
+  public start() {
+    if(this.timerId) return;
+    this.clear();
+    this.startTime = Date.now();
+    this.timerId = setTimeout(this.callback, this.remaining);
+  }
+
+  public pause() {
+    if (!this.startTime) {
+      return;
+    }
+    this.clear();
+    this.remaining -= (Date.now() - this.startTime);
+  }
+
+  public clear() {
+    if(this.timerId) {
+      clearTimeout(this.timerId);
+      this.timerId = null;
+    }
+  }
+}
+
 export const getVideoThumbnail = (videoUrl:string, callback:(thumbnail:string)=>void) => {
   const video = document.createElement('video');
   video.crossOrigin = 'anonymous';

@@ -1,16 +1,21 @@
 "use client"
-import { createContext, useEffect, useRef, useState } from "react"
+import { createContext, useContext, useEffect, useRef, useState } from "react"
 import RoundedImage from "./ui/RoundedImage"
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io"
 import Image from "next/image"
 import { IoClose } from "react-icons/io5"
 import ReactPlayer from "react-player/lazy"
+import { TimeoutSlider } from "@/helpers"
+import ProgressBar from "./ProgressBar"
+import LoadingSpinner from "./ui/LoadingSpinner"
 
 export const storyViewerContext = createContext<StoryViewer|null>(null);
 const StoryViewer = ({children}:{children:React.ReactNode}) => {
   const [storyViewProperties, setStoryViewProperties] = useState<StoryViewProperties|null>(null);
+  const [ispaused, setIspaused] = useState<boolean>(true);
+  const [duration, setDuration] = useState<number>(-1);
   return (
-    <storyViewerContext.Provider value={{ setStoryViewProperties }}>
+    <storyViewerContext.Provider value={{ setStoryViewProperties, ispaused, setIspaused, duration, setDuration }}>
       {children}
       {storyViewProperties && (
         <Contents 
@@ -22,8 +27,10 @@ const StoryViewer = ({children}:{children:React.ReactNode}) => {
 }
 
 const Contents = ({onClose, storyViewProperties}:{onClose:()=>void, storyViewProperties:StoryViewProperties}) => {
+  const { ispaused, setIspaused, duration, setDuration } = useContext(storyViewerContext) as StoryViewer;
   const [current, setCurrent] = useState<number>(-1);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
+  const [Timer, setTimer] = useState<TimeoutSlider | null>(null);
 
   useEffect(()=>{
     setCurrent(storyViewProperties.lastSeen);
@@ -31,19 +38,42 @@ const Contents = ({onClose, storyViewProperties}:{onClose:()=>void, storyViewPro
 
   useEffect(()=>{
     if(current >= storyViewProperties.contents.length) {
+      clearTimer();
       onClose();
+      return;
     }
-    const loop = setInterval(()=>{
-      nextButtonRef.current?.click();
-    },3000);
-    return () => {
-      clearInterval(loop);
+    if(!Timer && duration != -1) {
+      setTimer(new TimeoutSlider(() => {
+        clearTimer();
+        nextButtonRef.current?.click();
+      },duration*1000));  
     }
-    },[current]);
+    if(Timer) {
+      if(!ispaused) {
+        Timer.start();
+      }else {
+        Timer.pause();
+      } 
+    }
+    },[duration, current, ispaused, Timer]);
+  useEffect(() => {
+    if(duration == -1) {
+      setIspaused(true);
+    }else {
+      setIspaused(false);
+    }
+  },[duration]);
 
+  const clearTimer = () => {
+    if(!Timer) return;
+    setDuration(-1);
+    Timer.clear();
+    setTimer(null);
+  }
   const onNext = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if(current < storyViewProperties.contents.length-1) {
+      clearTimer();
       setCurrent((prev)=>current+1);
     }else {
       onClose();
@@ -52,22 +82,27 @@ const Contents = ({onClose, storyViewProperties}:{onClose:()=>void, storyViewPro
   const onPrev = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if(current > 0) {
+      clearTimer();
       setCurrent((prev)=>current-1);
     }else {
       onClose();
     }
   }
+  const closePage = () => {
+    clearTimer();
+    onClose();
+  }
   return (
     <div className="fixed inset-0 flex flex-col items-center bg-black z-[6000]">
-
-
       <ContentHeader 
       length={storyViewProperties.contents.length}
       current={current}
       avatar={storyViewProperties.avatar}
       name={storyViewProperties.name}
       createdAt={storyViewProperties.contents[current == -1 ? 0 : current].createdAt}
-      onClose={() => onClose()}
+      ispaused={ispaused}
+      duration={duration}
+      onClose={() => closePage()}
       />
       <ContentBody mediaUrl={storyViewProperties.contents[current == -1 ? 0 : current].media}>
        <div className="hidden ss:block text-white">
@@ -94,21 +129,23 @@ type ContentHeaderT = {
   avatar: string,
   name: string,
   createdAt: string,
+  ispaused: boolean,
+  duration: number,
   onClose: ()=>void
 }
-const ContentHeader = ({length, current, avatar, name, createdAt, onClose}:ContentHeaderT) => {
+const ContentHeader = ({length, current, avatar, name, createdAt, ispaused, duration, onClose}:ContentHeaderT) => {
   return (
     <div className="absolute top-0 w-full ss:w-[512px] mt-2 ss:mt-4 z-[1]"> 
       <div className="w-full flexCenter gap-2 px-3 ss:px-0">
         {Array.from({ length }).map((_, index) => (
           <div key={index} className={`h-[3px] ${(index <= current-1) ? "bg-primary":"bg-slate-300"}`} style={{ flexBasis:"20%" }}>
-            <div 
-            className={`bg-primary w-0 h-full ${index == current ? "visible !w-full":"invisible"}`}
-            style={{ transition: `${(index == current) ? "width linear 3s":"none"}` }}></div>
+            {(index == current && duration != -1 ) && (
+            <ProgressBar duration={duration} ispaused={ispaused ? "true":"false"} className="bg-primary" />
+            )}
           </div>
         ))}
       </div>
-      <div className="flexBetween gap-2 px-3 py-3">
+      <div className="flexBetween gap-2 px-3 ss:px-0 py-3">
         <div className="flex items-center gap-[10px]">
           <RoundedImage src={avatar} alt="heading" className="!w-[44px]" />
           <div className="flex flex-col text-white">
@@ -116,7 +153,7 @@ const ContentHeader = ({length, current, avatar, name, createdAt, onClose}:Conte
             <span className="text-[13px]">{createdAt}</span>
           </div>
         </div>
-        <button onClick={() => onClose()} className="px-2 aspect-square">
+        <button onClick={() => onClose()} className="px-1 mx-3 ss:-mr-1 ss:-mt-1 aspect-square">
           <IoClose className="text-2xl text-white" />
         </button>
       </div>
@@ -134,17 +171,40 @@ const ContentBody = ({children, mediaUrl}:{children: React.ReactNode, mediaUrl: 
 }
 
 const Media = ({mediaUrl}:{mediaUrl:string}) => {
+  const {ispaused, setIspaused, duration, setDuration} = useContext(storyViewerContext) as StoryViewer;
+  
+  const videoLoaded = (durr:number) => {
+    const duration = Math.floor(durr);
+    if(duration > 30) {
+      setDuration(30);
+    }else {
+      setDuration(duration);
+    }
+  }
+  const imageLoaded = () => {
+    setDuration(3);
+  }
   return (
     <>
+    {ispaused && (
+      <div className="absolute">
+        <LoadingSpinner className="!w-12 !h-12" />
+      </div>
+    )}
     {mediaUrl.includes(".mp4") ? (
-       <ReactPlayer url={mediaUrl} className="max-w-full w-auto h-fit" playing  />
+       <ReactPlayer
+       url={mediaUrl}
+       className="max-w-full w-auto h-fit"
+       playing={!ispaused}
+       onDuration={videoLoaded}
+       />
     ) : (
       <div className="max-w-full w-auto h-fit">
         <Image
         src={mediaUrl}
         width={800} height={800}
         alt="example"
-        className="" />
+        onLoad={() => imageLoaded()} />
       </div>
     )}
     </>

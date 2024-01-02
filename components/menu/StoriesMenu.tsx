@@ -52,16 +52,16 @@ const StoryItem = ({id, avatar, heading, subHeading, isActive=false}:StoryItem) 
     e.preventDefault();
     const contents = [
     {
-      media: "/images/people/1.jpg",
-      createdAt: "12.00 PM"
+      media: "/video/example.mp4",
+      createdAt: "12.00 AM"
     },
     {
       media: "/images/people/2.jpg",
       createdAt: "15.00 PM"
     },
     {
-      media: "/images/people/3.jpg",
-      createdAt: "06.00 AM"
+      media: "/video/example.mp4",
+      createdAt: "12.00 AM"
     },
     {
       media: "/images/people/davidmarlan.jpg",

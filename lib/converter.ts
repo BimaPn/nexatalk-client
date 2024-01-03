@@ -7,3 +7,6 @@ const formatter = new Intl.DateTimeFormat('en-US', {
 export const getCurrentTime = () => {
   return formatter.format(new Date());
 }
+export const dateToTime = (date:string) => {
+ return formatter.format(new Date(date));
+}

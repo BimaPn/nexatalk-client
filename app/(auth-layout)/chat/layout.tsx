@@ -24,7 +24,7 @@ export default async function RootLayout({
     <section className='flex gap-4 h-screen p-0 overflow-hidden sm:px-4 sm:py-4'>
       <SocketProvider accessToken={session?.user.accessToken as string}>
         <ChatListProvider>
-          <StoryListProvider>
+          <StoryListProvider userInfo={{id, avatar}}>
             <UserSessionProvider defaultSession={{ id, name, username, email, bio, avatar }}>
               <MenuProvider>
                 <MainMenu

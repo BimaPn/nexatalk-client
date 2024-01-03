@@ -1,12 +1,17 @@
 interface StoryListProvider {
-  stories: StoryItem[]
+  stories: StoryItem[],
+  setStories: Dispatch<SetStateAction<StoryItem[]>>,
+  userStory: StoryItem,
+  setUserStory: Dispatch<SetStateAction<StoryItem>>,
+  isLoaded: boolean,
+  setIsLoaded: Dispatch<SetStateAction<boolean>>
 }
 interface StoryItem {
-  id: string,
+  _id: string,
   avatar: string,
-  heading: string,
-  subHeading: string,
-  isActive: boolean
+  name: string,
+  createdAt: string,
+  hasSeen: boolean
 }
 interface StoryViewer {
   setStoryViewProperties: Dispatch<SetStateAction<StoryViewProperties>>,

@@ -21,7 +21,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
   const { id, name, username, email, bio, avatar } = session?.user as any;
   return (
-    <section className='flex gap-4 h-screen p-0 overflow-hidden sm:px-4 sm:py-4'>
+    <section className='flex sm:gap-4 h-screen p-0 overflow-hidden sm:px-4 sm:py-4'>
       <SocketProvider accessToken={session?.user.accessToken as string}>
         <ChatListProvider>
           <MenuProvider>

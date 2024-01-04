@@ -80,7 +80,7 @@ export const Previews = ({className}:{className?:string}) => {
           url={content}
           alt={content}  
           onRemove={() => removeMedia(index)} 
-          className="aspect-square rounded-xl w-[15%] sm:w-[8%]"
+          className="aspect-square rounded-xl w-[60px] sm:w-20"
         />
       ))}
     </div>

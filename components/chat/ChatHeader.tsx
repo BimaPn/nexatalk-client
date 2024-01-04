@@ -34,7 +34,7 @@ const ChatHeader = ({username,avatar,name,isOnline,socket}:ChatHeaderT) => {
     }
   },[]);
   return (
-    <div className="w-full py-[11px]">
+    <div className="w-full py-2 sm:py-[11px]">
       <div className="flex items-center justify-between px-4">
         <div className="flex items-center gap-3">
           <div onClick={openProfileInfo}>
@@ -48,7 +48,7 @@ const ChatHeader = ({username,avatar,name,isOnline,socket}:ChatHeaderT) => {
             <span className="text-black">{name}</span>
             {/*<span className="w-full text-[13px] text-primary">Typing....</span>*/}
             {isUserOnline ? (
-              <span className="text-[13px] text-netral">Online</span>
+              <span className="text-[12px] text-netral">Online</span>
             ) : null}
           </div>
         </div>

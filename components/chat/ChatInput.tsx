@@ -4,7 +4,6 @@ import { PiImageSquareFill } from "react-icons/pi"
 import { GrEmoji} from "react-icons/gr"
 import { ImAttachment } from "react-icons/im"
 import { useRef, useState } from "react"
-import { getCurrentTime } from "@/utils/converter"
 import { MdOutlineKeyboardVoice } from "react-icons/md"
 import TextAreaExpand from "../ui/form/TextAreaExpand"
 import MediaInput, { Previews, Trigger } from "../ui/form/MediaInput"
@@ -53,36 +52,35 @@ const ChatInput = ({targetId, setMessage, className}:{targetId:string, setMessag
         <MediaInput
         value={media}
         onChange={(results) => setMedia(results)}
-        className="flex justify-center items-end gap-1 sm:gap-3"
+        className="flex justify-center items-end gap-[6px] sm:gap-3"
         >
-          <Trigger className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
+          <Trigger className="min-w-[38px] sm:min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
             <ImAttachment className="px-1 aspect-square text-dark text-[26px]" />      
           </Trigger>
 
           <div className="w-full flex flex-col gap-3">
             <Previews />
-            <div className="w-full flex items-center gap-3 bg-white rounded-full px-4 py-[2px] shadow">
-              <div className="w-full max-h-[64px] overflow-auto py-2">
+            <div className="w-full flex items-center gap-2 bg-white rounded-full px-3 py-[2px] shadow">
+              <div className="">
+                <GrEmoji className="text-[22.5px] text-slate-500 stroke-[.4px]" />      
+              </div>
+              <div className="w-full max-h-[108px] overflow-auto py-[6px] sm:py-[7px]">
                 <TextAreaExpand 
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
                 handleSubmit={() => submitButton.current?.click()}
-                className="text-[15px]"
+                className="text-[15px] placeholder:text-slate-500"
                 rows={1}
                 placeholder="Type something..." />
               </div>
               {(messageInput.length !== 0 || media.length !== 0) && (
               <button type="submit" ref={submitButton}>
-                <IoSend className="text-[20px] text-primary"/>
+                <IoSend className="text-[19px] text-primary"/>
               </button>
               )}
             </div>
           </div>
-
-          <div className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
-            <GrEmoji className="text-[22.5px] text-dark stroke-[.4px]" />      
-          </div>
-          <div className="min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
+          <div className="min-w-[38px] sm:min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
             <MdOutlineKeyboardVoice className="text-2xl text-dark" />      
           </div>
         </MediaInput>

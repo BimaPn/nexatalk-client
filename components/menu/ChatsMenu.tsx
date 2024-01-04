@@ -55,7 +55,7 @@ const ChatsMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:
       <MenuNavbar avatar={avatar} className="sticky top-0 z-[1400] mb-3 mx-1"/> 
       <Search />
         {isLoaded ? (
-          <ul className="flex flex-col gap-[5px] mt-4">
+          <ul className="flex flex-col gap-1 mt-4">
           {chatlists.map((chat:ChatItem) => (
             <Link key={chat.username} href={`/chat/${chat.username}`}>
               <ChatItem 

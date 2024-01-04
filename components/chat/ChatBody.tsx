@@ -60,16 +60,16 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
     addChatToList(newChat); 
   }
   return (
-    <div className="h-[92%] bg-light flex flex-col overflow-hidden rounded-xl mb-3 sm:mb-0 m-0 sm:mx-3 relative">
+    <div className="h-[92%] bg-light flex flex-col overflow-hidden rounded-2xl sm:rounded-xl sm:mb-0 m-0 sm:mx-3 relative">
       <FriendRequest socket={socket} target={userTarget.id as string} />
       <ul ref={messageContainer} className="w-full h-full overflow-y-auto flex flex-col gap-4 px-3 pt-4 custom-scrollbar scroll-smooth">
         <div className="w-full flexCenter">
-          <span className="bg-white text-sm px-4 py-1 rounded-full">Today</span>
+          <span className="bg-white text-xs px-4 py-1 rounded-full">Today</span>
         </div>
         {messages.map((msg,index) => {
           return "message" in msg ? (
             <li key={index} className={`w-full flex ${msg.isCurrentUser ? "justify-end":"justify-start"}`}>
-              < UserMessage
+              <UserMessage
               message={msg.message}
               createdAt={msg.createdAt}
               isCurrentUser={msg.isCurrentUser}/>

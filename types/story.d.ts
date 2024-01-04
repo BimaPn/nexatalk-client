@@ -19,14 +19,19 @@ interface StoryViewer {
   setIspaused: Dispatch<SetStateAction<boolean>>,
   duration: number,
   setDuration: Dispatch<SetStateAction<number>>,
+  seenStories: boolean[]|null,
+  setSeenStories: Dispatch<SetStateAction<boolean[]|null>>
 }
 interface StoryViewProperties {
+  authorId: string,
   name: string,
   avatar: string,
   contents: StoryContent[],
-  lastSeen: number
+  seenStories : boolean[] | null,
+  position: number
 }
 interface StoryContent {
+  id: string
   media: string,
   caption?: string
   createdAt: string

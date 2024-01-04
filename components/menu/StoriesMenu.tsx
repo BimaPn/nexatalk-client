@@ -43,11 +43,27 @@ const StoryItemLayout = () => {
     }
 
   },[]);
+  const updateStoryItem = (id: string, hasSeen: boolean) => {
+    setStories((prevStories: StoryItem[]) => {
+      return prevStories.map((story) => {
+        if(story._id == id) {
+          story.hasSeen = hasSeen;
+        }
+        return story;
+      });
+    });
+  }
   return (
-    <StoryViewer>
+    <StoryViewer onClose={updateStoryItem}>
       <div className="px-2 mb-2">
         {!isLoaded ? <StoryListSkeleton /> : (
-          <StoryItem _id={userStory._id} avatar={userStory.avatar} name={userStory.name} createdAt={userStory.createdAt} hasSeen={true}/>
+          <StoryItem
+          _id={userStory._id}
+          avatar={userStory.avatar}
+          name={userStory.name}
+          createdAt={userStory.createdAt}
+          hasSeen={true}
+          disableButton={userStory.createdAt === "No update"}/>
         )}
         <div className="mt-1">
           <span className="inline-block text-dark text-sm font-medium mx-2">Friends</span>
@@ -55,13 +71,14 @@ const StoryItemLayout = () => {
             {!isLoaded && <StoryListSkeleton count={4} />}
             {(isLoaded && stories.length != 0) && 
               stories.map((item) => (
-                <StoryItem 
-                key={item._id}
-                _id={item._id}
-                avatar={item.avatar}
-                name={item.name}
-                createdAt={dateToTime(item.createdAt)}
-                hasSeen={item.hasSeen} />
+                <li key={item._id}>
+                  <StoryItem 
+                  _id={item._id}
+                  avatar={item.avatar}
+                  name={item.name}
+                  createdAt={dateToTime(item.createdAt)}
+                  hasSeen={item.hasSeen} />
+                </li>
               ))
             }
           </ul>
@@ -71,21 +88,31 @@ const StoryItemLayout = () => {
   )
 }
 
-const StoryItem = ({_id, avatar, name, createdAt, hasSeen=false}:StoryItem) => {
+const StoryItem = ({_id, avatar, name, createdAt, hasSeen=false,disableButton=false}:StoryItem & {disableButton?:boolean}) => {
   const { setStoryViewProperties } = useContext(storyViewerContext) as StoryViewer;
-  const viewContent = (e:React.MouseEvent<HTMLButtonElement>) => {
+  const viewContent = async (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if(disableButton) return;
+    await ApiClient.get(`stories/user-stories/${_id}/get`)
+    .then((res) => {
+      const data = res.data.stories;
+      const properties: StoryViewProperties = {
+        authorId: _id,
+        name,
+        avatar,
+        seenStories: data.seenStories,
+        contents: data.contents,
+        position: data.position
+      }
+      setStoryViewProperties(properties);
+    })
+    .catch((err) => {
+      console.log(err)
+    });
 
-    // const properties = {
-    //   name: heading,
-    //   avatar,
-    //   contents: contents,
-    //   lastSeen: 0
-    // }
-    // setStoryViewProperties(properties);
   }
   return (
-    <li className="w-full flex items-center gap-2 px-2 py-2 rounded-xl hover:bg-light cursor-pointer">
+    <button onClick={viewContent} className="w-full flex items-center gap-2 px-2 py-2 rounded-xl hover:bg-light cursor-pointer">
       <div className={`w-fit p-[2px] rounded-full border-2 ${!hasSeen ? "border-primary":"border-gray-300"}`}>
         <RoundedImage src={avatar} alt="heading" className="!w-[42px]" />
       </div>
@@ -93,7 +120,7 @@ const StoryItem = ({_id, avatar, name, createdAt, hasSeen=false}:StoryItem) => {
         <span className="text-dark font-medium">{name}</span>
         <span className="text-[13px] text-gray-500">{createdAt}</span>
       </div>
-    </li>
+    </button>
   )
 }
 

@@ -8,32 +8,43 @@ import ReactPlayer from "react-player/lazy"
 import { TimeoutSlider } from "@/helpers"
 import ProgressBar from "./ProgressBar"
 import LoadingSpinner from "./ui/LoadingSpinner"
+import { dateToTime } from "@/lib/converter"
+import ApiClient from "@/app/api/axios/ApiClient"
 
 export const storyViewerContext = createContext<StoryViewer|null>(null);
-const StoryViewer = ({children}:{children:React.ReactNode}) => {
+
+const StoryViewer = ({children, onClose}:{children:React.ReactNode, onClose:(userId:string, hasSeen:boolean) => void}) => {
   const [storyViewProperties, setStoryViewProperties] = useState<StoryViewProperties|null>(null);
   const [ispaused, setIspaused] = useState<boolean>(true);
   const [duration, setDuration] = useState<number>(-1);
+  const [seenStories, setSeenStories] = useState<boolean[]|null>(null);
+
+  const closeViewer = () => {
+    if (seenStories) {
+      onClose(storyViewProperties!.authorId, !seenStories.includes(false));
+    }
+    setStoryViewProperties(null);
+  }
   return (
-    <storyViewerContext.Provider value={{ setStoryViewProperties, ispaused, setIspaused, duration, setDuration }}>
+    <storyViewerContext.Provider value={{ setStoryViewProperties, ispaused, setIspaused, duration, setDuration, seenStories, setSeenStories }}>
       {children}
       {storyViewProperties && (
         <Contents 
         storyViewProperties={storyViewProperties} 
-        onClose={() => setStoryViewProperties(null)}/>
+        onClose={closeViewer}/>
       )}
     </storyViewerContext.Provider>
   )
 }
 
 const Contents = ({onClose, storyViewProperties}:{onClose:()=>void, storyViewProperties:StoryViewProperties}) => {
-  const { ispaused, setIspaused, duration, setDuration } = useContext(storyViewerContext) as StoryViewer;
-  const [current, setCurrent] = useState<number>(-1);
+  const { ispaused, setIspaused, duration, setDuration, seenStories, setSeenStories } = useContext(storyViewerContext) as StoryViewer;
+  const [current, setCurrent] = useState<number>(storyViewProperties.position);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
   const [Timer, setTimer] = useState<TimeoutSlider | null>(null);
 
   useEffect(()=>{
-    setCurrent(storyViewProperties.lastSeen);
+    setSeenStories(storyViewProperties.seenStories);
   },[]);
 
   useEffect(()=>{
@@ -56,6 +67,7 @@ const Contents = ({onClose, storyViewProperties}:{onClose:()=>void, storyViewPro
       } 
     }
     },[duration, current, ispaused, Timer]);
+
   useEffect(() => {
     if(duration == -1) {
       setIspaused(true);
@@ -104,7 +116,11 @@ const Contents = ({onClose, storyViewProperties}:{onClose:()=>void, storyViewPro
       duration={duration}
       onClose={() => closePage()}
       />
-      <ContentBody mediaUrl={storyViewProperties.contents[current == -1 ? 0 : current].media}>
+      <ContentBody
+      storyId={storyViewProperties.contents[current == -1 ? 0 : current].id}
+      mediaUrl={storyViewProperties.contents[current == -1 ? 0 : current].media}
+      seenStories={seenStories}
+      current={current}>
        <div className="hidden ss:block text-white">
         <button 
         onClick={onPrev} 
@@ -138,7 +154,7 @@ const ContentHeader = ({length, current, avatar, name, createdAt, ispaused, dura
     <div className="absolute top-0 w-full ss:w-[512px] mt-2 ss:mt-4 z-[1]"> 
       <div className="w-full flexCenter gap-2 px-3 ss:px-0">
         {Array.from({ length }).map((_, index) => (
-          <div key={index} className={`h-[3px] ${(index <= current-1) ? "bg-primary":"bg-slate-300"}`} style={{ flexBasis:"20%" }}>
+          <div key={index} className={`h-[3px] ${(index <= current-1) ? "bg-primary":"bg-slate-300"}`} style={{ flexBasis:`${100/length}%` }}>
             {(index == current && duration != -1 ) && (
             <ProgressBar duration={duration} ispaused={ispaused ? "true":"false"} className="bg-primary" />
             )}
@@ -150,7 +166,7 @@ const ContentHeader = ({length, current, avatar, name, createdAt, ispaused, dura
           <RoundedImage src={avatar} alt="heading" className="!w-[44px]" />
           <div className="flex flex-col text-white">
             <span className="font-medium">{name}</span>
-            <span className="text-[13px]">{createdAt}</span>
+            <span className="text-[13px]">{dateToTime(createdAt)}</span>
           </div>
         </div>
         <button onClick={() => onClose()} className="px-1 mx-3 ss:-mr-1 ss:-mt-1 aspect-square">
@@ -161,19 +177,39 @@ const ContentHeader = ({length, current, avatar, name, createdAt, ispaused, dura
   )
 }
 
-const ContentBody = ({children, mediaUrl}:{children: React.ReactNode, mediaUrl: string}) => {
+type ContentBodyT = {
+  children: React.ReactNode, 
+  mediaUrl: string,
+  current: number,
+  seenStories: boolean[] | null,
+  storyId: string
+  }
+const ContentBody = ({children, mediaUrl, current, seenStories, storyId}:ContentBodyT) => {
   return (
     <div className="w-full h-full flexCenter relative z-[0]">
-      <Media mediaUrl={mediaUrl}/>
+      <Media mediaUrl={mediaUrl} current={current} seenStories={seenStories} storyId={storyId}/>
       {children}
     </div>
   )
 }
 
-const Media = ({mediaUrl}:{mediaUrl:string}) => {
-  const {ispaused, setIspaused, duration, setDuration} = useContext(storyViewerContext) as StoryViewer;
-  
-  const videoLoaded = (durr:number) => {
+const Media = ({mediaUrl, current, seenStories, storyId}:{mediaUrl:string,current:number,seenStories:boolean[]|null,storyId:string}) => {
+  const {ispaused, setIspaused, duration, setDuration, setSeenStories} = useContext(storyViewerContext) as StoryViewer;
+ 
+  const updateSeenStory = async () => {
+    if(!seenStories || seenStories[current]) return;
+    await ApiClient.post(`stories/${storyId}/seen`)
+    .then((res) => {
+      let temp = seenStories;
+      temp[current] = true;
+      setSeenStories(temp);
+    })
+    .catch((err) => {
+      console.log(err.response)
+    });
+  }
+  const videoLoaded = async (durr:number) => {
+    await updateSeenStory();
     const duration = Math.floor(durr);
     if(duration > 30) {
       setDuration(30);
@@ -181,7 +217,8 @@ const Media = ({mediaUrl}:{mediaUrl:string}) => {
       setDuration(duration);
     }
   }
-  const imageLoaded = () => {
+  const imageLoaded = async () => {
+    await updateSeenStory();
     setDuration(3);
   }
   return (

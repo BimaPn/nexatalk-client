@@ -4,7 +4,8 @@ import { createContext,useState } from "react"
 export const chatListContext = createContext<ChatList | null>(null);
 
 const ChatListProvider = ({children}:{children:React.ReactNode}) => {
-  const [chatlists,setChatlists] = useState<ChatItem[]>([]);
+  const [chatlists, setChatlists] = useState<ChatItem[]>([]);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   
   const addChatToList = (chat:ChatItem) => {
     let isOnline:boolean;
@@ -36,7 +37,7 @@ const ChatListProvider = ({children}:{children:React.ReactNode}) => {
     });
   }
   return (
-  <chatListContext.Provider value={{chatlists,setChatlists,addChatToList,clearUnreadCount,setOnlineUser}}>
+  <chatListContext.Provider value={{chatlists,setChatlists,addChatToList,clearUnreadCount,setOnlineUser,isLoaded,setIsLoaded}}>
   {children}
   </chatListContext.Provider>
   )

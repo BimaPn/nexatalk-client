@@ -26,10 +26,10 @@ const Profile = ({userAuth}:SessionInfo) => {
       <RoundedImage 
       src={userAuth.avatar}
       alt="profile picture" 
-      className="!min-w-[48px]"
+      className="!min-w-[46px]"
       />
       <div className="w-full flexBetween">
-        <div className='flex flex-col gap-[2px]'>
+        <div className='flex flex-col gap-[2.5px] text-black'>
           <span>{userAuth.name}</span>
           <span className="text-xs text-gray-600">{userAuth.username}</span>
         </div>
@@ -43,32 +43,32 @@ const Profile = ({userAuth}:SessionInfo) => {
 const Settings = ({className}:{className?:string}) => {
   return (
     <div className={`w-full px-4 ${className}`}>
-      <ul className="bg-light rounded-xl px-2 py-2">
+      <ul className="">
         <SettingItem 
-        icon={<RiUser3Fill className="text-[20px]" />}
+        icon={<RiUser3Fill className="text-[19px]" />}
         label="Account"
         menu="accountMenu"
         onClick={(menu) => alert(menu)}
         />
         <SettingItem 
-        icon={<IoIosLock className="text-[22px]" />}
+        icon={<IoIosLock className="text-[21px]" />}
         label="Privacy"
         menu="privacyMenu"
         onClick={(menu) => alert(menu)}
         />
         <SettingItem 
-        icon={<RiPaintFill className="text-[21px]" />}
+        icon={<RiPaintFill className="text-[20px]" />}
         label="Appearance"
         menu="appearanceMenu"
         onClick={(menu) => alert(menu)}
         />
-        <li className="py-[6px] hover:bg-semiLight rounded-xl">
-          <LogoutButton className="w-full flex items-center gap-2">
-            <div className="w-10 aspect-square flexCenter">
-              <IoLogOut className="text-[21px] -mr-[3px]" />
+        <li className="py-2 text-black group">
+          <LogoutButton className="w-full flex items-center gap-3">
+            <div className="w-9 aspect-square flexCenter rounded-full bg-light">
+              <IoLogOut className="text-[20px] text-slate-600 group-hover:text-black -mr-[3px]" />
             </div>
             <div>
-              <span>Logout</span>
+              <span className="text-[15px]">Logout</span>
             </div>
           </LogoutButton>
         </li>
@@ -78,19 +78,19 @@ const Settings = ({className}:{className?:string}) => {
   )
 }
 
-const SettingItem = ({icon, label, menu, onClick}:{icon:React.ReactNode,label:string,menu:string,onClick:(menu:string) => void}) => {
+const SettingItem = ({icon, label, menu, onClick, className}:{icon:React.ReactNode,label:string,menu:string,onClick:(menu:string) => void,className?:string}) => {
   const buttonClick = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     onClick(menu);
   }
   return (
-    <li className="py-[6px] hover:bg-semiLight rounded-xl">
-      <button onClick={buttonClick} className="w-full flex items-center gap-2">
-        <div className="w-10 aspect-square flexCenter">
+    <li className={`py-2 text-black ${className} group`}>
+      <button onClick={buttonClick} className="w-full flex items-center gap-3">
+        <div className="w-[38px] aspect-square text-slate-600 group-hover:text-black flexCenter rounded-full bg-light">
           {icon}
         </div> 
         <div>
-          <span>{label}</span>
+          <span className="text-[15px]">{label}</span>
         </div>
       </button> 
     </li>

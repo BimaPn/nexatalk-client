@@ -2,7 +2,7 @@ import { HiOutlineArrowLeft } from "react-icons/hi"
 
 const MenuLayout = ({children,className}:{children:React.ReactNode,className?:string}) => {
   return (
-    <aside className={`sm:min-w-[324px] md:min-w-[386px] bg-white min-h-full rounded-xl ${className} overflow-auto`}>
+    <aside className={`w-screen sm:w-[324px] md:w-[386px] bg-white min-h-full rounded-none sm:rounded-xl ${className} overflow-auto`}>
         {children}
     </aside>
   )
@@ -10,7 +10,7 @@ const MenuLayout = ({children,className}:{children:React.ReactNode,className?:st
 
 export const Navigation = ({children, title, onClose}:{children?:React.ReactNode, title: string, onClose:()=>void}) => {
   return (
-    <div className="grid grid-cols-3 px-2 py-2">
+    <div className="grid grid-cols-3 px-2 py-2 text-black">
       <div>
         <button onClick={onClose} className="w-10 aspect-square flexCenter">
           <HiOutlineArrowLeft className="text-[22px]" />

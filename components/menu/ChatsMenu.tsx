@@ -12,22 +12,23 @@ import { AiOutlineWechat } from "react-icons/ai"
 import { Socket } from 'socket.io-client'
 import ApiClient from '@/app/api/axios/ApiClient'
 import ChatMenuSkeleton from '../skeletons/ChatMenuSkeleton'
+import { BiSolidMessageDetail } from "react-icons/bi"
 
 const ChatsMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:string, className ?: string}) => {
   const { socket, isConnected } = useContext(socketContext) as SocketProvider;
   const pathname = usePathname();
-  const { chatlists, setChatlists, addChatToList, setOnlineUser } = useContext(chatListContext) as ChatList;
-  const [ isLoading, setIsLoading ] = useState<boolean>(true);
+  const { chatlists, setChatlists, isLoaded, setIsLoaded, addChatToList, setOnlineUser } = useContext(chatListContext) as ChatList;
 
   useEffect(() => {
+    if(isLoaded) return;
     ApiClient.get(`chat/list`)
     .then((res) => {
       setChatlists(res.data.users);
-      setIsLoading(false);
+      setIsLoaded(true);
     })
     .catch((err) => {
       throw new Error("Something goes wrong...");
-      setIsLoading(false);
+      setIsLoaded(true);
     });
   },[]);
 
@@ -53,8 +54,8 @@ const ChatsMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:
     <MenuLayout className={`pt-3 pb-5 relative px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
       <MenuNavbar avatar={avatar} className="sticky top-0 z-[1400] mb-3 mx-1"/> 
       <Search />
-        {!isLoading ? (
-          <ul className="flex flex-col gap-1 mt-5">
+        {isLoaded ? (
+          <ul className="flex flex-col gap-[5px] mt-4">
           {chatlists.map((chat:ChatItem) => (
             <Link key={chat.username} href={`/chat/${chat.username}`}>
               <ChatItem 
@@ -70,14 +71,17 @@ const ChatsMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:
         ):(
           <ChatMenuSkeleton />
         )}
+        <div className="absolute bottom-4 right-4 w-[46px] aspect-square flexCenter bg-primary rounded-full shadow">
+          <BiSolidMessageDetail className="text-[23px] text-white" />
+        </div>
     </MenuLayout>
   )
 }
 
 const MenuNavbar = ({avatar, className}:{avatar:string, className?:string}) => {
   return (
-    <div className={`flexBetween py-2 px-2 ${className}`}>
-      <div className="flexCenter gap-[5px] text-dark">
+    <div className={`flexBetween py-1 px-2 ${className}`}>
+      <div className="flexCenter gap-[5px] text-black">
         <AiOutlineWechat className="text-3xl" />
         <h1 className="font-bold text-[22px]">MiChat</h1>
       </div>

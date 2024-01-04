@@ -16,8 +16,8 @@ import { UserSession, userSessionContext } from "../providers/UserSessionProvide
 const EditProfileModal = ({userAuth}:SessionInfo) => {
   return (
     <Modal>
-      <Trigger className="min-w-[36px] aspect-square flexCenter bg-light rounded-lg">
-        <BiSolidEdit className="text-xl" />
+      <Trigger className="min-w-[34px] aspect-square flexCenter bg-light rounded-lg text-slate-600 hover:text-black">
+        <BiSolidEdit className="text-[19px]" />
       </Trigger> 
       <FormEditProfile userAuth={userAuth} />
     </Modal>

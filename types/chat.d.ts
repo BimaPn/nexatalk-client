@@ -13,5 +13,7 @@ interface ChatList {
   setChatlists : Dispatch<SetStateAction<ChatItem[]>>,
   addChatToList : (chat:ChatItem) => void,
   clearUnreadCount : (targetId:string) => void,
-  setOnlineUser : (userId:string,isOnline:boolean) => void
+  setOnlineUser : (userId:string,isOnline:boolean) => void,
+  isLoaded: boolean,
+  setIsLoaded: Dispatch<SetStateAction<boolean>>
 }  

@@ -3,11 +3,11 @@ import RoundedImage from "./RoundedImage"
 const ChatItem = ({avatar,name,message,createdAt,unread,isOnline}:ChatItem) => {
   return (
     <div className="w-full flex items-center justify-between gap-[9px] py-2 px-3 rounded-xl hover:bg-light relative z-0">
-      <UserAvatar avatar={avatar} alt={name} isOnline={isOnline} className="!min-w-[46px]" />
-      <div className="w-full flex flex-col items-center gap-[1px]">
+      <UserAvatar avatar={avatar} alt={name} isOnline={isOnline} className="!min-w-[44px]" />
+      <div className="w-full flex flex-col items-center">
         <div className="w-full flex items-center justify-between">
           <span className="text-black">{name}</span>
-          <span className="text-[12px] text-semiDark">{createdAt}</span>
+          <span className="text-[11.5px] text-semiDark">{createdAt}</span>
         </div>
         <div className="w-full flex items-center justify-between">
           <span className={`w-[85%] text-[15px] text-semiDark line-clamp-1 ${unread ? "font-bold":"font-normal"}`}>{message}</span>

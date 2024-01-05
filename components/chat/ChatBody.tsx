@@ -60,7 +60,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
     addChatToList(newChat); 
   }
   return (
-    <div className="h-[92%] bg-light dark:bg-dark-dark flex flex-col overflow-hidden rounded-2xl sm:mb-0 m-0 sm:mx-3 relative">
+    <div className="h-full sm:h-[92%] bg-light dark:bg-dark-dark flex flex-col overflow-hidden rounded-t-2xl rounded-b-none sm:rounded-2xl m-0 sm:mx-3 relative">
       <FriendRequest socket={socket} target={userTarget.id as string} />
       <ul ref={messageContainer} className="w-full h-full overflow-y-auto flex flex-col gap-4 px-3 pt-4 custom-scrollbar scroll-smooth">
         <div className="w-full flexCenter">

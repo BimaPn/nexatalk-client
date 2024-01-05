@@ -6,6 +6,7 @@ import SettingsMenu from "./SettingsMenu";
 import { UserSession, userSessionContext } from "../providers/UserSessionProvider";
 import { SocketProvider, socketContext } from "../providers/SocketProvider";
 import StoriesMenu from "./StoriesMenu";
+import AppearanceMenu from "./AppearanceMenu";
 
 const MainMenu = ({accessToken}:{accessToken:string}) => {
   const { socket, isConnected, setIsConnected } = useContext(socketContext) as SocketProvider;
@@ -27,6 +28,7 @@ const MainMenu = ({accessToken}:{accessToken:string}) => {
     <section>
      {currentMenu === "chatsMenu" && <ChatsMenu avatar={user.avatar} accessToken={accessToken} />} 
      {currentMenu === "settingsMenu" && <SettingsMenu userAuth={user} />} 
+     {currentMenu === "appearanceMenu" && <AppearanceMenu />} 
      {currentMenu === "storiesMenu" && <StoriesMenu />} 
     </section>
   )

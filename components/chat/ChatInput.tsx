@@ -54,17 +54,17 @@ const ChatInput = ({targetId, setMessage, className}:{targetId:string, setMessag
         onChange={(results) => setMedia(results)}
         className="flex justify-center items-end gap-[6px] sm:gap-3"
         >
-          <Trigger className="min-w-[38px] sm:min-w-[39px] aspect-square rounded-full bg-white dark:bg-dark-netral flexCenter shadow">
-            <ImAttachment className="px-1 aspect-square text-dark dark:text-white text-[26px]" />      
+          <Trigger className="min-w-[39px] aspect-square rounded-full bg-white dark:bg-dark-semiDark  flexCenter shadow group">
+            <ImAttachment className="px-1 aspect-square text-dark dark:text-slate-400 dark:group-hover:text-white text-[26px]" />      
           </Trigger>
 
           <div className="w-full flex flex-col gap-3">
             <Previews />
-            <div className="w-full flex items-center gap-2 bg-white dark:bg-dark-netral rounded-full px-3 py-[2px] shadow">
-              <div className="">
-                <GrEmoji className="text-[22.5px] text-slate-500 dark:text-slate-400 stroke-[.4px]" />      
+            <div className="w-full flex items-center gap-2 bg-white dark:bg-dark-semiDark rounded-full px-3 py-[2px] shadow">
+              <div className="group">
+                <GrEmoji className="text-[22.5px] text-slate-500 dark:text-slate-400 dark:group-hover:text-white stroke-[.4px]" />      
               </div>
-              <div className="w-full max-h-[108px] overflow-auto py-[6px] sm:py-[7px]">
+              <div className="w-full max-h-[108px] overflow-auto py-[7px]">
                 <TextAreaExpand 
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
@@ -80,8 +80,8 @@ const ChatInput = ({targetId, setMessage, className}:{targetId:string, setMessag
               )}
             </div>
           </div>
-          <div className="min-w-[38px] sm:min-w-[39px] aspect-square rounded-full bg-white dark:bg-dark-netral flexCenter shadow">
-            <MdOutlineKeyboardVoice className="text-2xl text-dark dark:text-white" />      
+          <div className="min-w-[39px] aspect-square rounded-full bg-white dark:bg-dark-semiDark flexCenter shadow group">
+            <MdOutlineKeyboardVoice className="text-2xl text-dark dark:text-slate-400 dark:group-hover:text-white" />      
           </div>
         </MediaInput>
       </form> 

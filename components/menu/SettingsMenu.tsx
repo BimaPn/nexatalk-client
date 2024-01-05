@@ -41,6 +41,7 @@ const Profile = ({userAuth}:SessionInfo) => {
 }
 
 const Settings = ({className}:{className?:string}) => {
+  const { changeMenu } = useContext(menuContext) as MenuProvider;
   return (
     <div className={`w-full px-4 ${className}`}>
       <ul className="">
@@ -60,7 +61,7 @@ const Settings = ({className}:{className?:string}) => {
         icon={<RiPaintFill className="text-[20px]" />}
         label="Appearance"
         menu="appearanceMenu"
-        onClick={(menu) => alert(menu)}
+        onClick={(menu) => changeMenu("appearanceMenu")}
         />
         <li className="py-2 text-black dark:text-white group">
           <LogoutButton className="w-full flex items-center gap-[14px]">

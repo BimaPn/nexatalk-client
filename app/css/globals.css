@@ -5,6 +5,7 @@
 body {
   @apply bg-light dark:bg-dark-dark dark:text-white
 }
+
 .flexCenter{
   @apply flex justify-center items-center
 }
@@ -53,5 +54,8 @@ body {
 
 .shadow-bottom-top {
   box-shadow:  inset 0 -66px 34px -18px white;
+}
+.toggle-transition {
+  transition: transform .3s ease-in-out;
 }
 

@@ -34,7 +34,7 @@ const ChatHeader = ({username,avatar,name,isOnline,socket}:ChatHeaderT) => {
     }
   },[]);
   return (
-    <div className="w-full py-2">
+    <div className="w-full py-2 sm:py-[9px]">
       <div className="flex items-center justify-between px-4">
         <div className="flex items-center gap-3">
           <div onClick={openProfileInfo}>

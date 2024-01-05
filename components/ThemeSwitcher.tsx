@@ -25,7 +25,7 @@ const ThemeSwitcher = () => {
       </div>
     )}
     {mounted && (
-      <button onClick={toggleClick} className={`w-12 bg-primary/60 dark:bg-dark-netral rounded-full p-[3px]`}>
+      <button onClick={toggleClick} className={`w-11 bg-primary/60 dark:bg-dark-netral rounded-full p-[3px]`}>
        <div className={`w-[45%] aspect-square rounded-full bg-white ${resolvedTheme === "dark" ? "translate-x-[120%]":"translate-x-0"} toggle-transition`} /> 
       </button>
     )}

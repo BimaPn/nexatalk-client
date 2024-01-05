@@ -8,6 +8,7 @@ import LogoutButton from '../ui/form/LogoutButton'
 import { IoLogOut } from "react-icons/io5"
 import { RiUser3Fill } from "react-icons/ri"
 import EditProfileModal from '../ui/EditProfileModal'
+import { IoIosArrowForward } from "react-icons/io" 
 
 const SettingsMenu = ({userAuth}:SessionInfo) => {
   const { changeMenu } = useContext(menuContext) as MenuProvider;
@@ -44,34 +45,35 @@ const Settings = ({className}:{className?:string}) => {
   const { changeMenu } = useContext(menuContext) as MenuProvider;
   return (
     <div className={`w-full px-4 ${className}`}>
-      <ul className="">
+      <ul className="flex flex-col gap-1 bg-light dark:bg-dark-dark px-2 py-2 rounded-xl">
         <SettingItem 
-        icon={<RiUser3Fill className="text-[19px]" />}
+        icon={<RiUser3Fill className="text-[18px]" />}
         label="Account"
         menu="accountMenu"
         onClick={(menu) => alert(menu)}
         />
         <SettingItem 
-        icon={<IoIosLock className="text-[21px]" />}
+        icon={<IoIosLock className="text-[20.5px] -mt-[2px]" />}
         label="Privacy"
         menu="privacyMenu"
         onClick={(menu) => alert(menu)}
         />
         <SettingItem 
-        icon={<RiPaintFill className="text-[20px]" />}
+        icon={<RiPaintFill className="text-[19px]" />}
         label="Appearance"
         menu="appearanceMenu"
         onClick={(menu) => changeMenu("appearanceMenu")}
         />
-        <li className="py-2 text-black dark:text-white group">
+        <li className="flexBetween py-2 px-1 text-black hover:bg-semiLight dark:text-white dark:hover:bg-dark-semiDark rounded-xl group">
           <LogoutButton className="w-full flex items-center gap-[14px]">
-            <div className="w-9 aspect-square flexCenter rounded-full bg-light dark:bg-dark-netral">
-              <IoLogOut className="text-[20px] text-slate-600 dark:text-white group-hover:text-black dark:group-hover:text-slate-400 -mr-[3px]" />
+            <div className="w-9 aspect-square flexCenter rounded-full bg-semiLight dark:bg-dark-netral dark:group-hover:bg-dark-netral group-hover:bg-light">
+              <IoLogOut className="text-[19px] text-slate-600 dark:text-white -mr-[3px]" />
             </div>
             <div>
               <span className="text-[15px]">Logout</span>
             </div>
           </LogoutButton>
+          <IoIosArrowForward />
         </li>
 
       </ul>
@@ -85,15 +87,17 @@ const SettingItem = ({icon, label, menu, onClick, className}:{icon:React.ReactNo
     onClick(menu);
   }
   return (
-    <li className={`py-2 text-black dark:text-white ${className} group`}>
+    <li className={`flexBetween px-1 py-2 text-black dark:text-white hover:bg-semiLight dark:hover:bg-dark-semiDark rounded-xl ${className} group`}>
       <button onClick={buttonClick} className="w-full flex items-center gap-[14px]">
-        <div className="w-[38px] aspect-square text-slate-600 dark:text-white group-hover:text-black dark:group-hover:text-slate-400 flexCenter rounded-full bg-light dark:bg-dark-netral">
+        <div 
+        className="w-[36px] aspect-square text-slate-600 dark:text-white flexCenter rounded-full bg-semiLight dark:bg-dark-netral dark:group-hover:bg-dark-netral group-hover:bg-light">
           {icon}
         </div> 
         <div>
           <span className="text-[15px]">{label}</span>
         </div>
       </button> 
+      <IoIosArrowForward />
     </li>
   )
 }

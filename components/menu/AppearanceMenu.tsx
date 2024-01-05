@@ -9,7 +9,7 @@ const AppearanceMenu = () => {
     <MenuLayout>
       <Navigation title="Appearance" onClose={() => changeMenu("settingsMenu")} />
       <section className="px-3 py-2">
-        <ul className="px-2 py-[10px] bg-light dark:bg-dark-dark rounded-xl">
+        <ul className="px-3 py-3 bg-light dark:bg-dark-dark rounded-xl">
           <li className="flexBetween ">
             <span className="font-medium block text-black dark:text-white">Theme</span>
             <ThemeSwitcher />

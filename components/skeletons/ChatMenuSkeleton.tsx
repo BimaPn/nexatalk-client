@@ -9,7 +9,6 @@ const ChatMenuSkeleton = () => {
     </div>
   )
 }
-
 const ChatItemSkeleton = () => {
   return (
     <div className="flex items-center gap-2">

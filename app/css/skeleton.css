@@ -1,5 +1,5 @@
 .skeleton {
-  @apply bg-[rgb(225,225,225)] animate-pulse rounded
+  @apply bg-[rgb(225,225,225)] dark:bg-dark-netral animate-pulse rounded
 }
 
 .skeleton.size-xs { 

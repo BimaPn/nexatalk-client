@@ -9,7 +9,8 @@ import LogoutButton from './form/LogoutButton'
 
 const ChatMenuDropdown = ({avatar}:{avatar:string}) => {
   const { changeMenu } = useContext(menuContext) as MenuProvider;
-  const itemClass = "flex items-center gap-3 py-[6px] px-1 hover:bg-light dark:hover:bg-dark-semiLight rounded-lg cursor-pointer group"
+  const itemClass = "flex items-center gap-3 py-[6px] px-1 hover:bg-light dark:hover:bg-dark-semiLight rounded-lg cursor-pointer group";
+  const iconClass = "w-8 flexCenter bg-light group-hover:bg-white dark:bg-dark-semiLight dark:group-hover:bg-dark-netral aspect-square rounded-full";
   return (
     <Dropdown>
     <Dropdown.Trigger>
@@ -23,13 +24,13 @@ const ChatMenuDropdown = ({avatar}:{avatar:string}) => {
       <button
       onClick={() => changeMenu("settingsMenu")}
       className={itemClass}>
-        <div className="w-8 flexCenter bg-semiLight dark:bg-dark-semiLight dark:group-hover:bg-dark-netral aspect-square rounded-full">
+        <div className={iconClass}>
           <IoIosSettings className="text-xl" />
         </div>
         Settings
       </button>
       <LogoutButton className={itemClass}>
-        <div className="w-8 flexCenter bg-light dark:bg-dark-semiLight dark:group-hover:bg-dark-netral aspect-square rounded-full">
+        <div className={iconClass}>
           <IoLogOut className="text-[19px] -mr-[3px]" />
         </div>
         <span>

@@ -12,7 +12,7 @@ const ChatSection = ({accessToken,userTarget,defaultMessages,isOnline}:{accessTo
   const { socket, isConnected } = useContext(socketContext) as SocketProvider;
 
   return (
-    <section className={`w-full h-full flex flex-col bg-white dark:bg-dark-semiDark rounded-none sm:rounded-xl relative sm:pb-2 overflow-hidden ${isOpen && "hidden lg:block"}`}>
+    <section className={`w-full h-full flex flex-col bg-white dark:bg-dark-semiDark rounded-none sm:rounded-2xl relative overflow-hidden ${isOpen && "hidden lg:block"}`}>
         <ChatHeader 
         username={userTarget.username} 
         avatar={userTarget.avatar} 
@@ -20,7 +20,6 @@ const ChatSection = ({accessToken,userTarget,defaultMessages,isOnline}:{accessTo
         isOnline={isOnline}
         socket={socket}
         />
-        
         <ChatBody
         isOnline={isOnline}
         userTarget={userTarget}

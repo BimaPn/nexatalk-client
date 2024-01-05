@@ -29,7 +29,7 @@ const ProfileInfo = ({userTarget}:{userTarget:UserTarget}) => {
   const { isOpen,setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
 
   return isOpen && (
-    <section className="w-full bg-white dark:bg-dark-semiDark rounded-xl lg:w-[512px] h-full overflow-auto custom-scrollbar px-2">
+    <section className="w-full bg-white dark:bg-dark-semiDark rounded-2xl lg:w-[512px] h-full overflow-auto custom-scrollbar px-2">
     <Navigation onClose={() => setIsOpen(false)} /> 
     <div className="flexCenter flex-col gap-3 mt-3 mb-4">
       <RoundedImage src={userTarget.avatar} className="!w-[40%]" alt={userTarget.name} />

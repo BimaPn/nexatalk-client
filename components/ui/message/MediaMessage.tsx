@@ -10,7 +10,7 @@ const MediaMessage = ({media, isCurrentUser, createdAt}:{media:string[],isCurren
     <div className={`w-full flex flex-col ${isCurrentUser ? "items-end":"items-start"}`}>
       <div className={`w-48 sm:w-56 md:w-64 flex flex-col ${isCurrentUser ? "items-start" : "items-end"} gap-[6px]`}>
         <MediaLayout media={media} />
-        <span className="text-[11px] text-semiDark">{createdAt}</span>
+        <span className="text-[11px] text-semiDark dark:text-slate-400">{createdAt}</span>
       </div>
     </div>
   )

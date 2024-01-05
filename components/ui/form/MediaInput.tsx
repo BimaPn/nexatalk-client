@@ -112,7 +112,7 @@ const MediaPreview = ({url,alt,onRemove,className}:{url:string,alt:string,onRemo
     <div className="absolute -top-4 -right-4 p-2" >
       <button
       onClick={mediaRemove}
-      className="text-xl px-1 aspect-square rounded-full bg-white border" >
+      className="text-xl px-1 aspect-square rounded-full bg-white dark:bg-dark-semiDark border dark:border-0" >
         <IoClose/>
       </button>
     </div>

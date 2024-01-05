@@ -46,7 +46,7 @@ const ChatInput = ({targetId, setMessage, className}:{targetId:string, setMessag
     })
   }
   return (
-    <div className={`w-full flexCenter px-2 sm:px-3 pb-2 bg-light ${className}`}>
+    <div className={`w-full flexCenter px-2 sm:px-3 pb-3 bg-light dark:bg-dark-dark ${className}`}>
 
       <form className="w-full" onSubmit={handleSubmit} >
         <MediaInput
@@ -54,22 +54,22 @@ const ChatInput = ({targetId, setMessage, className}:{targetId:string, setMessag
         onChange={(results) => setMedia(results)}
         className="flex justify-center items-end gap-[6px] sm:gap-3"
         >
-          <Trigger className="min-w-[38px] sm:min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
-            <ImAttachment className="px-1 aspect-square text-dark text-[26px]" />      
+          <Trigger className="min-w-[38px] sm:min-w-[39px] aspect-square rounded-full bg-white dark:bg-dark-netral flexCenter shadow">
+            <ImAttachment className="px-1 aspect-square text-dark dark:text-white text-[26px]" />      
           </Trigger>
 
           <div className="w-full flex flex-col gap-3">
             <Previews />
-            <div className="w-full flex items-center gap-2 bg-white rounded-full px-3 py-[2px] shadow">
+            <div className="w-full flex items-center gap-2 bg-white dark:bg-dark-netral rounded-full px-3 py-[2px] shadow">
               <div className="">
-                <GrEmoji className="text-[22.5px] text-slate-500 stroke-[.4px]" />      
+                <GrEmoji className="text-[22.5px] text-slate-500 dark:text-slate-400 stroke-[.4px]" />      
               </div>
               <div className="w-full max-h-[108px] overflow-auto py-[6px] sm:py-[7px]">
                 <TextAreaExpand 
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
                 handleSubmit={() => submitButton.current?.click()}
-                className="text-[15px] placeholder:text-slate-500"
+                className="text-[15px] placeholder:text-slate-500 dark:placeholder:text-slate-400"
                 rows={1}
                 placeholder="Type something..." />
               </div>
@@ -80,8 +80,8 @@ const ChatInput = ({targetId, setMessage, className}:{targetId:string, setMessag
               )}
             </div>
           </div>
-          <div className="min-w-[38px] sm:min-w-[40px] aspect-square rounded-full bg-white flexCenter shadow">
-            <MdOutlineKeyboardVoice className="text-2xl text-dark" />      
+          <div className="min-w-[38px] sm:min-w-[39px] aspect-square rounded-full bg-white dark:bg-dark-netral flexCenter shadow">
+            <MdOutlineKeyboardVoice className="text-2xl text-dark dark:text-white" />      
           </div>
         </MediaInput>
       </form> 

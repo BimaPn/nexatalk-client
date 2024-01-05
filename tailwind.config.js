@@ -28,7 +28,6 @@ module.exports = {
         light : '#f9f9f8',
        
         // Dark Mode
-        'dark-primary': '#c6a0f6',
         'dark-dark': '#181926',
         'dark-semiDark': '#212333',
         'dark-netral': '#363a4f',

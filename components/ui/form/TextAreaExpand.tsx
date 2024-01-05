@@ -27,7 +27,7 @@ const TextAreaExpand = ({className,handleSubmit,rows,...props}:TextareaHTMLAttri
     <textarea 
     ref={textarea}
     rows={rows}
-    className={`w-full overflow-y-hidden resize-none focus:outline-none flex items-center ${className}`}
+    className={`w-full bg-transparent overflow-y-hidden resize-none focus:outline-none flex items-center ${className}`}
     {...props}>
     </textarea>
   )

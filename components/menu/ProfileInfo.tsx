@@ -29,22 +29,22 @@ const ProfileInfo = ({userTarget}:{userTarget:UserTarget}) => {
   const { isOpen,setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
 
   return isOpen && (
-    <section className="w-full bg-white rounded-xl lg:w-[512px] h-full overflow-auto custom-scrollbar px-2">
+    <section className="w-full bg-white dark:bg-dark-semiDark rounded-xl lg:w-[512px] h-full overflow-auto custom-scrollbar px-2">
     <Navigation onClose={() => setIsOpen(false)} /> 
     <div className="flexCenter flex-col gap-3 mt-3 mb-4">
       <RoundedImage src={userTarget.avatar} className="!w-[40%]" alt={userTarget.name} />
       <div className="flex flex-col items-center gap-1">
         <span className="text-xl text-black`">{userTarget.name}</span>
-        <span className="text-gray-500 text-sm">{userTarget.username}</span>
+        <span className="text-gray-500 dark:text-slate-400 text-sm">{userTarget.username}</span>
       </div>
 
       <div className="flexCenter gap-3 mt-1">
-        <AddFriendButton target={userTarget.id as string} className="flexCenter bg-light rounded-[10px] gap-[10px] px-5 py-2">
+        <AddFriendButton target={userTarget.id as string} className="flexCenter bg-light dark:bg-dark-netral rounded-[10px] gap-[10px] px-5 py-2">
           <FaUserPlus className="text-xl"/> 
           <span className="text-xs font-medium">Add</span>
         </AddFriendButton>
 
-        <div className="flexCenter bg-light rounded-[10px] gap-[10px] px-5 py-2">
+        <div className="flexCenter bg-light dark:bg-dark-netral rounded-[10px] gap-[10px] px-5 py-2">
           <FaUserXmark className="text-xl"/> 
           <span className="text-xs font-medium">Block</span>
         </div>

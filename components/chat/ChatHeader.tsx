@@ -45,14 +45,14 @@ const ChatHeader = ({username,avatar,name,isOnline,socket}:ChatHeaderT) => {
             className="!w-10"/> 
           </div>
           <div className="flex flex-col leading-5">
-            <span className="text-black">{name}</span>
+            <span className="text-black dark:text-white">{name}</span>
             {/*<span className="w-full text-[13px] text-primary">Typing....</span>*/}
             {isUserOnline ? (
-              <span className="text-[12px] text-netral">Online</span>
+              <span className="text-[12px] text-netral dark:text-slate-400">Online</span>
             ) : null}
           </div>
         </div>
-        <div className="w-9 aspect-square rounded-full flexCenter bg-light text-dark">
+        <div className="w-9 aspect-square rounded-full flexCenter bg-light dark:bg-dark-netral text-dark dark:text-white">
           <HiOutlineDotsHorizontal className="text-[20px]" />
         </div>
       </div>

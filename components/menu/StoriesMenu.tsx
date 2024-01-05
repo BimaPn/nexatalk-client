@@ -118,7 +118,7 @@ const StoryItem = ({_id, avatar, name, createdAt, hasSeen=false,disableButton=fa
       </div>
       <div className="w-full text-start flex flex-col">
         <span className="text-black dark:text-white font-medium">{name}</span>
-        <span className="text-[13px] text-gray-500 dark:text-dark-light">{createdAt}</span>
+        <span className="text-[13px] text-gray-500 dark:text-slate-400">{createdAt}</span>
       </div>
     </button>
   )

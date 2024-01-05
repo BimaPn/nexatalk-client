@@ -40,7 +40,7 @@ type ModalContent = {
   width:number,
   onClose?: ()=>void,
   className?:string
-  }
+}
 
 export const Content = ({children, width, onClose, className}:ModalContent) => {
   const { showModal, toggleModal } = useContext(modalContext) as ModalProvider;
@@ -59,7 +59,7 @@ export const Content = ({children, width, onClose, className}:ModalContent) => {
       style={{
         width
       }}
-      className={`h-full sm:h-[95%] md:h-[90%] bg-white rounded-none sm:rounded-xl flex flex-col ${className}`}>
+      className={`h-full sm:h-[95%] md:h-[90%] bg-white dark:bg-dark-semiDark rounded-none sm:rounded-xl flex flex-col ${className}`}>
         {children}
       </div>   
     </div>

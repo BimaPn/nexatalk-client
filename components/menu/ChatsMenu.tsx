@@ -81,7 +81,7 @@ const ChatsMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:
 const MenuNavbar = ({avatar, className}:{avatar:string, className?:string}) => {
   return (
     <div className={`flexBetween py-1 px-2 ${className}`}>
-      <div className="flexCenter gap-[5px] text-black">
+      <div className="flexCenter gap-[5px] text-black dark:text-white">
         <AiOutlineWechat className="text-3xl" />
         <h1 className="font-bold text-[22px]">MiChat</h1>
       </div>

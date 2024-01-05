@@ -10,6 +10,7 @@ import LogoutButton from './form/LogoutButton'
 
 const ChatMenuDropdown = ({avatar}:{avatar:string}) => {
   const { changeMenu } = useContext(menuContext) as MenuProvider;
+  const itemClass = "flex items-center gap-3 py-[6px] px-1 hover:bg-light dark:hover:bg-dark-semiLight rounded-lg cursor-pointer"
   return (
     <Dropdown>
     <Dropdown.Trigger>
@@ -18,12 +19,12 @@ const ChatMenuDropdown = ({avatar}:{avatar:string}) => {
         alt="profile picture"
         className="!w-[38px]"/>
     </Dropdown.Trigger>
-    <Dropdown.Content className="right-0 w-56 text-black">
-     <div className="bg-white flex flex-col shadow rounded-lg py-2 px-2 font-medium text-sm">
+    <Dropdown.Content className="right-0 w-56 text-black dark:text-white">
+     <div className="bg-white dark:bg-dark-netral flex flex-col shadow rounded-lg py-2 px-2 font-medium text-sm">
 
       <button
       onClick={() => changeMenu("settingsMenu")}
-      className="flex items-center gap-3 py-[6px] px-1 hover:bg-light rounded-lg cursor-pointer">
+      className={itemClass}>
         <div className="w-8 flexCenter aspect-square rounded-full">
           <IoSettingsOutline className="text-xl" />
         </div>
@@ -31,21 +32,21 @@ const ChatMenuDropdown = ({avatar}:{avatar:string}) => {
       </button>
       <button
       onClick={() => changeMenu("storiesMenu")}
-      className="flex items-center gap-3 py-[6px] px-1 hover:bg-light rounded-lg cursor-pointer">
+      className={itemClass}>
         <div className="w-8 flexCenter aspect-square rounded-full">
           <IoSettingsOutline className="text-xl" />
         </div>
         Stories
       </button>
 
-      <Link href={`/`} className="flex items-center gap-3 py-[6px] px-1 hover:bg-light rounded-lg cursor-pointer">
+      <Link href={`/`} className={itemClass}>
         <div className="w-8 flexCenter aspect-square rounded-full">
           <GoQuestion className="text-[21px]" />
         </div>
         About 
       </Link>
 
-      <LogoutButton className="flex items-center gap-3 py-[6px] px-1 hover:bg-light rounded-lg">
+      <LogoutButton className={itemClass}>
         <div className="w-8 flex justify-end items-center aspect-square rounded-full">
           < IoLogOutOutline className="text-[23px] mr-[2px]" />
         </div>
@@ -56,6 +57,13 @@ const ChatMenuDropdown = ({avatar}:{avatar:string}) => {
     </div> 
     </Dropdown.Content>
     </Dropdown>
+  )
+}
+const Item = ({children, onClick}:{children: React.ReactNode, onClick:() => void}) => {
+  return (
+    <button>
+
+    </button>
   )
 }
 

@@ -66,7 +66,7 @@ const StoryItemLayout = () => {
           disableButton={userStory.createdAt === "No update"}/>
         )}
         <div className="mt-1">
-          <span className="inline-block text-black text-sm font-medium mx-2">Friends</span>
+          <span className="inline-block text-black dark:text-white text-sm font-medium mx-2">Friends</span>
           <ul className="flex flex-col gap-[2px]">
             {!isLoaded && <StoryListSkeleton count={4} />}
             {(isLoaded && stories.length != 0) && 
@@ -112,13 +112,13 @@ const StoryItem = ({_id, avatar, name, createdAt, hasSeen=false,disableButton=fa
 
   }
   return (
-    <button onClick={viewContent} className="w-full flex items-center gap-[10px] px-2 py-2 rounded-xl hover:bg-light cursor-pointer">
+    <button onClick={viewContent} className="w-full flex items-center gap-[10px] px-2 py-2 rounded-xl hover:bg-light dark:hover:bg-dark-netral cursor-pointer">
       <div className={`w-fit p-[2px] rounded-full border-2 ${!hasSeen ? "border-primary":"border-gray-300"}`}>
         <RoundedImage src={avatar} alt="heading" className="!w-[42px]" />
       </div>
       <div className="w-full text-start flex flex-col">
-        <span className="text-black font-medium">{name}</span>
-        <span className="text-[13px] text-gray-500">{createdAt}</span>
+        <span className="text-black dark:text-white font-medium">{name}</span>
+        <span className="text-[13px] text-gray-500 dark:text-dark-light">{createdAt}</span>
       </div>
     </button>
   )

@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-light dark:bg-dark-dark dark:text-white
+}
 .flexCenter{
   @apply flex justify-center items-center
 }

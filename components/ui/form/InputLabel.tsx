@@ -2,7 +2,7 @@ export default function InputLabel({ forInput, value, className,textarea=false }
     return (
         <label 
         htmlFor={forInput} 
-        className={`absolute text-sm text-semiDark dark:text-d_semiLight duration-300 transform -translate-y-3 scale-75 top-1 z-10 origin-[0] bg-white dark:bg-d_semiDark px-2 peer-focus:px-2 
+        className={`absolute text-sm text-semiDark dark:text-d_semiLight duration-300 transform -translate-y-3 scale-75 top-1 z-10 origin-[0] bg-white dark:bg-dark-semiDark px-2 peer-focus:px-2 
         peer-focus:text-gray-700 dark:peer-focus:text-d_light peer-placeholder-shown:scale-100 
         ${textarea ? "peer-placeholder-shown:-translate-y-1/4 peer-placeholder-shown:top-1/4"
         : "peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2"} 

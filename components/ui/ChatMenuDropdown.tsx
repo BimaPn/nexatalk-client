@@ -17,7 +17,7 @@ const ChatMenuDropdown = ({avatar}:{avatar:string}) => {
         <RoundedImage
         src={avatar}
         alt="profile picture"
-        className="!w-[38px]"/>
+        className="!w-[34px]"/>
     </Dropdown.Trigger>
     <Dropdown.Content className="right-0 w-52 text-black dark:text-white">
      <div className="bg-white dark:bg-dark-netral flex flex-col shadow rounded-lg py-2 px-2 font-medium text-sm">

@@ -28,10 +28,10 @@ const ChatListProvider = ({children}:{children:React.ReactNode}) => {
       });
     });
   }
-  const setOnlineUser = (userId:string,isOnline:boolean) => {
+  const setOnlineUser = (username:string,isOnline:boolean) => {
     setChatlists((prev:ChatItem[]) => {
       return prev.map((item) => {
-        if(item.username === userId) item.isOnline = isOnline;
+        if(item.username === username) item.isOnline = isOnline;
         return item;
       });
     });

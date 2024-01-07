@@ -13,11 +13,12 @@ import { Socket } from 'socket.io-client'
 import ApiClient from '@/app/api/axios/ApiClient'
 import ChatMenuSkeleton from '../skeletons/ChatMenuSkeleton'
 import { BiSolidMessageDetail } from "react-icons/bi"
+import StoriesIcon from '../icons/StoriesIcon'
+import { StoriesMenuTrigger } from './StoriesMenu'
 
 const ChatsMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:string, className ?: string}) => {
-  const { socket, isConnected } = useContext(socketContext) as SocketProvider;
   const pathname = usePathname();
-  const { chatlists, setChatlists, isLoaded, setIsLoaded, addChatToList, setOnlineUser } = useContext(chatListContext) as ChatList;
+  const { chatlists, setChatlists, isLoaded, setIsLoaded } = useContext(chatListContext) as ChatList;
 
   useEffect(() => {
     if(isLoaded) return;
@@ -31,24 +32,6 @@ const ChatsMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:
       setIsLoaded(true);
     });
   },[]);
-
-  useEffect(() => {
-    if(!isConnected) return;
-    const receiveMessage = ({message,from}:{message:string,from:ChatItem}) => {
-      addChatToList(from);
-    };
-    const checkOnline = (username:string, isOnline:boolean) => {
-      setOnlineUser(username, isOnline);
-    };
-
-    socket.on("message", receiveMessage);    
-    socket.on("onlineUser", checkOnline);
-
-    return () => {
-      socket.off("message", receiveMessage);
-      socket.off("onlineUser", checkOnline);
-    }
-  },[isConnected]);
 
   return (  
     <MenuLayout className={`pt-3 pb-5 relative px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
@@ -85,7 +68,13 @@ const MenuNavbar = ({avatar, className}:{avatar:string, className?:string}) => {
         <AiOutlineWechat className="text-3xl" />
         <h1 className="font-bold text-[22px]">MiChat</h1>
       </div>
-      <ChatMenuDropdown avatar={avatar} /> 
+      <div className="flexCenter gap-[14px]">
+        <StoriesMenuTrigger>
+          <StoriesIcon width={22} />
+        </StoriesMenuTrigger>
+        <ChatMenuDropdown avatar={avatar} /> 
+      </div>  
+
     </div>
   )
 }

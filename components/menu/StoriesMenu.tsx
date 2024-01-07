@@ -124,4 +124,14 @@ const StoryItem = ({_id, avatar, name, createdAt, hasSeen=false,disableButton=fa
   )
 }
 
+export const StoriesMenuTrigger = ({children, className}:{children?:React.ReactNode, className?:string}) => {
+  const { changeMenu } = useContext(menuContext) as MenuProvider;
+  return (
+    <button onClick={() => changeMenu("storiesMenu")} className={`relative group ${className}`}>
+      {children}
+      <span className="hidden group-hover:block absolute -bottom-7 -left-8 bg-white dark:bg-dark-netral rounded px-[6px] py-[2px] shadow text-[11px]">Stories</span>
+    </button>
+  )
+}
+
 export default StoriesMenu

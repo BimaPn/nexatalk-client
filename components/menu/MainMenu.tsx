@@ -7,22 +7,31 @@ import { UserSession, userSessionContext } from "../providers/UserSessionProvide
 import { SocketProvider, socketContext } from "../providers/SocketProvider";
 import StoriesMenu from "./StoriesMenu";
 import AppearanceMenu from "./AppearanceMenu";
+import { chatListContext } from "../providers/ChatListProvider";
 
 const MainMenu = ({accessToken}:{accessToken:string}) => {
-  const { socket, isConnected, setIsConnected } = useContext(socketContext) as SocketProvider;
+  const { chatSocket, storiesSocket } = useContext(socketContext) as SocketProvider;
   const { user } = useContext(userSessionContext) as UserSession;
   const { currentMenu } = useContext(menuContext) as MenuProviderType;
+  const { isLoaded, addChatToList, setOnlineUser } = useContext(chatListContext) as ChatList;
 
   useEffect(() => {
-    const onConnect = () => setIsConnected(true);
-    const onDisconnect = () => setIsConnected(false);
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
+    if(!isLoaded) return;
+    const receiveMessage = ({message,from}:{message:string,from:ChatItem}) => {
+      addChatToList(from);
+    };
+    const checkOnline = (username:string, isOnline:boolean) => {
+      setOnlineUser(username, isOnline);
+    };
+
+    chatSocket.on("message", receiveMessage);    
+    chatSocket.on("onlineUser", checkOnline);
+
     return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
+      chatSocket.off("message", receiveMessage);
+      chatSocket.off("onlineUser", checkOnline);
     }
-  },[]);
+  },[chatSocket]); 
 
   return (
     <section>

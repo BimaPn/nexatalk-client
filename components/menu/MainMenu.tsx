@@ -8,13 +8,15 @@ import { SocketProvider, socketContext } from "../providers/SocketProvider";
 import StoriesMenu from "./StoriesMenu";
 import AppearanceMenu from "./AppearanceMenu";
 import { chatListContext } from "../providers/ChatListProvider";
+import { storyListContext } from "../providers/StoryListProvider";
 
 const MainMenu = ({accessToken}:{accessToken:string}) => {
   const { chatSocket, storiesSocket } = useContext(socketContext) as SocketProvider;
   const { user } = useContext(userSessionContext) as UserSession;
   const { currentMenu } = useContext(menuContext) as MenuProviderType;
   const { isLoaded, addChatToList, setOnlineUser } = useContext(chatListContext) as ChatList;
-
+  const { isContentLoaded, addStoryItem } = useContext(storyListContext) as StoryListProvider;
+  
   useEffect(() => {
     if(!isLoaded) return;
     const receiveMessage = ({message,from}:{message:string,from:ChatItem}) => {
@@ -31,7 +33,19 @@ const MainMenu = ({accessToken}:{accessToken:string}) => {
       chatSocket.off("message", receiveMessage);
       chatSocket.off("onlineUser", checkOnline);
     }
-  },[chatSocket]); 
+  },[chatSocket, isLoaded]); 
+
+  useEffect(() => {
+    if(!isContentLoaded) return;
+    const getNewStory = (storyItem:StoryItem) => {
+      console.log(storyItem)
+      addStoryItem(storyItem); 
+    }
+    storiesSocket.on("newStory",getNewStory);
+    return () => {
+      storiesSocket.off("newStory",getNewStory);
+    }
+  },[storiesSocket, isContentLoaded]);
 
   return (
     <section>

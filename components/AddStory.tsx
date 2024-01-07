@@ -8,6 +8,10 @@ import Image from "next/image"
 import TextAreaExpand from "./ui/form/TextAreaExpand"
 import { IoSend } from "react-icons/io5"
 import ApiClient from "@/app/api/axios/ApiClient"
+import { userSessionContext, UserSession } from "./providers/UserSessionProvider"
+import { SocketProvider, socketContext } from "./providers/SocketProvider"
+import { storyListContext } from "./providers/StoryListProvider"
+import { dateToTime } from "@/lib/converter"
 
 type MediaPreview = {
   type:string,
@@ -58,6 +62,8 @@ const AddStory = () => {
 }
 
 const FormContent = ({media, mediaPreview, onFinished}:{media: File|null, mediaPreview:MediaPreview, onFinished:()=>void}) => {
+  const { storiesSocket } = useContext(socketContext) as SocketProvider;
+  const { updateUserStory } = useContext(storyListContext) as StoryListProvider;
   const { showModal, toggleModal } = useContext(modalContext) as ModalProvider;
   const [caption, setCaption] = useState<string>("");
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -76,6 +82,9 @@ const FormContent = ({media, mediaPreview, onFinished}:{media: File|null, mediaP
     'Content-Type': 'multipart/form-data'
     }})
     .then((res) => {
+      const createdAt = res.data.story.createdAt;
+      updateUserStory(dateToTime(createdAt));
+      storiesSocket.emit("newStory",createdAt);
       toggleModal();
       onFinished();
       setIsDisabled(false);

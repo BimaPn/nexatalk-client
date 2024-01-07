@@ -13,12 +13,6 @@ const SocketProvider = ({ children, accessToken }:{ children:React.ReactNode, ac
   const chatSocket = socketInit("/chat", accessToken);
   const storiesSocket = socketInit("/stories",accessToken); 
 
-  useEffect(() => {
-    return () => {
-      chatSocket.disconnect();
-      storiesSocket.disconnect();
-    }
-  },[]);
   return (
     <socketContext.Provider value={{ chatSocket, storiesSocket }}>
     {children}

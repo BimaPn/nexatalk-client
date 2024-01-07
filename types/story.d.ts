@@ -2,9 +2,10 @@ interface StoryListProvider {
   stories: StoryItem[],
   setStories: Dispatch<SetStateAction<StoryItem[]>>,
   userStory: StoryItem,
-  setUserStory: Dispatch<SetStateAction<StoryItem>>,
-  isLoaded: boolean,
-  setIsLoaded: Dispatch<SetStateAction<boolean>>
+  updateUserStory: (createdAt:string)=>void,
+  isContentLoaded: boolean,
+  setIsContentLoaded: Dispatch<SetStateAction<boolean>>,
+  addStoryItem: (story:StoryItem) => void
 }
 interface StoryItem {
   _id: string,

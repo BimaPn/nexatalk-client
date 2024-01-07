@@ -25,17 +25,17 @@ const StoriesMenu = () => {
 }
 
 const StoryItemLayout = () => {
-  const { stories, setStories, userStory, setUserStory, isLoaded, setIsLoaded } = useContext(storyListContext) as StoryListProvider;
+  const { stories, setStories, userStory, updateUserStory, isContentLoaded, setIsContentLoaded } = useContext(storyListContext) as StoryListProvider;
   useEffect(() => {
-    if(!isLoaded) {
+    if(!isContentLoaded) {
       ApiClient.get(`stories/friends-last-story/get`)
       .then((res) => {
         const _userStory = res.data.userStory;
         if(_userStory) {
-          setUserStory({...userStory, createdAt:_userStory});
+          updateUserStory(_userStory);
         }
         setStories(res.data.stories)
-        setIsLoaded(true);
+        setIsContentLoaded(true);
       })
       .catch((err) => {
         console.error(err);
@@ -56,7 +56,7 @@ const StoryItemLayout = () => {
   return (
     <StoryViewer onClose={updateStoryItem}>
       <div className="px-2 mb-2">
-        {!isLoaded ? <StoryListSkeleton /> : (
+        {!isContentLoaded ? <StoryListSkeleton /> : (
           <StoryItem
           _id={userStory._id}
           avatar={userStory.avatar}
@@ -68,8 +68,8 @@ const StoryItemLayout = () => {
         <div className="mt-1">
           <span className="inline-block text-black dark:text-white text-sm font-medium mx-2">Friends</span>
           <ul className="flex flex-col gap-[2px]">
-            {!isLoaded && <StoryListSkeleton count={4} />}
-            {(isLoaded && stories.length != 0) && 
+            {!isContentLoaded && <StoryListSkeleton count={4} />}
+            {(isContentLoaded && stories.length != 0) && 
               stories.map((item) => (
                 <li key={item._id}>
                   <StoryItem 

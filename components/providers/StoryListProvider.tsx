@@ -16,16 +16,19 @@ const StoryListProvider = ({children, userInfo}:{children:React.ReactNode, userI
     createdAt: "No update",
     hasSeen: true 
   });
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isContentLoaded, setIsContentLoaded] = useState<boolean>(false);
   
-  const addStoryItems = (story:StoryItem) => {
-    setStories((prev) => [story, ...prev]);
+  const addStoryItem = (story:StoryItem) => {
+    setStories((prev) => {
+      const filtered = prev.filter((item) => item._id !== story._id);
+      return [story, ...filtered];
+    })
   }
-  const updateStoryItem = (story:StoryItem) => {
-    console.log("test")
+  const updateUserStory = (createdAt:string) => {
+    setUserStory({...userStory, createdAt});
   }
   return (
-    <storyListContext.Provider value={{ stories, setStories, isLoaded, setIsLoaded, userStory, setUserStory }}>
+    <storyListContext.Provider value={{ stories, setStories, isContentLoaded, setIsContentLoaded, userStory, updateUserStory, addStoryItem }}>
     {children}
     </storyListContext.Provider>
   )

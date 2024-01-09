@@ -9,7 +9,7 @@ import TextAreaExpand from "../ui/form/TextAreaExpand"
 import MediaInput, { Previews, Trigger } from "../ui/form/MediaInput"
 import ApiClient from "@/app/api/axios/ApiClient"
 
-const ChatInput = ({targetId, setMessage, className}:{targetId:string, setMessage:(message:UserMessage|MediaMessage)=>void,className?:string}) => {
+const ChatInput = ({targetId, setMessage, onTyping, className}:{targetId:string, setMessage:(message:UserMessage|MediaMessage)=>void, onTyping:()=>void, className?:string}) => {
   const [messageInput,setMessageInput] = useState<string>("");
   const [media,setMedia] = useState<File[]>([]);
   const submitButton = useRef<HTMLButtonElement>(null);
@@ -45,6 +45,11 @@ const ChatInput = ({targetId, setMessage, className}:{targetId:string, setMessag
       console.log(err.response);
     })
   }
+  const onChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.preventDefault();
+    setMessageInput(e.target.value);
+    onTyping();
+  }
   return (
     <div className={`w-full flexCenter px-2 sm:px-3 pb-3 bg-light dark:bg-dark-dark ${className}`}>
 
@@ -67,7 +72,7 @@ const ChatInput = ({targetId, setMessage, className}:{targetId:string, setMessag
               <div className="w-full max-h-[108px] overflow-auto py-[7px]">
                 <TextAreaExpand 
                 value={messageInput}
-                onChange={(e) => setMessageInput(e.target.value)}
+                onChange={onChange}
                 handleSubmit={() => submitButton.current?.click()}
                 className="text-[15px] placeholder:text-slate-500 dark:placeholder:text-slate-400"
                 rows={1}

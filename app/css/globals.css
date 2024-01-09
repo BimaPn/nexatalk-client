@@ -59,3 +59,16 @@ body {
   transition: transform .3s ease-in-out;
 }
 
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(-40%);
+        animation-timing-function: cubic-bezier(0.8,0,1,1);
+    }
+    50% {
+        transform: none;
+        animation-timing-function: cubic-bezier(0,0,0.2,1);
+    }
+}
+.custom-animate-bounce {
+    animation: bounce 1s infinite;
+}

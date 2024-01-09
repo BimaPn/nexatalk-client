@@ -19,7 +19,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
   const messageContainer = useRef<HTMLUListElement | null>(null);
   const [messages,setMessages] = useState<(UserMessage|MediaMessage)[]>(defaultMessages);
   const { chatlists, addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
-
+  const [isTyping, setIsTyping] = useState<boolean>(false);
   useEffect(() => {    
     const receiveMessage = ({content,from}:{content:{message?:string,images?:string[]},from:ChatItem}) => {
       if(from.username !== userTarget.username) return;
@@ -32,11 +32,20 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
       socket.emit("messagesRead",userTarget.id);
       clearUnreadCount(userTarget.username);
     }  
+    const typingListening = (from: string) => {
+      console.log(from)
+      if(from === userTarget.id) {
+        setIsTyping(true);
+      }
+      // setIsTyping(false);
+    }
     socket.on("message", receiveMessage);
     socket.emit("messagesRead",userTarget.id);
+    socket.on("typing",typingListening);
     clearUnreadCount(userTarget.username);
     return () => {
       socket.off("message", receiveMessage);
+      socket.off("typing", typingListening);
     }
   },[]);
 
@@ -58,6 +67,9 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
     }    
       
     addChatToList(newChat); 
+  }
+  const onTyping = () => {
+    socket.emit("typing",userTarget.id);
   }
   return (
     <div className="h-full sm:h-[92%] bg-light dark:bg-dark-dark flex flex-col overflow-hidden rounded-t-2xl rounded-b-none sm:rounded-2xl m-0 sm:mx-3 relative">
@@ -82,9 +94,18 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
               isCurrentUser={msg.isCurrentUser} />
             </li>
         })}
+        {isTyping && (
+
+        <li className="w-fit px-3 flexCenter gap-[6px] py-[13px] dark:bg-dark-netral rounded-xl">
+          <span className={`w-[7px] aspect-square rounded-full bg-white custom-animate-bounce !delay-100`}/>
+          <span className={`w-[7px] aspect-square rounded-full bg-white custom-animate-bounce !delay-300`}/>
+          <span className={`w-[7px] aspect-square rounded-full bg-white custom-animate-bounce !delay-500`}/>
+        </li>
+        )}
+
       </ul>
       <div className="w-full">
-          <ChatInput targetId={userTarget.id as string} setMessage={sendMessage} />
+          <ChatInput onTyping={() => onTyping()} targetId={userTarget.id as string} setMessage={sendMessage} />
       </div>
     </div>
   )

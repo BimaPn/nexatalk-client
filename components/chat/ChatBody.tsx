@@ -20,6 +20,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
   const [messages,setMessages] = useState<(UserMessage|MediaMessage)[]>(defaultMessages);
   const { chatlists, addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
   const [isTyping, setIsTyping] = useState<boolean>(false);
+
   useEffect(() => {    
     const receiveMessage = ({content,from}:{content:{message?:string,images?:string[]},from:ChatItem}) => {
       if(from.username !== userTarget.username) return;
@@ -32,12 +33,8 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
       socket.emit("messagesRead",userTarget.id);
       clearUnreadCount(userTarget.username);
     }  
-    const typingListening = (from: string) => {
-      console.log(from)
-      if(from === userTarget.id) {
-        setIsTyping(true);
-      }
-      // setIsTyping(false);
+    const typingListening = (from: string, isTyping:boolean) => {
+      setIsTyping(isTyping);
     }
     socket.on("message", receiveMessage);
     socket.emit("messagesRead",userTarget.id);
@@ -68,8 +65,8 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
       
     addChatToList(newChat); 
   }
-  const onTyping = () => {
-    socket.emit("typing",userTarget.id);
+  const onTyping = (isTyping:boolean) => {
+    socket.emit("typing",userTarget.id, isTyping);
   }
   return (
     <div className="h-full sm:h-[92%] bg-light dark:bg-dark-dark flex flex-col overflow-hidden rounded-t-2xl rounded-b-none sm:rounded-2xl m-0 sm:mx-3 relative">
@@ -105,7 +102,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
 
       </ul>
       <div className="w-full">
-          <ChatInput onTyping={() => onTyping()} targetId={userTarget.id as string} setMessage={sendMessage} />
+          <ChatInput onTyping={(isTyping) => onTyping(isTyping)} targetId={userTarget.id as string} setMessage={sendMessage} />
       </div>
     </div>
   )

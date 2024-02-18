@@ -3,16 +3,25 @@ import { IoSend } from "react-icons/io5"
 import { PiImageSquareFill } from "react-icons/pi"
 import { GrEmoji} from "react-icons/gr"
 import { ImAttachment } from "react-icons/im"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { MdOutlineKeyboardVoice } from "react-icons/md"
 import TextAreaExpand from "../ui/form/TextAreaExpand"
 import MediaInput, { Previews, Trigger } from "../ui/form/MediaInput"
 import ApiClient from "@/app/api/axios/ApiClient"
 
-const ChatInput = ({targetId, setMessage, onTyping, className}:{targetId:string, setMessage:(message:UserMessage|MediaMessage)=>void, onTyping:()=>void, className?:string}) => {
+const ChatInput = ({targetId, setMessage, onTyping, className}:{targetId:string, setMessage:(message:UserMessage|MediaMessage)=>void, onTyping:(isTyping:boolean)=>void, className?:string}) => {
   const [messageInput,setMessageInput] = useState<string>("");
+  const [isFocus, setIsFocus] = useState<boolean>(false);
   const [media,setMedia] = useState<File[]>([]);
   const submitButton = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if(isFocus && messageInput.length > 0) {
+      onTyping(true)
+    }else {
+      onTyping(false)
+    } 
+  },[messageInput, isFocus])
   
   const handleSubmit = async (e:React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +57,6 @@ const ChatInput = ({targetId, setMessage, onTyping, className}:{targetId:string,
   const onChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     setMessageInput(e.target.value);
-    onTyping();
   }
   return (
     <div className={`w-full flexCenter px-2 sm:px-3 pb-3 bg-light dark:bg-dark-dark ${className}`}>
@@ -73,6 +81,8 @@ const ChatInput = ({targetId, setMessage, onTyping, className}:{targetId:string,
                 <TextAreaExpand 
                 value={messageInput}
                 onChange={onChange}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
                 handleSubmit={() => submitButton.current?.click()}
                 className="text-[15px] placeholder:text-slate-500 dark:placeholder:text-slate-400"
                 rows={1}

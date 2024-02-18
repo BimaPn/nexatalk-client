@@ -1,6 +1,4 @@
-import axios from 'axios';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { getServerSession } from 'next-auth'
+﻿import axios from 'axios';
 
 const baseURL = process.env.NEXT_PUBLIC_DATABASE_URL || "http://localhost:3500";
 

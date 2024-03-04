@@ -53,7 +53,7 @@ export const Content = ({children, width, onClose, className}:ModalContent) => {
     toggleModal(); 
   }
   return showModal && (
-    <div onClick={modalClose} className="fixed inset-0 bg-black/30 flexCenter backdrop-blur">
+    <div onClick={modalClose} className="fixed inset-0 bg-black/30 flexCenter backdrop-blur z-[6000]">
       <div
       onClick={(e) => e.stopPropagation()}
       style={{

@@ -15,6 +15,7 @@ import ChatMenuSkeleton from '../skeletons/ChatMenuSkeleton'
 import { BiSolidMessageDetail } from "react-icons/bi"
 import StoriesIcon from '../icons/StoriesIcon'
 import { StoriesMenuTrigger } from './StoriesMenu'
+import StartNewChat from '../StartNewChat'
 
 const ChatsMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:string, className ?: string}) => {
   const pathname = usePathname();
@@ -54,9 +55,7 @@ const ChatsMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:
         ):(
           <ChatMenuSkeleton />
         )}
-        <div className="absolute bottom-4 right-4 w-[46px] aspect-square flexCenter bg-primary rounded-full shadow">
-          <BiSolidMessageDetail className="text-[23px] text-white" />
-        </div>
+        <StartNewChat />
     </MenuLayout>
   )
 }

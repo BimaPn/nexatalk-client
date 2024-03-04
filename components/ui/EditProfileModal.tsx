@@ -143,6 +143,7 @@ const FormEditProfile = ({ userAuth }:SessionInfo) => {
               id="bio"
               value={formData.bio}
               onChange={(e) => setFormData({...formData, bio: e.target.value})}
+              className="!border-2"
               required
               />
               <InputLabel forInput="bio" value="Bio" textarea />

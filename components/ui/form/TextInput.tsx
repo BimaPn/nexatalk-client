@@ -4,7 +4,7 @@ const TextInput = ({className,...props}:InputHTMLAttributes<HTMLInputElement> & 
   return (
     <input
     placeholder=' '
-    className={`w-full block bg-transparent border border-gray-300 dark:border-dark-semiLight rounded-lg py-2 px-4 focus:outline-primary peer ${className}`} 
+    className={`w-full block bg-transparent border-2 border-gray-300 dark:border-dark-semiLight focus:!outline-none focus:!border-primary rounded-lg py-2 px-4 peer ${className}`} 
     {...props}/>
   )
 }

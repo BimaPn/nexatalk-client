@@ -1,9 +1,9 @@
 import Skeleton from "./Skeleton"
 
-const ChatMenuSkeleton = () => {
+const ChatMenuSkeleton = ({count=5}:{count?:number}) => {
   return (
     <div className="flex flex-col gap-5 px-3 mt-7">
-      {[1,2,3,4,5].map((item) => (
+      {Array(count).fill(0).map((item) => (
         <ChatItemSkeleton key={item} /> 
       ))}
     </div>

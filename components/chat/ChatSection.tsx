@@ -10,8 +10,7 @@ import ChatSectionSkeleton from "../skeletons/ChatSectionSkeleton"
 const ChatSection = ({accessToken,userTarget,defaultMessages,isOnline}:{accessToken:string,userTarget:UserTarget,defaultMessages?:UserMessage[],isOnline:boolean}) => {
   const { isOpen } = useContext(profileDetailContext) as ProfileDetail;
   const { chatSocket } = useContext(socketContext) as SocketProvider;
-
-  return (
+  return chatSocket && (
     <section className={`w-full h-full flex flex-col bg-white dark:bg-dark-semiDark rounded-none sm:rounded-2xl relative overflow-hidden ${isOpen && "hidden lg:block"}`}>
         <ChatHeader 
         username={userTarget.username} 

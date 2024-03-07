@@ -32,8 +32,10 @@ const ChatInput = ({targetId, setMessage, onTyping, className}:{targetId:string,
     }})
     .then((res) => {
       const newMessage = {
+        id: res.data.id,
         isCurrentUser:true,
-        createdAt: res.data.createdAt
+        createdAt: res.data.createdAt,
+        date: res.data.date
       }
       if(res.data.media) {
         setMessage({

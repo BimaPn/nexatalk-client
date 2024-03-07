@@ -28,6 +28,7 @@ const ChatsMenu = ({accessToken, avatar, className}:{accessToken:string, avatar:
       setChatlists(res.data.users);
       setIsLoaded(true);
     })
+
     .catch((err) => {
       throw new Error("Something goes wrong...");
       setIsLoaded(true);
@@ -65,7 +66,7 @@ const MenuNavbar = ({avatar, className}:{avatar:string, className?:string}) => {
     <div className={`flexBetween py-1 px-2 ${className}`}>
       <div className="flexCenter gap-[5px] text-black dark:text-white">
         <AiOutlineWechat className="text-3xl" />
-        <h1 className="font-bold text-[22px]">MiChat</h1>
+        <h1 className="font-bold text-[21px]">UChat</h1>
       </div>
       <div className="flexCenter gap-[14px]">
         <StoriesMenuTrigger>

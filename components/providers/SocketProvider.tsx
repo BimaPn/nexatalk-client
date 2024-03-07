@@ -4,15 +4,18 @@ import { Dispatch, SetStateAction, createContext, useEffect, useState } from 're
 import { Socket } from 'socket.io-client';
 
 export type SocketProvider = {
-  chatSocket: Socket,
-  storiesSocket: Socket,
+  chatSocket?: Socket,
+  storiesSocket?: Socket,
 }
 export const socketContext = createContext<SocketProvider | null>(null);
 
 const SocketProvider = ({ children, accessToken }:{ children:React.ReactNode, accessToken:string}) => {
-  const chatSocket = socketInit("/chat", accessToken);
-  const storiesSocket = socketInit("/stories",accessToken); 
-
+  const [chatSocket, setChatSocket] = useState<Socket>();
+  const [storiesSocket, setStoriesSocket] = useState<Socket>(); 
+  useEffect(() => {
+    setChatSocket(socketInit("/chat", accessToken))
+    setStoriesSocket(socketInit("/stories",accessToken))
+  },[])
   return (
     <socketContext.Provider value={{ chatSocket, storiesSocket }}>
     {children}

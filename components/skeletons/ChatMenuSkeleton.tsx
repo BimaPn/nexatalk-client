@@ -3,8 +3,8 @@ import Skeleton from "./Skeleton"
 const ChatMenuSkeleton = ({count=5}:{count?:number}) => {
   return (
     <div className="flex flex-col gap-5 px-3 mt-7">
-      {Array(count).fill(0).map((item) => (
-        <ChatItemSkeleton key={item} /> 
+      {Array(count).fill(0).map((item,i) => (
+        <ChatItemSkeleton key={i} /> 
       ))}
     </div>
   )

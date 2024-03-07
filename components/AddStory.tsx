@@ -75,6 +75,7 @@ const FormContent = ({media, mediaPreview, onFinished}:{media: File|null, mediaP
   },[mediaPreview]);
   
   const onSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+    if(!storiesSocket) return
     e.preventDefault();
     setIsDisabled(true);
     await ApiClient.post("stories/add",{media, caption}, {

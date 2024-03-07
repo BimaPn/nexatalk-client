@@ -34,6 +34,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
       clearUnreadCount(userTarget.username);
     }  
     const typingListening = (from: string, isTyping:boolean) => {
+      console.log(isTyping)
       setIsTyping(isTyping);
     }
     socket.on("message", receiveMessage);
@@ -72,27 +73,35 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
     <div className="h-full sm:h-[92%] bg-light dark:bg-dark-dark flex flex-col overflow-hidden rounded-t-2xl rounded-b-none sm:rounded-2xl m-0 sm:mx-3 relative">
       <FriendRequest socket={socket} target={userTarget.id as string} />
       <ul ref={messageContainer} className="w-full h-full overflow-y-auto flex flex-col gap-4 px-3 pt-4 custom-scrollbar scroll-smooth">
-        <div className="w-full flexCenter">
-          <span className="bg-white dark:bg-dark-semiDark text-xs px-3 py-[6px] rounded-full">Today</span>
-        </div>
+
         {messages.map((msg,index) => {
-          return "message" in msg ? (
-            <li key={index} className={`w-full flex ${msg.isCurrentUser ? "justify-end":"justify-start"}`}>
-              <UserMessage
-              message={msg.message}
-              createdAt={msg.createdAt}
-              isCurrentUser={msg.isCurrentUser}/>
-            </li>
-          ) : 
+          return (
             <li key={index}>
-              <MediaMessage
-              media={msg.media as string[]} 
-              createdAt={msg.createdAt} 
-              isCurrentUser={msg.isCurrentUser} />
+            {((index > 0 && msg.date !== messages[index-1].date) || index == 0)  && (
+              <div className="w-full flexCenter">
+                <span className="bg-white dark:bg-dark-semiDark text-xs px-3 py-[6px] rounded-full">{msg.date}</span>
+              </div>
+            )}
+            {"message" in msg ? (
+              <div  className={`w-full flex ${msg.isCurrentUser ? "justify-end":"justify-start"}`}>
+                <UserMessage
+                id={msg.id}
+                message={msg.message}
+                createdAt={msg.createdAt}
+                isCurrentUser={msg.isCurrentUser}/>
+              </div>
+            ) : (
+              <div>
+                <MediaMessage
+                media={msg.media as string[]} 
+                createdAt={msg.createdAt} 
+                isCurrentUser={msg.isCurrentUser} />
+              </div>
+            )}
             </li>
+          )
         })}
         {isTyping && (
-
         <li className="w-fit px-3 flexCenter gap-[6px] py-[13px] dark:bg-dark-netral rounded-xl">
           <span className={`w-[7px] aspect-square rounded-full bg-white custom-animate-bounce !delay-100`}/>
           <span className={`w-[7px] aspect-square rounded-full bg-white custom-animate-bounce !delay-300`}/>

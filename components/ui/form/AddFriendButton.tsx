@@ -5,28 +5,29 @@ import { SocketProvider, socketContext } from "@/components/providers/SocketProv
 import { useContext, useEffect } from "react"
 
 const AddFriendButton = ({ children, target, className }:{ children:React.ReactNode, target:string, className?:string }) => {
-  const { socket } = useContext(socketContext) as SocketProvider;
+  const { chatSocket } = useContext(socketContext) as SocketProvider;
   const { status, setStatus } = useContext(friendStatusContext) as FriendStatus;
   const sendRequest = async (e:React.MouseEvent<HTMLButtonElement>) => {
+    if(!chatSocket) return
     e.preventDefault();
     if(status == "0") {
       await ApiClient.post(`users/${target}/friend-request`)
         .then((res) => {
-          socket.emit("friendRequest",target,"2");
+          chatSocket.emit("friendRequest",target,"2");
           setStatus("1");
       });
     }
     else if(status == "2") {
       await ApiClient.put(`users/${target}/friend-request`)
         .then((res) => {
-          socket.emit("friendRequest",target,"3");
+          chatSocket.emit("friendRequest",target,"3");
           setStatus("3");
       });
     }
     else if(status == "1" || status == "3") {
       await ApiClient.delete(`users/${target}/friend-request`)
         .then((res) => {
-          socket.emit("friendRequest",target,"0");
+          chatSocket.emit("friendRequest",target,"0");
           setStatus("0");
       });
     }

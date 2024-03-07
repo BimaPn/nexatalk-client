@@ -1,5 +1,3 @@
-
-import ChatMenu from '@/components/menu/ChatMenu'
 import type { Metadata } from 'next'
 import ProfileDetailProvider from '@/components/providers/ProfileDetailProvider'
 import MediaViewerProvider from '@/components/providers/MediaViewerProvider'

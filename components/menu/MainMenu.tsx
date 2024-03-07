@@ -18,7 +18,7 @@ const MainMenu = ({accessToken}:{accessToken:string}) => {
   const { isContentLoaded, addStoryItem } = useContext(storyListContext) as StoryListProvider;
   
   useEffect(() => {
-    if(!isLoaded) return;
+    if(!isLoaded || !chatSocket) return;
     const receiveMessage = ({message,from}:{message:string,from:ChatItem}) => {
       addChatToList(from);
     };
@@ -28,7 +28,6 @@ const MainMenu = ({accessToken}:{accessToken:string}) => {
 
     chatSocket.on("message", receiveMessage);    
     chatSocket.on("onlineUser", checkOnline);
-
     return () => {
       chatSocket.off("message", receiveMessage);
       chatSocket.off("onlineUser", checkOnline);
@@ -36,7 +35,7 @@ const MainMenu = ({accessToken}:{accessToken:string}) => {
   },[chatSocket, isLoaded]); 
 
   useEffect(() => {
-    if(!isContentLoaded) return;
+    if(!isContentLoaded || !storiesSocket) return;
     const getNewStory = (storyItem:StoryItem) => {
       console.log(storyItem)
       addStoryItem(storyItem); 

@@ -1,12 +1,16 @@
 interface Message {
-  message : string;
-  isCurrentUser ?: boolean;
-  className ?:string;
+  message : string
+  isCurrentUser ?: boolean
+
+  className ?:string
 }
 
-interface UserMessage extends Message {
-  id ?: string,
-  createdAt : string;
+interface GeneralMessage {
+  id : string
+  date?: string
+}
+interface UserMessage extends Message, GeneralMessage {
+  createdAt : string
 }
 
 interface GroupMessage extends Message,UserMessage {
@@ -14,8 +18,7 @@ interface GroupMessage extends Message,UserMessage {
   name : string;
 }
 
-interface MediaMessage {
-  id ?: string,
+interface MediaMessage extends GeneralMessage {
   media : string[]|File[],
   createdAt : string,
   isCurrentUser : boolean

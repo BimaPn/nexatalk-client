@@ -7,7 +7,7 @@ import { Socket } from "socket.io-client"
 import { SocketProvider, socketContext } from "../providers/SocketProvider"
 import ChatSectionSkeleton from "../skeletons/ChatSectionSkeleton"
 
-const ChatSection = ({accessToken,userTarget,defaultMessages,isOnline}:{accessToken:string,userTarget:UserTarget,defaultMessages?:UserMessage[],isOnline:boolean}) => {
+const ChatSection = ({accessToken,userTarget,isOnline}:{accessToken:string,userTarget:UserTarget,isOnline:boolean}) => {
   const { isOpen } = useContext(profileDetailContext) as ProfileDetail;
   const { chatSocket } = useContext(socketContext) as SocketProvider;
   return chatSocket && (
@@ -23,7 +23,6 @@ const ChatSection = ({accessToken,userTarget,defaultMessages,isOnline}:{accessTo
         isOnline={isOnline}
         userTarget={userTarget}
         accessToken={accessToken} 
-        defaultMessages={defaultMessages}
         socket={chatSocket}
         />
     </section>

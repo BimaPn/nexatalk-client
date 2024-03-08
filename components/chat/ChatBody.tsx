@@ -6,6 +6,9 @@ import { chatListContext } from "../providers/ChatListProvider"
 import { Socket } from "socket.io-client"
 import MediaMessage from "../ui/message/MediaMessage"
 import FriendRequest from "../ui/FriendRequest"
+import { readableDate } from "@/lib/converter"
+import Typing from "../ui/Typing"
+import { messageContext } from "../providers/MessageProvider"
 
 type ChatBodyT = {
   accessToken:string,
@@ -15,9 +18,9 @@ type ChatBodyT = {
   socket:Socket
 }
 
-const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:ChatBodyT) => { 
+const ChatBody = ({accessToken,userTarget,isOnline,socket}:ChatBodyT) => { 
   const messageContainer = useRef<HTMLUListElement | null>(null);
-  const [messages,setMessages] = useState<(UserMessage|MediaMessage)[]>(defaultMessages);
+  const { messages, addMessage } = useContext(messageContext);
   const { chatlists, addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
@@ -29,7 +32,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
        isCurrentUser:false,
        createdAt:from.createdAt
       } 
-      setMessages(prev => [...prev,userMessage as any]);
+      addMessage(userMessage as any);
       socket.emit("messagesRead",userTarget.id);
       clearUnreadCount(userTarget.username);
     }  
@@ -53,7 +56,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
 
   const sendMessage = (message:UserMessage|MediaMessage) => {
     socket.emit("message",{message,to:userTarget.id});
-    setMessages(prev => [...prev,message]);
+    addMessage(message);
 
     let newChat:ChatItem = {
       username:userTarget.username,
@@ -78,8 +81,8 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
           return (
             <li key={index}>
             {((index > 0 && msg.date !== messages[index-1].date) || index == 0)  && (
-              <div className="w-full flexCenter">
-                <span className="bg-white dark:bg-dark-semiDark text-xs px-3 py-[6px] rounded-full">{msg.date}</span>
+              <div className="w-full flexCenter my-5">
+                <span className="bg-white dark:bg-dark-semiDark text-xs px-3 py-[6px] rounded-full">{readableDate(msg.date as string)}</span>
               </div>
             )}
             {"message" in msg ? (
@@ -102,11 +105,7 @@ const ChatBody = ({accessToken,userTarget,defaultMessages=[],isOnline,socket}:Ch
           )
         })}
         {isTyping && (
-        <li className="w-fit px-3 flexCenter gap-[6px] py-[13px] dark:bg-dark-netral rounded-xl">
-          <span className={`w-[7px] aspect-square rounded-full bg-white custom-animate-bounce !delay-100`}/>
-          <span className={`w-[7px] aspect-square rounded-full bg-white custom-animate-bounce !delay-300`}/>
-          <span className={`w-[7px] aspect-square rounded-full bg-white custom-animate-bounce !delay-500`}/>
-        </li>
+          <Typing /> 
         )}
 
       </ul>

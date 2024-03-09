@@ -20,7 +20,7 @@ type ChatBodyT = {
 
 const ChatBody = ({accessToken,userTarget,isOnline,socket}:ChatBodyT) => { 
   const messageContainer = useRef<HTMLUListElement | null>(null);
-  const { messages, addMessage } = useContext(messageContext);
+  const { messages, addMessage, deleteMessage } = useContext(messageContext);
   const { chatlists, addChatToList,clearUnreadCount } = useContext(chatListContext) as ChatList
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
@@ -36,16 +36,25 @@ const ChatBody = ({accessToken,userTarget,isOnline,socket}:ChatBodyT) => {
       socket.emit("messagesRead",userTarget.id);
       clearUnreadCount(userTarget.username);
     }  
+
     const typingListening = (from: string, isTyping:boolean) => {
       console.log(isTyping)
       setIsTyping(isTyping);
     }
+
+    const deletedMessage = (messageId:string) => {
+       deleteMessage(messageId) 
+    }
+
     socket.on("message", receiveMessage);
+    socket.on("deletedMessage",deletedMessage);
     socket.emit("messagesRead",userTarget.id);
     socket.on("typing",typingListening);
     clearUnreadCount(userTarget.username);
+
     return () => {
       socket.off("message", receiveMessage);
+      socket.off("deletedMessage",deletedMessage);
       socket.off("typing", typingListening);
     }
   },[]);

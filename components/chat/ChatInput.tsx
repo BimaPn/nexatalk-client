@@ -8,6 +8,7 @@ import { MdOutlineKeyboardVoice } from "react-icons/md"
 import TextAreaExpand from "../ui/form/TextAreaExpand"
 import MediaInput, { Previews, Trigger } from "../ui/form/MediaInput"
 import ApiClient from "@/app/api/axios/ApiClient"
+import PickEmoji from "../PickEmoji"
 
 const ChatInput = ({targetId, setMessage, onTyping, className}:{targetId:string, setMessage:(message:UserMessage|MediaMessage)=>void, onTyping:(isTyping:boolean)=>void, className?:string}) => {
   const [messageInput,setMessageInput] = useState<string>("");
@@ -77,7 +78,7 @@ const ChatInput = ({targetId, setMessage, onTyping, className}:{targetId:string,
             <Previews />
             <div className="w-full flex items-center gap-2 bg-white dark:bg-dark-semiDark rounded-full px-3 py-[2px] shadow">
               <div className="group">
-                <GrEmoji className="text-[22.5px] text-slate-500 dark:text-slate-400 dark:group-hover:text-white stroke-[.4px]" />      
+                <PickEmoji onEmojiClick={(emoji) => setMessageInput((prev) => prev + emoji)}/>
               </div>
               <div className="w-full max-h-[108px] overflow-auto py-[7px]">
                 <TextAreaExpand 

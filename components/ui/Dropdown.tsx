@@ -33,12 +33,12 @@ const Trigger = ({children}:{children : React.ReactNode}) => {
     )
 }
 
-const Content = ({children,className}:{children : React.ReactNode,className ?: string}) => {
+const Content = ({children, showFromBottom=true, className}:{children : React.ReactNode, showFromBottom?:boolean, className ?: string}) => {
     const { open,setOpen } = useContext(dropDownContext) as DropdownProvider
     return open && (
         <div
         onClick={() => setOpen((prev:boolean) => !prev)}
-        className={`absolute mt-2 top-full ${className}`}>
+        className={`absolute mt-2 ${showFromBottom && 'top-full'} ${className}`}>
             {children}
         </div>
     )

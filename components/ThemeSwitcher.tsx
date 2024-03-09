@@ -17,7 +17,7 @@ const ThemeSwitcher = () => {
       setTheme("dark");
     }
   }
-  return mounted && (
+  return (
   <>
     {!mounted && (
       <div className="px-2">

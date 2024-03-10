@@ -3,8 +3,9 @@ import ApiClient from "@/app/api/axios/ApiClient";
 import { FriendStatus, friendStatusContext } from "@/components/providers/FriendStatusProvider";
 import { SocketProvider, socketContext } from "@/components/providers/SocketProvider"
 import { useContext, useEffect } from "react"
+import { FaUserPlus, FaUserClock, FaUserCheck, FaUserXmark } from "react-icons/fa6"
 
-const AddFriendButton = ({ children, target, className }:{ children:React.ReactNode, target:string, className?:string }) => {
+const AddFriendButton = ({ target, className }:{ target:string, className?:string }) => {
   const { chatSocket } = useContext(socketContext) as SocketProvider;
   const { status, setStatus } = useContext(friendStatusContext) as FriendStatus;
   const sendRequest = async (e:React.MouseEvent<HTMLButtonElement>) => {
@@ -33,11 +34,13 @@ const AddFriendButton = ({ children, target, className }:{ children:React.ReactN
     }
   }
   return (
-    <button onClick={sendRequest} className={`${className}`}>
-      {status == "0" && "Add"}
-      {status == "1" && "Wait"}
-      {status == "2" && "Confirm"}
-      {status == "3" && "Delete"}
+    <button 
+    onClick={sendRequest}
+    className={`px-3 aspect-square flexCenter rounded-xl dark:hover:bg-dark-semiDark ${className}`}>
+      {status == "0" && <FaUserPlus className="text-xl"/>}
+      {status == "1" && <FaUserClock className="text-xl"/>}
+      {status == "2" && <FaUserCheck className="text-xl"/>}
+      {status == "3" && <FaUserXmark className="text-xl"/>}
     </button>
   )
 }

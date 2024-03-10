@@ -31,7 +31,7 @@ const Contents = () => {
   return (
     <>
       <Trigger className="absolute bottom-4 right-4 w-[46px] aspect-square flexCenter bg-primary rounded-full shadow">
-        <BiSolidMessageDetail className="text-[23px] text-white" />
+        <BiSolidMessageDetail className="text-[23px] text-white -mr-[1px] -mb-[1px]" />
       </Trigger>
       {showModal && (
         <ModalContent />

@@ -44,7 +44,6 @@ const MessageContent = ({
     queryFn: async ({pageParam}) => {
       const messages = await getMessages(pageParam, targetUsername);
       newMessages(messages.slice().reverse());
-      console.log(messages)
       return messages;
     },
     initialPageParam: 2,

@@ -74,7 +74,7 @@ const ChatBody = ({accessToken,userTarget,isOnline,socket}:ChatBodyT) => {
     socket.emit("typing",userTarget.id, isTyping);
   }
   return (
-    <div className="h-full sm:h-[92%] bg-light dark:bg-dark-dark flex flex-col overflow-hidden rounded-t-2xl rounded-b-none sm:rounded-2xl m-0 sm:mx-3 relative">
+    <div className="h-full sm:h-[91%] bg-light dark:bg-dark-dark flex flex-col overflow-hidden rounded-t-2xl rounded-b-none sm:rounded-2xl m-0 sm:mx-3 relative">
       <FriendRequest socket={socket} target={userTarget.id as string} />
       <MessageContent 
       messages={messages}

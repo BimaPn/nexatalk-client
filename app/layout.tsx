@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import AuthProvider from '@/components/providers/AuthProvider'
 import ThemeProvider from "@/components/providers/ThemeProvider"
+import ReactQueryProvider from "@/components/providers/ReactQueryProvider"
 const roboto = Roboto({ 
   weight: ['400', '500', '700'],
   subsets: ['latin'] }
@@ -23,7 +24,9 @@ export default function RootLayout({
       <body className={roboto.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AuthProvider>
-            {children}
+            <ReactQueryProvider>
+              {children}
+            </ReactQueryProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

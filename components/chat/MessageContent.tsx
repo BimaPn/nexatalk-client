@@ -7,7 +7,7 @@ import { useInView } from 'react-intersection-observer'
 import ApiClient from '@/app/api/axios/ApiClient'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
-const MESSAGE_LIMIT = 10;
+const MESSAGE_LIMIT = 15;
 
 export const getMessages = async (pageParam:number, username:string) => {
   const result = await ApiClient.get(`users/${username}/messages?limit=${MESSAGE_LIMIT}&page=${pageParam}`)
@@ -29,7 +29,8 @@ const MessageContent = ({
     newMessages: (messages:(UserMessage|MediaMessage)[])=>void,
     isTyping: boolean, targetUsername:string
   }) => {
-  const messageContainer = useRef<HTMLUListElement | null>(null);
+  const messageContainer = useRef<HTMLDivElement | null>(null);
+
   const { ref, inView } = useInView();
   
     const {
@@ -39,10 +40,11 @@ const MessageContent = ({
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ['pokemons'],
+    queryKey: ['messages'],
     queryFn: async ({pageParam}) => {
       const messages = await getMessages(pageParam, targetUsername);
       newMessages(messages.slice().reverse());
+      console.log(messages)
       return messages;
     },
     initialPageParam: 2,
@@ -59,13 +61,27 @@ const MessageContent = ({
     }
   }, [inView, fetchNextPage, hasNextPage]);
   
+  // const checkScroll = () => {
+  //   messageContainer!.current!.
+  // }
 
   useEffect(() => {
     messageContainer!.current!.scrollTop = messageContainer!.current!.scrollHeight;
+   // // Fungsi untuk scroll ke bawah dengan mempertahankan posisi scroll sebelumnya
+   //  const scrollToBottomWithPrevPosition = () => {
+   //    const chatList = messageContainer.current;
+   //    if (chatList) {
+   //      chatList.scrollTop = chatList.scrollHeight - prevScrollHeight.current;
+   //    }
+   //  };
+   //
+   //  // Panggil fungsi scroll ke bawah saat messages berubah
+   //  scrollToBottomWithPrevPosition();
   },[]);
 
   return (
-   <ul ref={messageContainer} className="w-full h-full overflow-y-auto flex flex-col gap-4 px-3 pt-4 custom-scrollbar scroll-smooth">
+  <div ref={messageContainer} className='w-full h-full overflow-y-auto custom-scrollbar scroll-smooth transition-all'>
+   <ul  className="w-full h-fit overflow-y-auto flex flex-col gap-4 px-3 pt-4">
       {messages.map((msg,index) => {
         return (
         <MessageWrapper key={index} index={index} ref={ref}>
@@ -97,11 +113,13 @@ const MessageContent = ({
         <Typing /> 
       )}
     </ul>
+  </div>
+
   )
 }
 
 const MessageWrapper = forwardRef<HTMLLIElement,{children: React.ReactNode, index: number}>((props, ref) => {
-  return props.index == 0 ? (
+  return props.index == 5 ? (
     <li ref={ref}>
       {props.children}
     </li>

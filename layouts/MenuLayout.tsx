@@ -2,7 +2,7 @@ import { HiOutlineArrowLeft } from "react-icons/hi"
 
 const MenuLayout = ({children,className}:{children:React.ReactNode,className?:string}) => {
   return (
-    <aside className={`w-screen sm:w-[324px] md:w-[386px] bg-white dark:bg-dark-semiDark min-h-full rounded-none sm:rounded-2xl ${className} overflow-auto`}>
+    <aside className={`w-screen sm:w-[324px] md:w-[364px] bg-white dark:bg-dark-semiDark min-h-full rounded-none sm:rounded-2xl ${className} overflow-auto`}>
         {children}
     </aside>
   )

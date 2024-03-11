@@ -45,8 +45,8 @@ const RegisterForm = () => {
     });
   }   
   return (
-    <form onSubmit={formSubmit} className="w-96 flex flex-col gap-2">
-      <h1 className="font-medium text-2xl text-dark text-center mb-5">Create account</h1>
+    <form onSubmit={formSubmit} className="w-full xs:w-96 sm:w-full md:w-96 flex flex-col gap-2">
+      <h1 className="font-bold text-2xl text-dark dark:text-dark-light text-center mb-3">Create account</h1>
       <InputError message={errors.message} className="mb-2"/>  
       <div className="relative">
         <TextInput 
@@ -135,7 +135,7 @@ const UserNameInput = ({onChange}:{onChange:(val:string) => void}) => {
 
   const showStatus = () => {
     const passed = <IoCheckmarkSharp className="text-[19px] text-green-500" />
-    const failed = <IoClose className="text-[22px] text-red-600" />
+    const failed = <IoClose className="text-[22px] text-red-600 dark:text-red-400" />
     const loading = <LoadingSpinner />
 
     if(status === 1) return passed;
@@ -160,7 +160,10 @@ const UserNameInput = ({onChange}:{onChange:(val:string) => void}) => {
         </div>
         <InputLabel forInput="username" value="Username"/>
       </div>
-      <InputError message={error} className="my-1" />  
+      <div className="mt-1">
+        <InputError message={error}/>  
+      </div>
+
     </div>
 
   )

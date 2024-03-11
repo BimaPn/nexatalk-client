@@ -26,8 +26,8 @@ const LoginForm = () => {
     });
   }
   return (
-    <form onSubmit={formSubmit} className="w-96 flex flex-col gap-2">
-      <h1 className="font-medium text-2xl text-dark text-center mb-5">Welcome back !</h1>
+    <form onSubmit={formSubmit} className="w-full xs:w-96 sm:w-full md:w-96 flex flex-col gap-2">
+      <h1 className="font-bold text-2xl text-dark dark:text-dark-light text-center mb-5">Welcome to BindChat</h1>
       <InputError message={error} className="mb-2"/>  
       <div className="relative mb-3">  
         <TextInput 
@@ -49,7 +49,6 @@ const LoginForm = () => {
         />
         <InputLabel forInput="password" value="Password"/>
       </div>
-      <Link href={`/forget`} className="text-end text-sm text-semiDark">Forget password ?</Link>
       <button type="submit" className="w-full px-6 py-[7px] mt-4 rounded-xl bg-primary text-light font-bold mx-auto">Login</button>
     </form>
   )

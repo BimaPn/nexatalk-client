@@ -7,9 +7,9 @@ import Image from "next/image"
 const page = () => {
   return (
     <section className="w-full h-screen flex">
-      <div className="w-[40%] bg-semiLight flexCenter">
+      <div className="hidden sm:flex items-center justify-center sm:w-1/2 md:w-[40%] bg-semiLight dark:bg-dark-netral px-6">
       </div>
-      <div className="w-[60%] flexCenter flex-col px-8 gap-7 bg-white">
+      <div className="w-full sm:w-1/2 md:w-[60%] flexCenter flex-col px-4 gap-7 bg-white dark:bg-dark-semiDark">
         <RegisterForm />
         <div className="w-1/3 border-t relative flexCenter">
           <span className="absolute text-netral text-sm bg-white px-3 py-1">or</span>

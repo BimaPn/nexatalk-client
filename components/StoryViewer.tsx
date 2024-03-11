@@ -10,6 +10,7 @@ import ProgressBar from "./ProgressBar"
 import LoadingSpinner from "./ui/LoadingSpinner"
 import { dateToTime } from "@/lib/converter"
 import ApiClient from "@/app/api/axios/ApiClient"
+import ExpandedText from "./ExpandedText"
 
 export const storyViewerContext = createContext<StoryViewer|null>(null);
 
@@ -135,7 +136,17 @@ const Contents = ({onClose, storyViewProperties}:{onClose:()=>void, storyViewPro
         </button>   
        </div>
       </ContentBody> 
+      
+      <ContentFooter caption={storyViewProperties.contents[current == -1 ? 0 : current].caption} />
     </div>
+  )
+}
+
+const ContentFooter = ({caption}:{caption?:string}) => {
+  return caption && (
+  <div className="absolute bottom-0 min-h-[12%] max-h-[40%] bg-black/50 w-[512px] mt-2 ss:mt-4 z-[1] flex justify-center py-2 overflow-y-auto">
+    <ExpandedText text={caption} maxLength={130} className="text-center" />
+  </div> 
   )
 }
 
@@ -186,7 +197,7 @@ type ContentBodyT = {
   }
 const ContentBody = ({children, mediaUrl, current, seenStories, storyId}:ContentBodyT) => {
   return (
-    <div className="w-full h-full flexCenter relative z-[0]">
+    <div className="max-w-[512px] h-full flexCenter relative z-[0]">
       <Media mediaUrl={mediaUrl} current={current} seenStories={seenStories} storyId={storyId}/>
       {children}
     </div>
@@ -240,7 +251,7 @@ const Media = ({mediaUrl, current, seenStories, storyId}:{mediaUrl:string,curren
         <Image
         src={mediaUrl}
         width={800} height={800}
-        alt="example"
+        alt="media"
         onLoad={() => imageLoaded()} />
       </div>
     )}

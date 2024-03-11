@@ -104,24 +104,24 @@ const FormContent = ({media, mediaPreview, onFinished}:{media: File|null, mediaP
             </button> 
           </div>
         </Header>
-        <Body className="flexCenter h-full border">
+        <Body className="flexCenter h-full">
           {mediaPreview.type == "video" ? (
            <ReactPlayer url={mediaPreview.url} className="max-w-full max-h-full" controls/>
           ) : (
             <Image src={mediaPreview.url} alt="image preview" width={500} height={500}className="w-auto max-h-full block"/>
           )} 
         </Body>
-        <Footer className="absolute bottom-0 left-0 right-0 flexCenter gap-3 px-3 pb-5 pt-16 shadow-bottom-top">
-          <div className="w-[90%] max-h-[64px] overflow-auto rounded-full bg-light py-2 px-4 border">
+        <Footer className="absolute bottom-0 left-0 right-0 flexCenter gap-3 px-3 pb-5 pt-16">
+          <div className="w-[90%] max-h-[64px] overflow-auto rounded-full bg-light py-2 px-4 border dark:border-0 dark:bg-dark-netral">
             <TextAreaExpand
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
-            className="text-[15px] bg-transparent"
+            className="text-[15px] "
             rows={1}
             placeholder="Type a caption" />
           </div>  
-        <button disabled={isDisabled} type="submit" className="w-10 flexCenter aspect-square rounded-full bg-white border">
-          <IoSend className="text-[20px] text-primary -mr-[3px]"/>
+        <button disabled={isDisabled} type="submit" className="w-10 flexCenter aspect-square rounded-full bg-white dark:bg-dark-netral dark:border-0 border">
+          <IoSend className="text-[18px] text-primary -mr-[3px]"/>
         </button>
         </Footer>
       </Content>  

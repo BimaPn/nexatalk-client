@@ -5,14 +5,16 @@ import { IoIosArrowForward } from "react-icons/io"
 import bio from '@/data/dummies/groupMembers'
 import Link from 'next/link'
 import { profileDetailContext } from "../providers/ProfileDetailProvider"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { FaUserPlus, FaUserXmark } from "react-icons/fa6"
 import AddFriendButton from "../ui/form/AddFriendButton"
 import { FaUserLargeSlash } from "react-icons/fa6"
+import { readableDate } from "@/lib/converter"
+import ApiClient from "@/app/api/axios/ApiClient"
 
 const ProfileInfo = ({userTarget}:{userTarget:UserTarget}) => {
   const { isOpen,setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
-
+ 
   return isOpen && (
     <section className="w-full bg-white dark:bg-dark-semiDark rounded-2xl lg:w-[512px] h-full overflow-auto custom-scrollbar">
     <div className="aspect-[3/1] bg-dark-netral rounded-t-2xl rounded-b-lg relative mb-10 m-2">
@@ -43,11 +45,28 @@ const ProfileInfo = ({userTarget}:{userTarget:UserTarget}) => {
         </div>
         <div className="flex flex-col gap-1">
           <span className="text-gray-500 dark:text-slate-400 text-xs font-bold">Joined Since</span>
-          <p className="text-sm">22 February 2024</p>
+          <p className="text-sm">{readableDate(userTarget.createdAt)}</p>
         </div>
       </div>
     </div>
 
+    <MediaPreview targetId={userTarget.id as string}/>
+
+    </section>
+  )
+}
+
+const MediaPreview = ({targetId}:{targetId:string}) => {
+  useEffect(() => {
+    ApiClient.get(`/messages/${targetId}/media/preview`)
+    .then((res) => {
+      console.log(res.data)
+    })
+    .catch((err) => {
+      console.log(err.response.data)
+    })
+  },[])
+  return (
     <div className='dark:bg-dark-dark flex flex-col gap-2 px-4 py-3 rounded-xl mt-3 mx-2'>
       <span className="text-gray-500 dark:text-slate-400 text-xs font-bold">Media</span>
       <div className="flex items-center gap-2">
@@ -59,9 +78,6 @@ const ProfileInfo = ({userTarget}:{userTarget:UserTarget}) => {
         </button> 
       </div>
     </div>
-
-
-    </section>
   )
 }
 
